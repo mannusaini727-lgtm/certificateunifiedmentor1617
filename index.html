@@ -578,6 +578,17 @@ tr:hover td{background:var(--light)}
           </div>
           <button class="btn btn-green" style="width:auto;padding:11px 24px;margin:0" onclick="changePassword()">🔐 Update Password</button>
         </div>
+        <!-- EXPORT SECTION -->
+        <div class="settings-section" style="border:1.5px solid #bbf7d0;background:#f0fdf4">
+          <h3 style="color:#16a34a">📦 Export & Deploy</h3>
+          <p style="color:#166534">Download an updated copy of this HTML file with ALL current certificates baked in. Upload this to Vercel so anyone scanning a QR code can see the certificates — even on a fresh device.</p>
+          <div style="background:#dcfce7;border:1px solid #bbf7d0;border-radius:8px;padding:12px 16px;margin-bottom:16px;font-size:12.5px;color:#166534">
+            <strong>How it works:</strong> Certificates with images are stored inside the HTML file itself. When you generate or add a certificate, download this file and re-upload to Vercel to make it public.
+          </div>
+          <button class="btn btn-green" style="width:auto;padding:12px 24px;margin:0" onclick="exportUpdatedHTML()">⬇ Download Updated HTML (Deploy to Vercel)</button>
+          <div id="exportStatus" style="margin-top:10px;font-size:12.5px;color:#16a34a;display:none"></div>
+        </div>
+
         <div class="settings-section" style="border:1.5px solid #fecaca">
           <h3 style="color:var(--red)">⚠️ Danger Zone</h3><p>These actions are irreversible.</p>
           <div style="display:flex;gap:12px;flex-wrap:wrap">
@@ -624,15 +635,61 @@ tr:hover td{background:var(--light)}
 ════════════════════════════════════ */
 function getCreds(){ try{ return JSON.parse(localStorage.getItem('um_creds')||'null')||{user:'admin',pass:'um@2026'}; }catch(e){ return {user:'admin',pass:'um@2026'}; } }
 function saveCreds(c){ localStorage.setItem('um_creds',JSON.stringify(c)); }
-function loadCerts(){ try{ return JSON.parse(localStorage.getItem('um_certs')||'[]'); }catch(e){ return []; } }
-function saveCerts(c){ localStorage.setItem('um_certs',JSON.stringify(c)); }
 
-// Seed
-(function(){
-  if(!loadCerts().length){
-    saveCerts([{id:'UMID0201267746',name:'Tamana Dagar',domain:'Web Development Intern',start:'2026-10-01',end:'2026-10-02',duration:'1 Month (Evening Shift)',status:'Completed',issued:'2026-10-02',img:'Tamana_Yadav-7.png'}]);
+/* ─────────────────────────────────────────────────────────────
+   CERT_DB  — built-in certificate database visible to ALL visitors
+   Admin-generated certs (with base64 img) are stored ONLY here.
+   localStorage stores admin-added manual certs on top.
+   ───────────────────────────────────────────────────────────── */
+var CERT_DB = [
+  {
+    id:'UMID0201267746',
+    name:'Tamana Dagar',
+    domain:'Web Development Intern',
+    start:'2026-10-01',
+    end:'2026-10-02',
+    duration:'1 Month (Evening Shift)',
+    status:'Completed',
+    issued:'2026-10-02',
+    img:'Tamana_Yadav-7.png'
   }
-})();
+  /* NEW GENERATED CERTS ARE INJECTED HERE BY THE ADMIN PANEL */
+];
+
+function loadCerts(){
+  // Merge built-in DB + localStorage certs (localStorage certs override by ID)
+  var local = [];
+  try{ local = JSON.parse(localStorage.getItem('um_certs')||'[]'); }catch(e){}
+  // Build map: built-in first, then local overrides
+  var map = {};
+  CERT_DB.forEach(c=>{ map[c.id]=c; });
+  local.forEach(c=>{ map[c.id]=c; });
+  return Object.values(map);
+}
+
+function saveCerts(c){
+  // Split: base64/generated go into CERT_DB array in memory,
+  // lightweight (no large img) go to localStorage
+  var forLocal = c.filter(x=>!x._inDB);
+  localStorage.setItem('um_certs', JSON.stringify(forLocal));
+}
+
+function addToCertDB(cert){
+  // Add/update cert in the in-memory CERT_DB so ALL visitors can see it
+  var idx = CERT_DB.findIndex(c=>c.id===cert.id);
+  if(idx>=0){ CERT_DB[idx]=cert; } else { CERT_DB.push(cert); }
+  cert._inDB = true;
+}
+
+function deleteCertFromAll(id){
+  // Remove from CERT_DB
+  CERT_DB = CERT_DB.filter(c=>c.id!==id);
+  // Remove from localStorage
+  try{
+    var local = JSON.parse(localStorage.getItem('um_certs')||'[]');
+    localStorage.setItem('um_certs', JSON.stringify(local.filter(c=>c.id!==id)));
+  }catch(e){}
+}
 
 /* ════════════════════════════════════
    ROUTING
@@ -814,8 +871,15 @@ function addCertificate(){
   if(!id||!name||!domain||!start||!end||!issued){ toast('Fill all required (*) fields','error'); return; }
   const certs=loadCerts();
   if(certs.find(c=>c.id===id)){ toast('Certificate ID already exists!','error'); return; }
-  certs.push({id,name,domain,start,end,duration,status,issued,img:_uploadedImg||''});
-  saveCerts(certs);
+  var newCert = {id,name,domain,start,end,duration,status,issued,img:_uploadedImg||''};
+  addToCertDB(newCert);
+  // Also persist to localStorage as backup
+  try{
+    var local=JSON.parse(localStorage.getItem('um_certs')||'[]');
+    local=local.filter(c=>c.id!==id);
+    local.push(newCert);
+    localStorage.setItem('um_certs',JSON.stringify(local));
+  }catch(e){}
   toast('Certificate saved! ✅');
   clearAddForm();
 }
@@ -1240,8 +1304,8 @@ async function generateCertificate(){
 
   const certs=loadCerts();
   if(certs.find(c=>c.id===id)){ id='UMID'+Math.floor(10000000000+Math.random()*90000000000); document.getElementById('gcId').value=id; toast('ID existed — new ID assigned'); }
-  certs.push({id,name,domain,start,end,duration:document.getElementById('gcDuration').value,status:'Completed',issued,img:imgData,generated:true});
-  saveCerts(certs);
+  var genCert={id,name,domain,start,end,duration:document.getElementById('gcDuration').value,status:'Completed',issued,img:imgData,generated:true,_inDB:true};
+  addToCertDB(genCert);
   toast('🎨 Certificate generated & saved! ID: '+id);
 }
 
@@ -1303,7 +1367,7 @@ function dlFromModal(){
 function closeModal(id){ document.getElementById(id).classList.remove('open'); }
 function deleteCert(id){
   if(!confirm('Delete certificate '+id+'?')) return;
-  saveCerts(loadCerts().filter(c=>c.id!==id));
+  deleteCertFromAll(id);
   renderAllCerts(_fq); refreshDashboard(); toast('Deleted');
 }
 
@@ -1332,6 +1396,61 @@ function adminLookup(){
 function genId(){ const id='UMID'+Math.floor(10000000000+Math.random()*90000000000); document.getElementById('genIdText').textContent=id; document.getElementById('genResult').style.display='block'; }
 function copyId(){ const t=document.getElementById('genIdText').textContent; navigator.clipboard.writeText(t).then(()=>toast('Copied: '+t)).catch(()=>toast('Copied!')); }
 function useIdInForm(){ const t=document.getElementById('genIdText').textContent; switchTab('add',document.querySelectorAll('.sidebar-item')[2]); document.getElementById('addId').value=t; toast('ID pasted into Add Certificate form'); }
+
+/* ════════════════════════════════════
+   EXPORT — bake CERT_DB into HTML for Vercel deploy
+════════════════════════════════════ */
+function exportUpdatedHTML(){
+  const statusEl = document.getElementById('exportStatus');
+  statusEl.style.display='block';
+  statusEl.textContent = '⏳ Building updated HTML file…';
+
+  setTimeout(()=>{
+    try{
+      // Get ALL certs (CERT_DB + localStorage merged)
+      const allCerts = loadCerts();
+      // Strip _inDB flag before serializing
+      const clean = allCerts.map(c=>{ const x={...c}; delete x._inDB; return x; });
+
+      // Serialize as JS array literal
+      const certJSON = JSON.stringify(clean, null, 2);
+
+      // Get current HTML source
+      let src = document.documentElement.outerHTML;
+
+      // Replace the CERT_DB array in the source with current certs
+      // Match from "var CERT_DB = [" to the closing "];" and the comment
+      const dbRegex = /var CERT_DB\s*=\s*\[[\s\S]*?\/\* NEW GENERATED CERTS ARE INJECTED HERE BY THE ADMIN PANEL \*\/\s*\];/;
+      const newDB = `var CERT_DB = ${certJSON.replace(/\]/,'')}
+  /* NEW GENERATED CERTS ARE INJECTED HERE BY THE ADMIN PANEL */
+];`;
+
+      if(!dbRegex.test(src)){
+        // fallback: find and replace between markers
+        statusEl.textContent = '⚠️ Could not locate CERT_DB in HTML. Try refreshing and trying again.';
+        return;
+      }
+
+      src = src.replace(dbRegex, newDB);
+
+      // Create downloadable blob
+      const blob = new Blob([src], {type:'text/html;charset=utf-8'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'index.html';
+      a.click();
+      setTimeout(()=>URL.revokeObjectURL(url), 2000);
+
+      statusEl.innerHTML = `✅ Downloaded! Upload <strong>index.html</strong> to Vercel — all ${clean.length} certificate(s) will be live for QR scanning.`;
+      toast('✅ Updated HTML downloaded — upload to Vercel!');
+    } catch(err){
+      console.error(err);
+      statusEl.textContent = '❌ Export failed: ' + err.message;
+      toast('Export failed: '+err.message, 'error');
+    }
+  }, 200);
+}
 
 /* ════════════════════════════════════
    HELPERS
