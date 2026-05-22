@@ -3,24 +3,21 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title id="pgTitle">Unified Mentor — Certificate Portal</title>
+<title id="pgTitle">Unified Mentor — Verification Portal</title>
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&family=Dancing+Script:wght@600;700&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --n1:#070c18;--n2:#0c1526;
+  --n1:#060b16;--n2:#0b1422;
   --b1:#1e4db7;--b3:#3b82f6;
-  --g1:rgba(255,255,255,.045);--g2:rgba(255,255,255,.08);--g3:rgba(255,255,255,.12);
+  --g1:rgba(255,255,255,.042);--g2:rgba(255,255,255,.08);--g3:rgba(255,255,255,.13);
   --gb1:rgba(255,255,255,.09);--gb2:rgba(255,255,255,.17);
   --tx1:#eef2ff;--tx2:#9bb0d4;--tx3:#5a6e96;
   --r:14px;--rl:20px;
 }
 body{font-family:'Sora',sans-serif;background:var(--n1);color:var(--tx1);min-height:100vh;overflow-x:hidden}
-body::before{content:'';position:fixed;inset:0;background:
-  radial-gradient(ellipse 70% 55% at 12% 12%,rgba(30,77,183,.14) 0%,transparent 60%),
-  radial-gradient(ellipse 55% 70% at 88% 88%,rgba(124,58,237,.1) 0%,transparent 60%);
-  pointer-events:none;z-index:0}
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 70% 55% at 12% 12%,rgba(30,77,183,.15) 0%,transparent 60%),radial-gradient(ellipse 55% 70% at 88% 88%,rgba(124,58,237,.11) 0%,transparent 60%);pointer-events:none;z-index:0}
 a{color:inherit;text-decoration:none}
 input,select,textarea,button{font-family:'Sora',sans-serif}
 .page{display:none;min-height:100vh;position:relative;z-index:1}
@@ -29,55 +26,58 @@ input,select,textarea,button{font-family:'Sora',sans-serif}
 .ptcl{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
 .p{position:absolute;border-radius:50%;animation:pUp linear infinite}
 @keyframes pUp{0%{transform:translateY(105vh) scale(0);opacity:0}10%{opacity:1}90%{opacity:.45}100%{transform:translateY(-5vh) scale(1);opacity:0}}
-/* ANIMS */
+/* ANIMATIONS */
 @keyframes rise{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
 @keyframes pop{0%{transform:scale(0) rotate(-18deg);opacity:0}65%{transform:scale(1.18) rotate(4deg)}100%{transform:scale(1) rotate(0);opacity:1}}
 @keyframes cDraw{0%{stroke-dashoffset:200}100%{stroke-dashoffset:0}}
 @keyframes circDraw{0%{stroke-dashoffset:400}100%{stroke-dashoffset:0}}
 @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
-@keyframes glow{0%,100%{box-shadow:0 0 20px rgba(79,142,247,.22)}50%{box-shadow:0 0 40px rgba(79,142,247,.55)}}
+@keyframes glow{0%,100%{box-shadow:0 0 20px rgba(79,142,247,.22)}50%{box-shadow:0 0 42px rgba(79,142,247,.55)}}
 @keyframes scan{0%{top:-8%}100%{top:108%}}
 @keyframes shimmer{0%{left:-100%}100%{left:200%}}
-@keyframes phoneIn{0%{opacity:0;transform:scale(.8) translateY(36px) rotateX(10deg)}100%{opacity:1;transform:scale(1) translateY(0) rotateX(0)}}
+@keyframes phoneIn{0%{opacity:0;transform:scale(.78) translateY(38px) rotateX(12deg)}100%{opacity:1;transform:scale(1) translateY(0) rotateX(0)}}
 @keyframes slideR{from{opacity:0;transform:translateX(30px)}to{opacity:1;transform:translateX(0)}}
-@keyframes spin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
-@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes spin{to{transform:rotate(360deg)}}
 /* TOPBAR */
-.tb{height:68px;display:flex;align-items:center;justify-content:space-between;padding:0 32px;position:sticky;top:0;z-index:300;background:rgba(7,12,24,.9);backdrop-filter:blur(26px);border-bottom:1px solid var(--gb1)}
+.tb{height:68px;display:flex;align-items:center;justify-content:space-between;padding:0 32px;position:sticky;top:0;z-index:300;background:rgba(6,11,22,.9);backdrop-filter:blur(26px);border-bottom:1px solid var(--gb1)}
 .brand{display:flex;align-items:center;gap:12px;cursor:pointer}
 .bi{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center}
 .bi svg{width:22px;height:22px;fill:none}
 .bn{font-size:16px;font-weight:800;color:#fff;letter-spacing:-.3px}
 .bn b{color:#7eb3ff}
-.tbr{display:flex;align-items:center;gap:5px}
+.tbr{display:flex;align-items:center;gap:5px;flex-wrap:wrap}
 .tbb{color:var(--tx2);font-size:12.5px;font-weight:600;padding:8px 13px;border-radius:9px;border:1px solid transparent;background:transparent;cursor:pointer;transition:.2s}
 .tbb:hover{background:var(--g2);border-color:var(--gb1);color:#fff}
 .tbb.ab{background:rgba(30,77,183,.2);border-color:rgba(79,142,247,.35);color:#7eb3ff}
-.tbb.ab:hover{background:rgba(30,77,183,.36);border-color:rgba(79,142,247,.6);box-shadow:0 0 18px rgba(79,142,247,.25)}
+.tbb.ab:hover{background:rgba(30,77,183,.36);border-color:rgba(79,142,247,.62);box-shadow:0 0 18px rgba(79,142,247,.25)}
 /* BANNER */
-.ban{padding:88px 24px 112px;text-align:center;position:relative;overflow:hidden}
-.ban::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at center top,rgba(30,77,183,.18) 0%,transparent 65%);pointer-events:none}
+.ban{padding:80px 24px 110px;text-align:center;position:relative;overflow:hidden}
+.ban::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at center top,rgba(30,77,183,.19) 0%,transparent 65%);pointer-events:none}
 .chip{display:inline-flex;align-items:center;gap:8px;border:1px solid rgba(22,163,74,.38);color:#4ade80;font-size:11px;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;padding:6px 16px;border-radius:50px;margin-bottom:22px;animation:glow 3s ease infinite}
 .cdot{width:6px;height:6px;background:#4ade80;border-radius:50%;animation:pulse 1.4s ease infinite}
-.ban h1{font-size:56px;font-weight:800;color:#fff;line-height:1.12;margin-bottom:14px;letter-spacing:-1.2px;position:relative;z-index:1}
+.ban h1{font-size:52px;font-weight:800;color:#fff;line-height:1.12;margin-bottom:14px;letter-spacing:-1.2px;position:relative;z-index:1}
 .ban h1 em{background:linear-gradient(135deg,#7eb3ff 30%,#c4b5fd);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-style:normal}
-.ban p{color:var(--tx2);font-size:15px;max-width:480px;margin:0 auto;line-height:1.8;position:relative;z-index:1}
-@media(max-width:820px){.ban h1{font-size:32px}.pb{grid-template-columns:1fr!important}}
+.ban p{color:var(--tx2);font-size:15px;max-width:500px;margin:0 auto;line-height:1.8;position:relative;z-index:1}
+@media(max-width:860px){.ban h1{font-size:28px}.pb{grid-template-columns:1fr!important}}
+/* PUB TABS */
+.pub-tab-row{display:flex;gap:10px;justify-content:center;margin:-20px 0 26px;position:relative;z-index:2;flex-wrap:wrap;padding:0 20px}
+.pub-tab{padding:11px 24px;border-radius:50px;font-size:13px;font-weight:700;cursor:pointer;border:1px solid var(--gb1);background:var(--g1);color:var(--tx2);transition:.25s}
+.pub-tab.on{background:linear-gradient(135deg,var(--b1),var(--b3));color:#fff;border-color:transparent;box-shadow:0 4px 18px rgba(30,77,183,.35)}
 /* SEARCH */
-.sw{max-width:630px;margin:-38px auto 0;padding:0 20px;position:relative;z-index:10;animation:rise .8s .2s ease both}
+.sw{max-width:640px;margin:0 auto;padding:0 20px;position:relative;z-index:10;animation:rise .8s .2s ease both}
 .sb{display:flex;background:rgba(255,255,255,.07);backdrop-filter:blur(30px);border-radius:16px;overflow:hidden;border:1px solid rgba(255,255,255,.13);transition:.3s;box-shadow:0 8px 40px rgba(0,0,0,.28),inset 0 1px 0 rgba(255,255,255,.09)}
 .sb:focus-within{border-color:rgba(79,142,247,.55);box-shadow:0 8px 40px rgba(0,0,0,.3),0 0 30px rgba(79,142,247,.18)}
 .sb input{flex:1;border:none;outline:none;padding:18px 20px;font-size:15px;font-weight:600;color:#fff;background:transparent;font-family:'JetBrains Mono',monospace}
 .sb input::placeholder{font-family:'Sora',sans-serif;font-weight:400;color:rgba(255,255,255,.3)}
-.sb button{background:linear-gradient(135deg,var(--b1),var(--b3));color:#fff;border:none;padding:0 30px;font-size:13px;font-weight:700;cursor:pointer;transition:.2s}
+.sb button{background:linear-gradient(135deg,var(--b1),var(--b3));color:#fff;border:none;padding:0 28px;font-size:13px;font-weight:700;cursor:pointer;transition:.2s;white-space:nowrap}
 .sb button:hover{background:linear-gradient(135deg,#1a40a0,#2563eb)}
 /* PUB LAYOUT */
-.pb{max-width:1060px;margin:0 auto;padding:52px 20px 88px;display:grid;grid-template-columns:1fr 388px;gap:28px;align-items:start}
-/* SCAN ANIM */
-.sav{display:none;text-align:center;padding:68px 20px;animation:rise .4s ease both}
+.pb{max-width:1060px;margin:0 auto;padding:50px 20px 88px;display:grid;grid-template-columns:1fr 388px;gap:28px;align-items:start}
+/* SCAN */
+.sav{display:none;text-align:center;padding:64px 20px}
 .sav.on{display:block}
-.sp{width:152px;height:215px;background:rgba(255,255,255,.05);backdrop-filter:blur(20px);border:1.5px solid rgba(255,255,255,.13);border-radius:28px;margin:0 auto 28px;position:relative;overflow:hidden;box-shadow:0 24px 64px rgba(0,0,0,.45),inset 0 1px 0 rgba(255,255,255,.12)}
+.sp{width:150px;height:212px;background:rgba(255,255,255,.05);backdrop-filter:blur(20px);border:1.5px solid rgba(255,255,255,.13);border-radius:28px;margin:0 auto 28px;position:relative;overflow:hidden;box-shadow:0 24px 64px rgba(0,0,0,.45),inset 0 1px 0 rgba(255,255,255,.12)}
 .sp::before{content:'';position:absolute;top:9px;left:50%;transform:translateX(-50%);width:38px;height:4px;background:rgba(255,255,255,.18);border-radius:4px;z-index:2}
 .sgr{position:absolute;inset:18px 9px 9px;display:grid;grid-template-columns:repeat(5,1fr);grid-template-rows:repeat(6,1fr);gap:2px}
 .sgc{background:rgba(79,142,247,.18);border-radius:2px}
@@ -89,13 +89,13 @@ input,select,textarea,button{font-family:'Sora',sans-serif}
 .vd{display:flex;gap:5px;justify-content:center;margin-top:14px}
 .vd span{width:7px;height:7px;border-radius:50%;background:rgba(79,142,247,.4);animation:pulse 1.2s ease infinite}
 .vd span:nth-child(2){animation-delay:.2s}.vd span:nth-child(3){animation-delay:.4s}
-/* CHECK ANIM */
-#ca{text-align:center;padding:46px 20px 0;max-width:420px;margin:0 auto}
-.cw{width:94px;height:94px;margin:0 auto 18px;animation:pop .7s cubic-bezier(.34,1.56,.64,1) both}
+/* CHECK */
+#ca{text-align:center;padding:44px 20px 0;max-width:420px;margin:0 auto}
+.cw{width:90px;height:90px;margin:0 auto 16px;animation:pop .7s cubic-bezier(.34,1.56,.64,1) both}
 .cc2{fill:none;stroke:#22c55e;stroke-width:3.5;stroke-dasharray:400;animation:circDraw .8s ease forwards}
 .cm{fill:none;stroke:#fff;stroke-width:5;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:200;stroke-dashoffset:200;animation:cDraw .5s .65s ease forwards}
 .cbg{fill:rgba(34,197,94,.18)}
-/* iPHONE CERT */
+/* iPHONE */
 .ipw{animation:phoneIn .9s cubic-bezier(.34,1.56,.64,1) both}
 .ipf{background:linear-gradient(145deg,#191919,#282828);border-radius:48px;padding:13px;box-shadow:0 44px 104px rgba(0,0,0,.7),inset 0 1px 0 rgba(255,255,255,.08),0 0 0 1px rgba(255,255,255,.05);position:relative}
 .ipf::before{content:'';position:absolute;top:16px;left:50%;transform:translateX(-50%);width:94px;height:28px;background:#0a0a0a;border-radius:20px;z-index:5}
@@ -104,11 +104,11 @@ input,select,textarea,button{font-family:'Sora',sans-serif}
 .ino{height:47px;background:#000;display:flex;align-items:center;justify-content:center}
 .ini{width:94px;height:28px;background:#0a0a0a;border-radius:20px}
 .ico{background:linear-gradient(180deg,var(--n2),var(--n1));padding:0 0 18px}
-.cbb{display:flex;align-items:center;justify-content:space-between;padding:11px 14px;border-bottom:1px solid rgba(22,163,74,.18)}
-.cbb-l{display:flex;align-items:center;gap:7px;font-size:11px;font-weight:700;color:#4ade80}
+.cbb{display:flex;align-items:center;justify-content:space-between;padding:11px 14px;border-bottom:1px solid rgba(79,142,247,.18)}
+.cbb-l{display:flex;align-items:center;gap:7px;font-size:11px;font-weight:700;color:#7eb3ff}
 .cbb-r{font-family:'JetBrains Mono',monospace;font-size:10px;color:rgba(255,255,255,.36)}
 .cif{padding:11px;position:relative;overflow:hidden}
-.cif img{width:100%;border-radius:11px;display:block;box-shadow:0 8px 22px rgba(0,0,0,.42);transition:.4s}
+.cif img{width:100%;border-radius:11px;display:block;box-shadow:0 8px 22px rgba(0,0,0,.42);transition:.4s;min-height:40px;background:rgba(255,255,255,.04)}
 .cif img:hover{transform:scale(1.025)}
 .csh{position:absolute;top:0;left:-100%;width:60%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.04),transparent);animation:shimmer 4s ease infinite}
 .ihb{display:flex;justify-content:center;padding:10px 0 3px}
@@ -117,19 +117,21 @@ input,select,textarea,button{font-family:'Sora',sans-serif}
 .gc{background:var(--g1);backdrop-filter:blur(22px);border:1px solid var(--gb1);border-radius:var(--rl);box-shadow:0 8px 32px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.065)}
 /* SIDE */
 .sd{display:flex;flex-direction:column;gap:18px;animation:slideR .7s .2s ease both}
-.vc{border:1px solid rgba(22,163,74,.26);border-radius:var(--rl);padding:20px;display:flex;gap:14px;align-items:flex-start}
-.vi{width:46px;height:46px;background:linear-gradient(135deg,#16a34a,#22c55e);border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;box-shadow:0 4px 16px rgba(22,163,74,.4);animation:float 3s ease infinite}
-.vt h3{font-size:14px;font-weight:800;color:#4ade80;margin-bottom:5px}
+.vc{border-radius:var(--rl);padding:20px;display:flex;gap:14px;align-items:flex-start;border:1px solid var(--gb1)}
+.vi{width:46px;height:46px;border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;animation:float 3s ease infinite}
+.vi.c{background:linear-gradient(135deg,#16a34a,#22c55e);box-shadow:0 4px 16px rgba(22,163,74,.4)}
+.vi.o{background:linear-gradient(135deg,#d97706,#f59e0b);box-shadow:0 4px 16px rgba(245,158,11,.4)}
+.vt h3{font-size:14px;font-weight:800;margin-bottom:5px}
+.vt h3.c{color:#4ade80}.vt h3.o{color:#fbbf24}
 .vt p{font-size:12px;color:rgba(255,255,255,.52);line-height:1.65}
 .ih{background:rgba(255,255,255,.04);padding:14px 20px;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--gb1)}
 .ih-ic{width:30px;height:30px;background:rgba(79,142,247,.18);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px}
 .ih h3{color:#fff;font-size:13px;font-weight:700}
-.ir{display:flex;align-items:center;gap:12px;padding:12px 20px;border-bottom:1px solid rgba(255,255,255,.042);transition:.18s}
-.ir:last-child{border-bottom:none}
-.ir:hover{background:rgba(255,255,255,.032)}
+.ir{display:flex;align-items:center;gap:12px;padding:12px 20px;border-bottom:1px solid rgba(255,255,255,.042);transition:.18s;text-decoration:none}
+.ir:last-child{border-bottom:none}.ir:hover{background:rgba(255,255,255,.032)}
 .ir-ic{width:30px;height:30px;background:rgba(255,255,255,.052);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
 .lbl{font-size:10px;color:var(--tx3);font-weight:700;text-transform:uppercase;letter-spacing:.7px;margin-bottom:2px}
-.val{font-size:13px;font-weight:700;color:var(--tx1)}.val.g{color:#4ade80}
+.val{font-size:13px;font-weight:700;color:var(--tx1)}.val.g{color:#4ade80}.val.y{color:#fbbf24}
 /* BUTTONS */
 .btn{display:flex;align-items:center;justify-content:center;gap:9px;width:100%;padding:13px 18px;border-radius:12px;font-size:13px;font-weight:700;cursor:pointer;border:none;transition:all .22s;margin-bottom:9px}
 .btn:last-child{margin-bottom:0}
@@ -141,11 +143,10 @@ input,select,textarea,button{font-family:'Sora',sans-serif}
 .bgo{background:linear-gradient(135deg,#f59e0b,#fbbf24);color:#0a1628}.bgo:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(245,158,11,.4)}
 .bpu{background:linear-gradient(135deg,#7c3aed,#8b5cf6);color:#fff;box-shadow:0 4px 14px rgba(124,58,237,.28)}.bpu:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(124,58,237,.48)}
 .bte{background:linear-gradient(135deg,#0891b2,#06b6d4);color:#fff}.bte:hover{transform:translateY(-2px)}
-/* NOT FOUND */
+/* NF */
 .nf{text-align:center;padding:80px 20px;color:var(--tx2)}
 .nf h3{font-size:20px;font-weight:700;color:#fff;margin-bottom:10px}
-.nf p{font-size:13px;line-height:1.75}
-/* ADMIN LOGIN */
+/* ADMIN LOGIN iPHONE */
 #adminLogin.active{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:20px}
 .lip{position:relative;animation:phoneIn .65s cubic-bezier(.34,1.56,.64,1) both}
 .lif{background:linear-gradient(145deg,#1a1a1c,#2a2a2e);border-radius:54px;padding:14px;box-shadow:0 50px 120px rgba(0,0,0,.78),inset 0 1px 0 rgba(255,255,255,.08),0 0 0 1px rgba(255,255,255,.05);width:384px;position:relative}
@@ -172,120 +173,121 @@ input,select,textarea,button{font-family:'Sora',sans-serif}
 .lhl{width:122px;height:5px;background:rgba(255,255,255,.24);border-radius:5px}
 .fid{width:36px;height:36px;border-radius:50%;border:1.5px solid rgba(79,142,247,.38);display:flex;align-items:center;justify-content:center;margin:0 auto 10px;animation:glow 2s ease infinite;font-size:18px}
 /* ADMIN DASH */
-.atb{height:64px;display:flex;align-items:center;justify-content:space-between;padding:0 28px;background:rgba(7,12,24,.92);backdrop-filter:blur(22px);border-bottom:1px solid var(--gb1);position:sticky;top:0;z-index:200}
+.atb{height:64px;display:flex;align-items:center;justify-content:space-between;padding:0 28px;background:rgba(6,11,22,.92);backdrop-filter:blur(22px);border-bottom:1px solid var(--gb1);position:sticky;top:0;z-index:200}
 .atb h1{color:#fff;font-size:15px;font-weight:800}
-.abg{color:#7eb3ff;font-size:11.5px;background:rgba(79,142,247,.14);padding:4px 12px;border-radius:50px;border:1px solid rgba(79,142,247,.28)}
+.abg{color:#7eb3ff;font-size:11px;background:rgba(79,142,247,.14);padding:4px 11px;border-radius:50px;border:1px solid rgba(79,142,247,.28)}
+.ob{display:inline-flex;align-items:center;gap:6px;background:rgba(22,163,74,.12);border:1px solid rgba(22,163,74,.28);color:#4ade80;font-size:11px;font-weight:700;padding:4px 11px;border-radius:50px}
+.ob-dot{width:6px;height:6px;background:#4ade80;border-radius:50%;animation:pulse 1.5s ease infinite}
 .al{display:flex;min-height:calc(100vh - 64px)}
-.as{width:248px;background:rgba(7,12,24,.6);backdrop-filter:blur(20px);border-right:1px solid var(--gb1);padding:18px 0;flex-shrink:0;display:flex;flex-direction:column;gap:1px;overflow-y:auto}
+.as{width:248px;background:rgba(6,11,22,.6);backdrop-filter:blur(20px);border-right:1px solid var(--gb1);padding:18px 0;flex-shrink:0;display:flex;flex-direction:column;gap:1px;overflow-y:auto}
 .asl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:rgba(255,255,255,.22);padding:12px 20px 4px}
-.asi{display:flex;align-items:center;gap:11px;padding:11px 20px;color:rgba(255,255,255,.46);font-size:13px;font-weight:600;cursor:pointer;transition:.2s;border-left:3px solid transparent}
+.asi{display:flex;align-items:center;gap:11px;padding:10px 20px;color:rgba(255,255,255,.46);font-size:12.5px;font-weight:600;cursor:pointer;transition:.2s;border-left:3px solid transparent}
 .asi:hover{background:rgba(255,255,255,.04);color:rgba(255,255,255,.8)}
 .asi.on{background:rgba(79,142,247,.1);color:#7eb3ff;border-left-color:#4f8ef7}
-.ac{flex:1;padding:32px 28px;overflow-y:auto}
+.ac{flex:1;padding:28px 24px;overflow-y:auto}
 .at{display:none}.at.on{display:block;animation:rise .35s ease both}
 /* STATS */
-.sr{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:28px}
-.sc3{background:var(--g1);backdrop-filter:blur(20px);border:1px solid var(--gb1);border-radius:var(--r);padding:22px;transition:.3s}
+.sr{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:24px}
+.sc3{background:var(--g1);backdrop-filter:blur(20px);border:1px solid var(--gb1);border-radius:var(--r);padding:20px;transition:.3s}
 .sc3:hover{transform:translateY(-3px);border-color:rgba(79,142,247,.3)}
 /* TABLE */
-.sh{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
-.sh h2{font-size:19px;font-weight:800;color:#fff}
-.sh p{font-size:12.5px;color:var(--tx2);margin-top:3px}
+.sh{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
+.sh h2{font-size:18px;font-weight:800;color:#fff}
+.sh p{font-size:12px;color:var(--tx2);margin-top:3px}
 .tw{background:var(--g1);backdrop-filter:blur(20px);border:1px solid var(--gb1);border-radius:var(--r);overflow:hidden}
-.ts{flex:1;min-width:170px;padding:10px 13px;background:rgba(255,255,255,.055);border:1px solid var(--gb1);border-radius:9px;font-size:13px;font-weight:500;outline:none;color:#fff;transition:.2s}
-.ts::placeholder{color:rgba(255,255,255,.28)}
-.ts:focus{background:rgba(255,255,255,.085);border-color:rgba(79,142,247,.48)}
+.ts{padding:10px 13px;background:rgba(255,255,255,.055);border:1px solid var(--gb1);border-radius:9px;font-size:12.5px;font-weight:500;outline:none;color:#fff;transition:.2s}
+.ts::placeholder{color:rgba(255,255,255,.28)}.ts:focus{background:rgba(255,255,255,.085);border-color:rgba(79,142,247,.48)}
 table{width:100%;border-collapse:collapse}
 thead tr{background:rgba(255,255,255,.025)}
-th{padding:12px 16px;text-align:left;font-size:11px;font-weight:700;color:var(--tx2);text-transform:uppercase;letter-spacing:.7px;border-bottom:1px solid var(--gb1)}
-td{padding:12px 16px;font-size:13px;border-bottom:1px solid rgba(255,255,255,.04);color:var(--tx1);vertical-align:middle}
+th{padding:11px 14px;text-align:left;font-size:10.5px;font-weight:700;color:var(--tx2);text-transform:uppercase;letter-spacing:.7px;border-bottom:1px solid var(--gb1)}
+td{padding:11px 14px;font-size:12.5px;border-bottom:1px solid rgba(255,255,255,.04);color:var(--tx1);vertical-align:middle}
 tr:last-child td{border-bottom:none}
-tr:hover td{background:rgba(255,255,255,.028)}
-.bdg{display:inline-block;padding:4px 11px;border-radius:50px;font-size:11px;font-weight:700}
+tr:hover td{background:rgba(255,255,255,.025)}
+.bdg{display:inline-block;padding:3px 10px;border-radius:50px;font-size:11px;font-weight:700}
 .bgn{background:rgba(22,163,74,.18);color:#4ade80;border:1px solid rgba(22,163,74,.28)}
 .bbl{background:rgba(59,130,246,.18);color:#93c5fd;border:1px solid rgba(59,130,246,.28)}
 .bam{background:rgba(245,158,11,.18);color:#fbbf24;border:1px solid rgba(245,158,11,.28)}
 .bpm{background:rgba(124,58,237,.18);color:#c4b5fd;border:1px solid rgba(124,58,237,.28)}
-.ta{display:flex;gap:5px;flex-wrap:wrap}
-.tb2{padding:5px 10px;border-radius:7px;font-size:11px;font-weight:700;cursor:pointer;border:1px solid transparent;transition:.18s}
+.ta{display:flex;gap:4px;flex-wrap:wrap}
+.tb2{padding:4px 9px;border-radius:7px;font-size:11px;font-weight:700;cursor:pointer;border:1px solid transparent;transition:.18s}
 .tbb2{background:rgba(59,130,246,.14);color:#93c5fd;border-color:rgba(59,130,246,.28)}.tbb2:hover{background:rgba(59,130,246,.24)}
 .tbr2{background:rgba(220,38,38,.14);color:#f87171;border-color:rgba(220,38,38,.28)}.tbr2:hover{background:rgba(220,38,38,.24)}
 .tbp{background:rgba(124,58,237,.14);color:#c4b5fd;border-color:rgba(124,58,237,.28)}.tbp:hover{background:rgba(124,58,237,.24)}
 .tbg{background:rgba(22,163,74,.14);color:#4ade80;border-color:rgba(22,163,74,.28)}.tbg:hover{background:rgba(22,163,74,.24)}
+.tbo{background:rgba(245,158,11,.14);color:#fbbf24;border-color:rgba(245,158,11,.28)}.tbo:hover{background:rgba(245,158,11,.24)}
 /* MODAL */
 .mo{position:fixed;inset:0;background:rgba(0,0,0,.72);z-index:500;display:none;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(10px)}
 .mo.op{display:flex}
-.md{background:rgba(9,15,29,.97);backdrop-filter:blur(40px);border:1px solid var(--gb2);border-radius:22px;width:100%;max-width:680px;max-height:92vh;overflow-y:auto;box-shadow:0 30px 80px rgba(0,0,0,.55);animation:rise .28s ease both}
+.md{background:rgba(9,15,29,.97);backdrop-filter:blur(40px);border:1px solid var(--gb2);border-radius:22px;width:100%;max-width:700px;max-height:92vh;overflow-y:auto;box-shadow:0 30px 80px rgba(0,0,0,.55);animation:rise .28s ease both}
 .mdh{background:rgba(255,255,255,.04);padding:20px 24px;display:flex;align-items:center;justify-content:space-between;border-radius:22px 22px 0 0;border-bottom:1px solid var(--gb1);position:sticky;top:0;backdrop-filter:blur(20px)}
 .mdh h3{color:#fff;font-size:15px;font-weight:800}
 .mdc{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);color:#fff;width:32px;height:32px;border-radius:9px;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.18s}
 .mdc:hover{background:rgba(255,255,255,.14)}
-.mdb{padding:24px}.mdf{padding:0 24px 24px;display:flex;gap:11px;justify-content:flex-end}
-.mdf .btn{width:auto;padding:10px 22px;margin:0}
+.mdb{padding:24px}.mdf{padding:0 24px 24px;display:flex;gap:11px;justify-content:flex-end;flex-wrap:wrap}
+.mdf .btn{width:auto;padding:10px 20px;margin:0}
 /* FORMS */
-.fcard{background:var(--g1);backdrop-filter:blur(20px);border:1px solid var(--gb1);border-radius:var(--rl);padding:28px}
-.fr{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
+.fcard{background:var(--g1);backdrop-filter:blur(20px);border:1px solid var(--gb1);border-radius:var(--rl);padding:24px;margin-bottom:18px}
+.fr{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
 .fr.s{grid-template-columns:1fr}.fr.t{grid-template-columns:1fr 1fr 1fr}
-.fg2 label{display:block;font-size:11.5px;font-weight:700;color:var(--tx2);text-transform:uppercase;letter-spacing:.5px;margin-bottom:7px}
-.fg2 .fc{width:100%;padding:12px 14px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:10px;font-size:13.5px;font-weight:500;color:#fff;outline:none;transition:.2s}
+.fg2 label{display:block;font-size:11px;font-weight:700;color:var(--tx2);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
+.fg2 .fc{width:100%;padding:11px 13px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:10px;font-size:13px;font-weight:500;color:#fff;outline:none;transition:.2s}
+.fg2 textarea.fc{resize:vertical;min-height:72px;line-height:1.6}
 .fg2 .fc::placeholder{color:rgba(255,255,255,.24)}
 .fg2 .fc:focus{background:rgba(255,255,255,.09);border-color:rgba(79,142,247,.5);box-shadow:0 0 0 3px rgba(79,142,247,.1)}
 .fg2 .fc option{background:#0c1424;color:#fff}
-.uz{border:2px dashed rgba(255,255,255,.14);border-radius:12px;padding:28px;text-align:center;cursor:pointer;transition:.2s;background:rgba(255,255,255,.02);color:var(--tx2)}
+.uz{border:2px dashed rgba(255,255,255,.14);border-radius:12px;padding:24px;text-align:center;cursor:pointer;transition:.2s;background:rgba(255,255,255,.02);color:var(--tx2)}
 .uz:hover,.uz.do{border-color:rgba(79,142,247,.48);background:rgba(79,142,247,.05);color:#fff}
-.up{margin-top:13px;display:none}.up img{max-width:100%;border-radius:9px;max-height:200px;object-fit:contain;border:1px solid var(--gb1)}
-.ccw{background:rgba(0,0,0,.3);border-radius:12px;border:1px solid var(--gb1);overflow:hidden;margin-bottom:11px}
-#certCanvas{width:100%;display:block}
+.up{margin-top:12px;display:none}.up img{max-width:100%;border-radius:9px;max-height:200px;object-fit:contain;border:1px solid var(--gb1)}
+.ccw{background:rgba(0,0,0,.3);border-radius:12px;border:1px solid var(--gb1);overflow:hidden;margin-bottom:10px}
+#certCanvas,#offerCanvas{width:100%;display:block}
 /* SETTINGS */
-.ss{background:var(--g1);backdrop-filter:blur(20px);border:1px solid var(--gb1);border-radius:var(--rl);padding:28px;margin-bottom:20px}
+.ss{background:var(--g1);backdrop-filter:blur(20px);border:1px solid var(--gb1);border-radius:var(--rl);padding:24px;margin-bottom:18px}
 .ss h3{font-size:15px;font-weight:800;color:#fff;margin-bottom:4px}
-.ss p{font-size:12.5px;color:var(--tx2);margin-bottom:20px}
+.ss p{font-size:12.5px;color:var(--tx2);margin-bottom:18px}
 .pb2{height:4px;border-radius:2px;margin-top:6px;transition:.3s;background:rgba(255,255,255,.1)}
 .pb2.wk{background:linear-gradient(90deg,#dc2626,#ef4444);width:33%}
 .pb2.md{background:linear-gradient(90deg,#f59e0b,#fbbf24);width:66%}
 .pb2.st{background:linear-gradient(90deg,#16a34a,#22c55e);width:100%}
-.es{text-align:center;padding:54px 20px;color:var(--tx2)}.es-ic{font-size:48px;margin-bottom:13px;opacity:.35}
+.es{text-align:center;padding:52px 20px;color:var(--tx2)}.es-ic{font-size:46px;margin-bottom:12px;opacity:.35}
 .pvl{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--tx2);margin-bottom:10px;display:flex;align-items:center;gap:7px}
 .pld{width:7px;height:7px;background:#4ade80;border-radius:50%;animation:pulse 1.2s ease infinite}
-.cpr{display:flex;gap:7px;align-items:center}.cpr input[type=color]{height:42px;padding:4px;cursor:pointer;width:48px;border-radius:8px}
+.cpr{display:flex;gap:7px;align-items:center}
+.cpr input[type=color]{height:40px;padding:4px;cursor:pointer;width:46px;border-radius:8px}
 .cpr input[type=text]{flex:1;font-family:'JetBrains Mono',monospace;font-size:12px}
 .lr{display:flex;gap:10px;align-items:center;margin-bottom:10px}
-.lr .ll{font-size:12px;font-weight:600;color:var(--tx2);width:110px;flex-shrink:0}
-.lr input{flex:1}
-/* LOADING OVERLAY */
-.lo{position:fixed;inset:0;background:rgba(7,12,24,.92);z-index:9998;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:16px}
+.lr .ll{font-size:12px;font-weight:600;color:var(--tx2);width:120px;flex-shrink:0}
+.lr .fc{flex:1}
+/* INFO BOXES */
+.ibox{background:rgba(79,142,247,.1);border:1px solid rgba(79,142,247,.25);border-radius:10px;padding:11px 14px;font-size:12.5px;color:#93c5fd;margin-bottom:14px}
+.sbox{background:rgba(22,163,74,.1);border:1px solid rgba(22,163,74,.25);border-radius:10px;padding:11px 14px;font-size:12.5px;color:#4ade80;margin-bottom:14px}
+.wbox{background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.25);border-radius:10px;padding:11px 14px;font-size:12.5px;color:#fbbf24;margin-bottom:14px}
+/* LOADING */
+.lo{position:fixed;inset:0;background:rgba(6,11,22,.95);z-index:9998;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:14px}
 .lo.hide{display:none}
-.ls2{width:44px;height:44px;border:3px solid rgba(79,142,247,.25);border-top-color:#4f8ef7;border-radius:50%;animation:spin 1s linear infinite}
-.lo p{color:var(--tx2);font-size:14px;font-weight:600}
-/* ONLINE BADGE */
-.ob{display:inline-flex;align-items:center;gap:6px;background:rgba(22,163,74,.12);border:1px solid rgba(22,163,74,.28);color:#4ade80;font-size:11px;font-weight:700;padding:4px 11px;border-radius:50px}
-.ob-dot{width:6px;height:6px;background:#4ade80;border-radius:50%;animation:pulse 1.5s ease infinite}
+.lsp{width:42px;height:42px;border:3px solid rgba(79,142,247,.25);border-top-color:#4f8ef7;border-radius:50%;animation:spin 1s linear infinite}
+.lo p{color:var(--tx2);font-size:13.5px;font-weight:600}
 /* TOAST */
-.toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(80px);color:#fff;padding:13px 26px;border-radius:50px;font-size:13px;font-weight:700;box-shadow:0 8px 28px rgba(0,0,0,.3);transition:transform .38s cubic-bezier(.34,1.56,.64,1);z-index:9999;pointer-events:none;backdrop-filter:blur(20px)}
+.toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(80px);color:#fff;padding:12px 24px;border-radius:50px;font-size:13px;font-weight:700;box-shadow:0 8px 28px rgba(0,0,0,.3);transition:transform .38s cubic-bezier(.34,1.56,.64,1);z-index:9999;pointer-events:none;backdrop-filter:blur(20px)}
 .toast.on{transform:translateX(-50%) translateY(0)}
-.toast.ok{background:rgba(22,163,74,.92)}
-.toast.err{background:rgba(220,38,38,.92)}
-.toast.inf{background:rgba(79,142,247,.92)}
+.toast.ok{background:rgba(22,163,74,.92)}.toast.err{background:rgba(220,38,38,.92)}.toast.inf{background:rgba(79,142,247,.92)}
 /* FOOTER */
-.ft{background:rgba(7,12,24,.82);backdrop-filter:blur(20px);border-top:1px solid var(--gb1);color:rgba(255,255,255,.28);text-align:center;padding:24px 20px;font-size:12px;line-height:1.9;position:relative;z-index:1}
+.ft{background:rgba(6,11,22,.82);backdrop-filter:blur(20px);border-top:1px solid var(--gb1);color:rgba(255,255,255,.28);text-align:center;padding:22px 20px;font-size:12px;line-height:1.9;position:relative;z-index:1}
 .ft a{color:#7eb3ff}
 #qrH{position:absolute;left:-9999px;top:-9999px;width:120px;height:120px}
 #qrH canvas,#qrH img{width:120px!important;height:120px!important}
-.info-box{background:rgba(79,142,247,.1);border:1px solid rgba(79,142,247,.25);border-radius:10px;padding:12px 15px;font-size:12.5px;color:#93c5fd;margin-bottom:16px}
-.success-box{background:rgba(22,163,74,.1);border:1px solid rgba(22,163,74,.25);border-radius:10px;padding:12px 15px;font-size:12.5px;color:#4ade80;margin-bottom:16px}
+/* INNER TABS */
+.itabs{display:flex;gap:6px;margin-bottom:20px;border-bottom:1px solid var(--gb1);padding-bottom:0;flex-wrap:wrap}
+.itab{padding:9px 18px;border-radius:9px 9px 0 0;font-size:13px;font-weight:700;cursor:pointer;color:var(--tx2);border:1px solid transparent;border-bottom:none;transition:.2s;margin-bottom:-1px}
+.itab.on{background:var(--g2);color:#fff;border-color:var(--gb1);border-bottom:1px solid var(--n1)}
 </style>
 </head>
 <body>
 
-<!-- LOADING OVERLAY -->
-<div class="lo" id="loadOverlay">
-  <div class="ls2"></div>
-  <p id="loadMsg">Loading portal…</p>
-</div>
-
+<!-- LOADING -->
+<div class="lo" id="lo"><div class="lsp"></div><p id="lMsg">Loading portal…</p></div>
 <div class="ptcl" id="ptcl"></div>
 
-<!-- ═══ PUBLIC PAGE ═══ -->
+<!-- ═══════════ PUBLIC PAGE ═══════════ -->
 <div id="publicPage" class="page active">
   <header class="tb">
     <div class="brand" onclick="goPublic()">
@@ -304,27 +306,30 @@ tr:hover td{background:rgba(255,255,255,.028)}
 
   <div class="ban">
     <div class="chip"><span class="cdot"></span><span id="chipTxt">Blockchain Verified</span></div>
-    <h1 id="banH1">Certificate<br><em id="banH2">Verification Portal</em></h1>
-    <p id="banDesc">Instantly verify any certificate issued by <strong id="banComp" style="color:#7eb3ff">Unified Mentor Pvt Ltd</strong>.</p>
+    <h1 id="banH1">Certificate & Offer Letter<br><em id="banH2">Verification Portal</em></h1>
+    <p id="banDesc">Instantly verify any document issued by <strong id="banComp" style="color:#7eb3ff">Unified Mentor Pvt Ltd</strong>.</p>
   </div>
 
-  <div class="sw">
+  <div class="pub-tab-row">
+    <div class="pub-tab on" id="pubTabC" onclick="switchPubTab('cert')">📄 Certificate Verification</div>
+    <div class="pub-tab" id="pubTabO" onclick="switchPubTab('offer')">📋 Offer Letter Verification</div>
+  </div>
+
+  <div class="sw" style="margin-bottom:0">
     <div class="sb">
       <input type="text" id="si" placeholder="Enter Certificate ID  e.g. UMID0201267746" onkeydown="if(event.key==='Enter')doVerify()">
       <button onclick="doVerify()">🔍 Verify</button>
     </div>
   </div>
 
-  <div id="scanAnim" class="sav" style="max-width:380px;margin:56px auto 0">
-    <div class="sp">
-      <div class="sgr" id="scanGrid"></div>
-      <div class="sl"></div><div class="sk"></div>
-    </div>
-    <div style="font-size:16px;font-weight:700;color:#fff;margin-bottom:6px">Verifying Certificate…</div>
+  <div id="scanAnim" class="sav" style="max-width:380px;margin:54px auto 0">
+    <div class="sp"><div class="sgr" id="scanGrid"></div><div class="sl"></div><div class="sk"></div></div>
+    <div style="font-size:16px;font-weight:700;color:#fff;margin-bottom:6px">Verifying Document…</div>
     <div style="font-size:12px;color:var(--tx2)">Checking online records</div>
     <div class="vd"><span></span><span></span><span></span></div>
   </div>
 
+  <!-- RESULTS -->
   <div id="pubRes" style="display:none">
     <div id="ca">
       <svg class="cw" viewBox="0 0 100 100">
@@ -332,8 +337,8 @@ tr:hover td{background:rgba(255,255,255,.028)}
         <circle class="cc2" cx="50" cy="50" r="44" stroke-dasharray="400"/>
         <polyline class="cm" points="28,52 44,68 72,34"/>
       </svg>
-      <div style="font-size:20px;font-weight:800;color:#4ade80;margin-bottom:6px">Certificate Verified!</div>
-      <div style="font-size:13px;color:var(--tx2)" id="vByTxt">Authentic certificate from Unified Mentor Pvt Ltd</div>
+      <div style="font-size:20px;font-weight:800;margin-bottom:6px" id="verifyTitle">Document Verified!</div>
+      <div style="font-size:13px;color:var(--tx2)" id="vByTxt">Authentic document from Unified Mentor Pvt Ltd</div>
     </div>
     <div class="pb">
       <div class="ipw">
@@ -342,60 +347,54 @@ tr:hover td{background:rgba(255,255,255,.028)}
             <div class="ino"><div class="ini"></div></div>
             <div class="ico">
               <div class="cbb">
-                <div class="cbb-l">✅ Verified Certificate</div>
+                <div class="cbb-l" id="docTypeLabel">✅ Verified Document</div>
                 <div class="cbb-r" id="dispId">—</div>
               </div>
               <div class="cif">
-                <img id="certImg" src="" alt="Certificate">
+                <img id="certImg" src="" alt="Document">
                 <div class="csh"></div>
               </div>
-              <div style="padding:0 11px 7px;font-size:10px;color:rgba(255,255,255,.27);text-align:center" id="certFoot">🔒 Officially issued by Unified Mentor Pvt Ltd</div>
+              <div style="padding:0 11px 7px;font-size:10px;color:rgba(255,255,255,.27);text-align:center" id="certFoot">🔒 Issued by Unified Mentor Pvt Ltd</div>
             </div>
             <div class="ihb"><div class="ihbl"></div></div>
           </div>
         </div>
       </div>
       <div class="sd">
-        <div class="vc gc">
-          <div class="vi">✓</div>
-          <div class="vt"><h3>✅ Certificate Verified</h3><p>Authentic certificate issued by <strong id="vCardComp">Unified Mentor Pvt Ltd</strong>.</p></div>
+        <div class="vc gc" id="verifiedCard">
+          <div class="vi c" id="verifiedIcon">✓</div>
+          <div class="vt"><h3 class="c" id="verifiedH">✅ Document Verified</h3><p>Issued by <strong id="vCardComp">Unified Mentor Pvt Ltd</strong>.</p></div>
         </div>
         <div class="gc" style="overflow:hidden">
-          <div class="ih"><div class="ih-ic">📋</div><h3>Certificate Details</h3></div>
-          <div class="ir"><div class="ir-ic">🪪</div><div><div class="lbl">Certificate ID</div><div class="val" id="dId">—</div></div></div>
-          <div class="ir"><div class="ir-ic">👤</div><div><div class="lbl">Candidate Name</div><div class="val" id="dName">—</div></div></div>
-          <div class="ir"><div class="ir-ic">💻</div><div><div class="lbl">Domain</div><div class="val" id="dDomain">—</div></div></div>
-          <div class="ir"><div class="ir-ic">📅</div><div><div class="lbl">Period</div><div class="val" id="dPeriod">—</div></div></div>
-          <div class="ir"><div class="ir-ic">⏱</div><div><div class="lbl">Duration</div><div class="val" id="dDur">—</div></div></div>
-          <div class="ir"><div class="ir-ic">📆</div><div><div class="lbl">Issue Date</div><div class="val" id="dIssued">—</div></div></div>
-          <div class="ir"><div class="ir-ic">✅</div><div><div class="lbl">Status</div><div class="val g" id="dStatus">—</div></div></div>
+          <div class="ih"><div class="ih-ic">📋</div><h3 id="detailsH">Document Details</h3></div>
+          <div id="docDetails"></div>
         </div>
         <div class="gc" style="padding:20px">
           <div class="lbl" style="margin-bottom:11px">⬇ Actions</div>
-          <button class="btn bb" onclick="dlPubCert()">🖼 Download Certificate</button>
+          <button class="btn bb" onclick="dlPubDoc()">🖼 Download Document</button>
           <a id="visitBtn" href="#" target="_blank" class="btn bgh">🌐 Visit Website</a>
         </div>
         <div class="gc" style="overflow:hidden">
           <div class="ih" style="background:rgba(30,77,183,.2);border-bottom:1px solid rgba(79,142,247,.18)"><span>📞</span><h3>Contact / Verify</h3></div>
-          <a id="webLink" href="#" target="_blank" class="ir" style="text-decoration:none"><div class="ir-ic">🌐</div><div><div style="font-size:13px;font-weight:700;color:#7eb3ff" id="webLinkTxt">www.unifiedmentor.com</div><div style="font-size:11px;color:var(--tx2)">Official Website</div></div></a>
-          <a id="contactLink" href="#" target="_blank" class="ir" style="text-decoration:none"><div class="ir-ic">✉️</div><div><div style="font-size:13px;font-weight:700;color:#7eb3ff" id="contactLinkTxt">Contact Us</div><div style="font-size:11px;color:var(--tx2)">Reach out for verification</div></div></a>
-          <a id="aboutLink" href="#" target="_blank" class="ir" style="text-decoration:none"><div class="ir-ic">ℹ️</div><div><div style="font-size:13px;font-weight:700;color:#7eb3ff" id="aboutLinkTxt">About Us</div><div style="font-size:11px;color:var(--tx2)">Learn about our organization</div></div></a>
+          <a id="webLink" href="#" target="_blank" class="ir"><div class="ir-ic">🌐</div><div><div style="font-size:13px;font-weight:700;color:#7eb3ff" id="webLinkTxt">www.unifiedmentor.com</div><div style="font-size:11px;color:var(--tx2)">Official Website</div></div></a>
+          <a id="contactLink" href="#" target="_blank" class="ir"><div class="ir-ic">✉️</div><div><div style="font-size:13px;font-weight:700;color:#7eb3ff" id="contactLinkTxt">Contact Us</div><div style="font-size:11px;color:var(--tx2)">Reach out for verification</div></div></a>
+          <a id="aboutLink" href="#" target="_blank" class="ir"><div class="ir-ic">ℹ️</div><div><div style="font-size:13px;font-weight:700;color:#7eb3ff" id="aboutLinkTxt">About Us</div><div style="font-size:11px;color:var(--tx2)">Learn about our organization</div></div></a>
         </div>
       </div>
     </div>
   </div>
 
   <div id="pubNF" style="display:none;max-width:520px;margin:60px auto;padding:0 20px">
-    <div class="nf"><div style="font-size:58px;margin-bottom:18px;opacity:.4">🔍</div><h3>Certificate Not Found</h3><p>No certificate with this ID. Contact us via the links above.</p></div>
+    <div class="nf"><div style="font-size:56px;margin-bottom:16px;opacity:.4">🔍</div><h3>Document Not Found</h3><p>No document found with this ID. Please check and try again or contact us.</p></div>
   </div>
 
   <footer class="ft">
-    <p id="ftLine1">System-generated certificate verification · <a id="ftLink" href="#">www.unifiedmentor.com</a></p>
+    <p id="ftLine1">System-generated verification · <a id="ftLink" href="#">www.unifiedmentor.com</a></p>
     <p id="ftLine2">© 2026 <span id="ftComp">Unified Mentor Pvt Ltd</span> · CIN: <span id="ftCIN">U85500HR2023PTC115118</span> · ISO 9001:2015 Certified</p>
   </footer>
 </div>
 
-<!-- ═══ ADMIN LOGIN ═══ -->
+<!-- ═══════════ ADMIN LOGIN ═══════════ -->
 <div id="adminLogin" class="page">
   <div class="lip">
     <div class="libl"></div><div class="libl2"></div><div class="libl3"></div><div class="libr"></div>
@@ -409,7 +408,7 @@ tr:hover td{background:rgba(255,255,255,.028)}
             </div>
             <div class="fid">🔐</div>
             <h2>Admin Portal</h2>
-            <p id="loginSub">Unified Mentor Certificate Management</p>
+            <p id="loginSub">Unified Mentor Management</p>
           </div>
           <input type="text" class="fi" id="lusr" placeholder="Username" onkeydown="if(event.key==='Enter')doLogin()">
           <input type="password" class="fi" id="lpas" placeholder="Password" onkeydown="if(event.key==='Enter')doLogin()">
@@ -423,294 +422,351 @@ tr:hover td{background:rgba(255,255,255,.028)}
   </div>
 </div>
 
-<!-- ═══ ADMIN DASHBOARD ═══ -->
+<!-- ═══════════ ADMIN DASHBOARD ═══════════ -->
 <div id="adminDash" class="page">
   <header class="atb">
-    <div style="display:flex;align-items:center;gap:13px">
-      <h1>🛡 Admin Dashboard</h1>
+    <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+      <h1>🛡 Admin</h1>
       <span class="abg" id="awelcome">Unified Mentor</span>
       <span class="ob"><span class="ob-dot"></span>Online Storage Active</span>
     </div>
-    <div style="display:flex;gap:7px">
-      <button class="tbb" onclick="goPublic()">👁 View Portal</button>
+    <div style="display:flex;gap:6px">
+      <button class="tbb" onclick="goPublic()">👁 Portal</button>
       <button class="tbb" onclick="doLogout()">🚪 Logout</button>
     </div>
   </header>
   <div class="al">
     <aside class="as">
-      <div class="asl">Main</div>
+      <div class="asl">Overview</div>
       <div class="asi on" onclick="sTab('dashboard',this)"><span>📊</span> Dashboard</div>
-      <div class="asi" onclick="sTab('certificates',this)"><span>📄</span> All Certificates</div>
-      <div class="asi" onclick="sTab('add',this)"><span>➕</span> Add Certificate</div>
-      <div class="asl" style="margin-top:6px">Generate</div>
-      <div class="asi" onclick="sTab('autocert',this)"><span>🎨</span> Auto-Generate Cert</div>
-      <div class="asi" onclick="sTab('genid',this)"><span>⚡</span> Generate ID</div>
+      <div class="asi" onclick="sTab('alldocs',this)"><span>📁</span> All Documents</div>
+      <div class="asl" style="margin-top:6px">📄 Certificates</div>
+      <div class="asi" onclick="sTab('addcert',this)"><span>➕</span> Add Certificate</div>
+      <div class="asi" onclick="sTab('gencert',this)"><span>🎨</span> Auto-Generate Cert</div>
+      <div class="asl" style="margin-top:6px">📋 Offer Letters</div>
+      <div class="asi" onclick="sTab('addoffer',this)"><span>➕</span> Add Offer Letter</div>
+      <div class="asi" onclick="sTab('genoffer',this)"><span>✨</span> Auto-Generate Offer</div>
       <div class="asl" style="margin-top:6px">Tools</div>
+      <div class="asi" onclick="sTab('genid',this)"><span>⚡</span> Generate ID</div>
       <div class="asi" onclick="sTab('verify',this)"><span>🔍</span> Verify Lookup</div>
       <div class="asl" style="margin-top:6px">Customize</div>
       <div class="asi" onclick="sTab('sitecust',this)"><span>🌐</span> Site Customizer</div>
-      <div class="asi" onclick="sTab('branding',this)"><span>🎨</span> Cert Branding</div>
+      <div class="asi" onclick="sTab('branding',this)"><span>🎨</span> Doc Branding</div>
       <div class="asl" style="margin-top:6px">Admin</div>
       <div class="asi" onclick="sTab('settings',this)"><span>⚙️</span> Settings & Password</div>
     </aside>
     <main class="ac">
 
-      <!-- DASHBOARD TAB -->
+      <!-- DASHBOARD -->
       <div class="at on" id="tab-dashboard">
-        <div class="sh"><div><h2>Overview</h2><p>Certificates stored online — verifiable by anyone</p></div><button class="btn bb" style="width:auto;padding:9px 18px;margin:0;font-size:12px" onclick="syncAll()">🔄 Sync</button></div>
+        <div class="sh"><div><h2>Overview</h2><p>Certs & Offer Letters — stored online</p></div><button class="btn bb" style="width:auto;padding:8px 16px;margin:0;font-size:12px" onclick="syncAll()">🔄 Sync</button></div>
         <div class="sr">
-          <div class="sc3"><div style="font-size:28px;margin-bottom:11px">📄</div><div style="font-size:30px;font-weight:800;color:#fff" id="stT">0</div><div style="font-size:12px;color:var(--tx2);margin-top:3px">Total Certificates</div></div>
-          <div class="sc3"><div style="font-size:28px;margin-bottom:11px">✅</div><div style="font-size:30px;font-weight:800;color:#fff" id="stC">0</div><div style="font-size:12px;color:var(--tx2);margin-top:3px">Completed</div></div>
-          <div class="sc3"><div style="font-size:28px;margin-bottom:11px">🎨</div><div style="font-size:30px;font-weight:800;color:#fff" id="stG">0</div><div style="font-size:12px;color:var(--tx2);margin-top:3px">Auto-Generated</div></div>
-          <div class="sc3"><div style="font-size:28px;margin-bottom:11px">💻</div><div style="font-size:30px;font-weight:800;color:#fff" id="stD">0</div><div style="font-size:12px;color:var(--tx2);margin-top:3px">Domains Covered</div></div>
+          <div class="sc3"><div style="font-size:26px;margin-bottom:10px">📄</div><div style="font-size:28px;font-weight:800;color:#fff" id="stT">0</div><div style="font-size:12px;color:var(--tx2);margin-top:2px">Certificates</div></div>
+          <div class="sc3"><div style="font-size:26px;margin-bottom:10px">📋</div><div style="font-size:28px;font-weight:800;color:#fff" id="stO">0</div><div style="font-size:12px;color:var(--tx2);margin-top:2px">Offer Letters</div></div>
+          <div class="sc3"><div style="font-size:26px;margin-bottom:10px">🎨</div><div style="font-size:28px;font-weight:800;color:#fff" id="stG">0</div><div style="font-size:12px;color:var(--tx2);margin-top:2px">Auto-Generated</div></div>
+          <div class="sc3"><div style="font-size:26px;margin-bottom:10px">✅</div><div style="font-size:28px;font-weight:800;color:#fff" id="stC">0</div><div style="font-size:12px;color:var(--tx2);margin-top:2px">Completed</div></div>
         </div>
-        <div class="sh"><div><h2>Recent Certificates</h2><p>Last 6 — auto-saved online</p></div></div>
-        <div class="tw"><table><thead><tr><th>Cert ID</th><th>Name</th><th>Domain</th><th>Type</th><th>Status</th><th>Issued</th></tr></thead><tbody id="recentTbl"></tbody></table></div>
+        <div class="sh"><div><h2>Recent Documents</h2><p>Last 8 — auto-saved online</p></div></div>
+        <div class="tw"><table><thead><tr><th>Doc ID</th><th>Name</th><th>Type</th><th>Role/Domain</th><th>Status</th><th>Date</th></tr></thead><tbody id="recentTbl"></tbody></table></div>
       </div>
 
-      <!-- ALL CERTS TAB -->
-      <div class="at" id="tab-certificates">
-        <div class="sh"><div><h2>All Certificates</h2><p>Stored online — publicly verifiable</p></div><button class="btn bgr" style="width:auto;padding:10px 20px;margin:0" onclick="sTab('add',document.querySelectorAll('.asi')[2])">➕ Add New</button></div>
+      <!-- ALL DOCS -->
+      <div class="at" id="tab-alldocs">
+        <div class="sh"><div><h2>All Documents</h2><p>All publicly verifiable</p></div></div>
         <div class="tw">
-          <div style="padding:15px 20px;border-bottom:1px solid var(--gb1)"><input type="text" class="ts" placeholder="🔍 Search name, ID or domain…" oninput="filterTbl(this.value)" style="width:100%"></div>
-          <table><thead><tr><th>Cert ID</th><th>Candidate</th><th>Domain</th><th>Duration</th><th>Type</th><th>Status</th><th>Issued</th><th>Actions</th></tr></thead><tbody id="allTbl"></tbody></table>
+          <div style="padding:12px 16px;border-bottom:1px solid var(--gb1);display:flex;gap:10px;flex-wrap:wrap">
+            <input type="text" class="ts" placeholder="🔍 Search name, ID, role, domain…" oninput="filterDocs(this.value)" style="flex:1;min-width:160px">
+            <select class="ts" id="filterType" onchange="filterDocs(document.querySelector('.ts').value)" style="width:150px">
+              <option value="">All Types</option><option value="cert">Certificates</option><option value="offer">Offer Letters</option>
+            </select>
+          </div>
+          <table><thead><tr><th>Doc ID</th><th>Candidate</th><th>Type</th><th>Domain/Role</th><th>Duration</th><th>Status</th><th>Date</th><th>Actions</th></tr></thead><tbody id="allTbl"></tbody></table>
         </div>
       </div>
 
-      <!-- ADD CERT TAB -->
-      <div class="at" id="tab-add">
-        <div class="sh"><div><h2>Add / Upload Certificate</h2><p>Saved online instantly — publicly verifiable</p></div></div>
+      <!-- ADD CERT -->
+      <div class="at" id="tab-addcert">
+        <div class="sh"><div><h2>Add Certificate</h2><p>Saved online — publicly verifiable instantly</p></div></div>
         <div class="fcard">
-          <div class="info-box">💡 After saving, anyone can verify this certificate on the public portal using the Certificate ID.</div>
-          <div class="fr">
-            <div class="fg2"><label>Certificate ID *</label><input type="text" class="fc" id="aId" placeholder="e.g. UMID0201267746"></div>
-            <div class="fg2"><label>Candidate Full Name *</label><input type="text" class="fc" id="aNm" placeholder="e.g. Tamana Dagar"></div>
-          </div>
+          <div class="ibox">💡 After saving, anyone can verify this certificate on the public portal using the Certificate ID.</div>
+          <div class="fr"><div class="fg2"><label>Certificate ID *</label><input type="text" class="fc" id="acId" placeholder="e.g. UMID0201267746"></div><div class="fg2"><label>Candidate Full Name *</label><input type="text" class="fc" id="acNm" placeholder="e.g. Tamana Dagar"></div></div>
           <div class="fr">
             <div class="fg2"><label>Domain / Role *</label>
-              <select class="fc" id="aDom" onchange="togC(this,'aCW')">
+              <select class="fc" id="acDom" onchange="togC(this,'acCW')">
                 <option value="">— Select Domain —</option>
                 <option>Web Development Intern</option><option>Data Analysis Intern</option><option>Digital Marketing Intern</option><option>Machine Learning Intern</option><option>UI/UX Design Intern</option><option>Python Development Intern</option><option>Java Development Intern</option><option>Android Development Intern</option><option>Cybersecurity Intern</option><option>Cloud Computing Intern</option><option value="__c__">Other (custom)…</option>
               </select>
             </div>
-            <div class="fg2" id="aCW" style="display:none"><label>Custom Domain</label><input type="text" class="fc" id="aDomC" placeholder="Custom domain"></div>
+            <div class="fg2" id="acCW" style="display:none"><label>Custom Domain</label><input type="text" class="fc" id="acDomC" placeholder="Custom domain"></div>
           </div>
+          <div class="fr"><div class="fg2"><label>Start Date *</label><input type="date" class="fc" id="acSt"></div><div class="fg2"><label>End Date *</label><input type="date" class="fc" id="acEn"></div></div>
           <div class="fr">
-            <div class="fg2"><label>Start Date *</label><input type="date" class="fc" id="aSt"></div>
-            <div class="fg2"><label>End Date *</label><input type="date" class="fc" id="aEn"></div>
+            <div class="fg2"><label>Duration</label><select class="fc" id="acDur"><option>1 Month</option><option>4 Weeks (Evening Shift)</option><option>6 Weeks</option><option>2 Months</option><option>3 Months</option><option>6 Months</option></select></div>
+            <div class="fg2"><label>Status</label><select class="fc" id="acSts"><option>Completed</option><option>In Progress</option><option>Pending</option></select></div>
           </div>
-          <div class="fr">
-            <div class="fg2"><label>Duration</label><select class="fc" id="aDur"><option>1 Month</option><option>4 Weeks (Evening Shift)</option><option>6 Weeks</option><option>2 Months</option><option>3 Months</option><option>6 Months</option></select></div>
-            <div class="fg2"><label>Status</label><select class="fc" id="aSts"><option>Completed</option><option>In Progress</option><option>Pending</option></select></div>
-          </div>
-          <div class="fr s"><div class="fg2"><label>Issue Date *</label><input type="date" class="fc" id="aIs"></div></div>
+          <div class="fr s"><div class="fg2"><label>Issue Date *</label><input type="date" class="fc" id="acIs"></div></div>
           <div class="fr s">
             <div class="fg2"><label>Upload Certificate Image (PNG/JPG)</label>
-              <div class="uz" id="uz1" onclick="document.getElementById('cf1').click()" ondragover="dO(event,'uz1')" ondragleave="dL('uz1')" ondrop="dF(event,'cf1','uz1','up1','ui1')">
-                <div style="font-size:34px;margin-bottom:9px">📤</div>
-                <p>Click or <strong>drag & drop</strong> certificate image</p>
-                <p style="font-size:11px;margin-top:4px;color:rgba(255,255,255,.24)">PNG, JPG supported</p>
+              <div class="uz" id="uz1" onclick="document.getElementById('cf1').click()" ondragover="dO(event,'uz1')" ondragleave="dL('uz1')" ondrop="dF(event,'cf1','uz1','up1','ui1','c')">
+                <div style="font-size:30px;margin-bottom:7px">📤</div><p style="font-size:13px">Click or drag & drop certificate image</p>
               </div>
               <div class="up" id="up1"><img id="ui1" src="" alt="Preview"></div>
-              <input type="file" id="cf1" accept="image/*" style="display:none" onchange="hFile(this,'up1','ui1','uz1')">
+              <input type="file" id="cf1" accept="image/*" style="display:none" onchange="hFile(this,'up1','ui1','uz1','c')">
             </div>
           </div>
           <div style="display:flex;gap:12px;margin-top:8px">
-            <button class="btn bgr" style="flex:1" onclick="addCert()">💾 Save to Online Storage</button>
-            <button class="btn bgh" style="width:auto;padding:12px 24px;margin:0" onclick="clrAdd()">🗑 Clear</button>
+            <button class="btn bgr" style="flex:1" onclick="addCert()">💾 Save Certificate Online</button>
+            <button class="btn bgh" style="width:auto;padding:11px 20px;margin:0" onclick="clrCert()">🗑 Clear</button>
           </div>
         </div>
       </div>
 
-      <!-- AUTO-GENERATE TAB -->
-      <div class="at" id="tab-autocert">
-        <div class="sh"><div><h2>🎨 Auto-Generate Certificate</h2><p>Generates, saves online & instantly verifiable on public portal</p></div></div>
-        <div style="display:grid;grid-template-columns:1fr 460px;gap:24px;align-items:start">
-          <div class="fcard">
-            <div class="success-box">🌐 Generated certificates are <strong>automatically stored online</strong> and immediately verifiable by entering the Certificate ID on the public portal.</div>
-            <div class="fr">
-              <div class="fg2"><label>Candidate Full Name *</label><input type="text" class="fc" id="gcN" placeholder="e.g. Tamana Dagar" oninput="lp()"></div>
-              <div class="fg2"><label>Certificate ID (auto if blank)</label><input type="text" class="fc" id="gcI" placeholder="Auto-generated" oninput="lp()"></div>
-            </div>
-            <div class="fr">
-              <div class="fg2"><label>Domain / Role *</label>
-                <select class="fc" id="gcD" onchange="togC(this,'gcCW');lp()">
-                  <option value="">— Select Domain —</option>
-                  <option>Web Development Intern</option><option>Data Analysis Intern</option><option>Digital Marketing Intern</option><option>Machine Learning Intern</option><option>UI/UX Design Intern</option><option>Python Development Intern</option><option>Java Development Intern</option><option>Android Development Intern</option><option>Cybersecurity Intern</option><option>Cloud Computing Intern</option><option value="__c__">Other (custom)…</option>
-                </select>
+      <!-- ADD OFFER -->
+      <div class="at" id="tab-addoffer">
+        <div class="sh"><div><h2>Add Offer Letter</h2><p>Saved online — publicly verifiable instantly</p></div></div>
+        <div class="fcard">
+          <div class="wbox">📋 Offer letters can be verified on the public portal by selecting "Offer Letter Verification" tab.</div>
+          <div class="fr"><div class="fg2"><label>Offer Letter ID *</label><input type="text" class="fc" id="aoId" placeholder="e.g. UMOL0201267746"></div><div class="fg2"><label>Candidate Full Name *</label><input type="text" class="fc" id="aoNm" placeholder="e.g. Tamana Dagar"></div></div>
+          <div class="fr"><div class="fg2"><label>Position / Role *</label><input type="text" class="fc" id="aoRole" placeholder="e.g. Web Development Intern"></div><div class="fg2"><label>Department</label><input type="text" class="fc" id="aoDept" placeholder="e.g. Technology"></div></div>
+          <div class="fr"><div class="fg2"><label>Joining Date *</label><input type="date" class="fc" id="aoJoin"></div><div class="fg2"><label>Issue Date *</label><input type="date" class="fc" id="aoIs"></div></div>
+          <div class="fr"><div class="fg2"><label>Stipend / CTC</label><input type="text" class="fc" id="aoStip" placeholder="₹10,000/month"></div><div class="fg2"><label>Duration</label><input type="text" class="fc" id="aoDur" placeholder="3 Months"></div></div>
+          <div class="fr s"><div class="fg2"><label>Status</label><select class="fc" id="aoSts"><option>Active</option><option>Accepted</option><option>Completed</option><option>Revoked</option></select></div></div>
+          <div class="fr s">
+            <div class="fg2"><label>Upload Offer Letter Image (optional)</label>
+              <div class="uz" id="uz2" onclick="document.getElementById('cf2').click()" ondragover="dO(event,'uz2')" ondragleave="dL('uz2')" ondrop="dF(event,'cf2','uz2','up2','ui2','o')">
+                <div style="font-size:30px;margin-bottom:7px">📤</div><p style="font-size:13px">Click or drag & drop offer letter image</p>
               </div>
-              <div class="fg2" id="gcCW" style="display:none"><label>Custom Domain</label><input type="text" class="fc" id="gcDC" placeholder="Enter domain" oninput="lp()"></div>
+              <div class="up" id="up2"><img id="ui2" src="" alt="Preview"></div>
+              <input type="file" id="cf2" accept="image/*" style="display:none" onchange="hFile(this,'up2','ui2','uz2','o')">
             </div>
-            <div class="fr">
-              <div class="fg2"><label>Start Date *</label><input type="date" class="fc" id="gcSt" oninput="lp()"></div>
-              <div class="fg2"><label>End Date *</label><input type="date" class="fc" id="gcEn" oninput="lp()"></div>
-            </div>
-            <div class="fr">
-              <div class="fg2"><label>Duration</label><select class="fc" id="gcDr" onchange="lp()"><option>1 Month</option><option>4 Weeks (Evening Shift)</option><option>6 Weeks</option><option>2 Months</option><option>3 Months</option><option>6 Months</option></select></div>
-              <div class="fg2"><label>Issue Date *</label><input type="date" class="fc" id="gcIs" oninput="lp()"></div>
-            </div>
-            <div class="fr">
-              <div class="fg2"><label>Director / Signer 1</label><input type="text" class="fc" id="gcDir" value="Paras Grover" oninput="lp()"></div>
-              <div class="fg2"><label>Awarded By / Signer 2</label><input type="text" class="fc" id="gcAw" value="Sanket Patil" oninput="lp()"></div>
-            </div>
-            <div style="display:flex;gap:11px">
-              <button class="btn bpu" style="flex:1" onclick="genCert()">🎨 Generate & Save Online</button>
-              <button class="btn bgo" style="width:auto;padding:12px 20px;margin:0" onclick="dlGenCert()">⬇ Download PNG</button>
+          </div>
+          <div style="display:flex;gap:12px;margin-top:8px">
+            <button class="btn bgo" style="flex:1" onclick="addOffer()">💾 Save Offer Letter Online</button>
+            <button class="btn bgh" style="width:auto;padding:11px 20px;margin:0" onclick="clrOffer()">🗑 Clear</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- AUTO-GENERATE CERT -->
+      <div class="at" id="tab-gencert">
+        <div class="sh"><div><h2>🎨 Auto-Generate Certificate</h2><p>Generates, saves & makes instantly verifiable online</p></div></div>
+        <div style="display:grid;grid-template-columns:1fr 440px;gap:20px;align-items:start">
+          <div>
+            <div class="fcard">
+              <div class="sbox">🌐 Certificates are <strong>automatically stored online</strong> and immediately verifiable on the public portal.</div>
+              <div class="fr"><div class="fg2"><label>Candidate Full Name *</label><input type="text" class="fc" id="gcN" placeholder="e.g. Tamana Dagar" oninput="lpC()"></div><div class="fg2"><label>Certificate ID (auto if blank)</label><input type="text" class="fc" id="gcI" placeholder="Auto-generated" oninput="lpC()"></div></div>
+              <div class="fr">
+                <div class="fg2"><label>Domain / Role *</label>
+                  <select class="fc" id="gcD" onchange="togC(this,'gcCW');lpC()">
+                    <option value="">— Select Domain —</option>
+                    <option>Web Development Intern</option><option>Data Analysis Intern</option><option>Digital Marketing Intern</option><option>Machine Learning Intern</option><option>UI/UX Design Intern</option><option>Python Development Intern</option><option>Java Development Intern</option><option>Android Development Intern</option><option>Cybersecurity Intern</option><option>Cloud Computing Intern</option><option value="__c__">Other (custom)…</option>
+                  </select>
+                </div>
+                <div class="fg2" id="gcCW" style="display:none"><label>Custom Domain</label><input type="text" class="fc" id="gcDC" placeholder="Custom domain" oninput="lpC()"></div>
+              </div>
+              <div class="fr"><div class="fg2"><label>Start Date *</label><input type="date" class="fc" id="gcSt" oninput="lpC()"></div><div class="fg2"><label>End Date *</label><input type="date" class="fc" id="gcEn" oninput="lpC()"></div></div>
+              <div class="fr"><div class="fg2"><label>Duration</label><select class="fc" id="gcDr" onchange="lpC()"><option>1 Month</option><option>4 Weeks (Evening Shift)</option><option>6 Weeks</option><option>2 Months</option><option>3 Months</option><option>6 Months</option></select></div><div class="fg2"><label>Issue Date *</label><input type="date" class="fc" id="gcIs" oninput="lpC()"></div></div>
+              <div class="fr"><div class="fg2"><label>Director / Signer 1</label><input type="text" class="fc" id="gcDir" value="Paras Grover" oninput="lpC()"></div><div class="fg2"><label>Awarded By / Signer 2</label><input type="text" class="fc" id="gcAw" value="Sanket Patil" oninput="lpC()"></div></div>
+              <div style="display:flex;gap:10px">
+                <button class="btn bpu" style="flex:1" onclick="genCert()">🎨 Generate & Save Online</button>
+                <button class="btn bgo" style="width:auto;padding:12px 18px;margin:0" onclick="dlGenCert()">⬇ Download</button>
+              </div>
             </div>
           </div>
           <div>
-            <div class="pvl"><div class="pld"></div>Live Preview</div>
+            <div class="pvl"><div class="pld"></div>Live Certificate Preview</div>
             <div class="ccw"><canvas id="certCanvas" width="960" height="680"></canvas></div>
             <p style="font-size:11px;color:var(--tx2);text-align:center;margin-top:6px">Synced with branding · QR links to verification page</p>
           </div>
         </div>
       </div>
 
-      <!-- GENERATE ID TAB -->
+      <!-- AUTO-GENERATE OFFER -->
+      <div class="at" id="tab-genoffer">
+        <div class="sh"><div><h2>✨ Auto-Generate Offer Letter</h2><p>Generate professional A4 offer letter, save & verify online</p></div></div>
+        <div style="display:grid;grid-template-columns:1fr 380px;gap:20px;align-items:start">
+          <div>
+            <div class="fcard">
+              <div class="wbox">🌐 Offer letters are <strong>automatically stored online</strong> and immediately verifiable on the public portal.</div>
+              <div class="fr"><div class="fg2"><label>Candidate Full Name *</label><input type="text" class="fc" id="goN" placeholder="e.g. Tamana Dagar" oninput="lpO()"></div><div class="fg2"><label>Offer Letter ID (auto if blank)</label><input type="text" class="fc" id="goI" placeholder="Auto-generated" oninput="lpO()"></div></div>
+              <div class="fr"><div class="fg2"><label>Position / Role *</label><input type="text" class="fc" id="goRole" placeholder="e.g. Web Development Intern" oninput="lpO()"></div><div class="fg2"><label>Department</label><input type="text" class="fc" id="goDept" placeholder="e.g. Technology" oninput="lpO()"></div></div>
+              <div class="fr"><div class="fg2"><label>Joining Date *</label><input type="date" class="fc" id="goJoin" oninput="lpO()"></div><div class="fg2"><label>Issue Date *</label><input type="date" class="fc" id="goIs" oninput="lpO()"></div></div>
+              <div class="fr"><div class="fg2"><label>Stipend / CTC</label><input type="text" class="fc" id="goStip" placeholder="₹10,000/month" oninput="lpO()"></div><div class="fg2"><label>Duration / Period</label><input type="text" class="fc" id="goDur" placeholder="3 Months" oninput="lpO()"></div></div>
+              <div class="fr"><div class="fg2"><label>Authorizing Person</label><input type="text" class="fc" id="goAuth" value="Paras Grover" oninput="lpO()"></div><div class="fg2"><label>HR / Second Signer</label><input type="text" class="fc" id="goHR" value="Sanket Patil" oninput="lpO()"></div></div>
+              <div class="fr s"><div class="fg2"><label>Additional Note (optional)</label><textarea class="fc" id="goNote" placeholder="We are pleased to offer you this internship position and look forward to your contributions to our team." oninput="lpO()"></textarea></div></div>
+              <div style="display:flex;gap:10px">
+                <button class="btn bgo" style="flex:1" onclick="genOffer()">✨ Generate & Save Online</button>
+                <button class="btn bte" style="width:auto;padding:12px 18px;margin:0" onclick="dlGenOffer()">⬇ Download</button>
+              </div>
+            </div>
+          </div>
+          <div>
+            <div class="pvl"><div class="pld" style="background:#fbbf24"></div>Live Offer Letter Preview</div>
+            <div class="ccw"><canvas id="offerCanvas" width="794" height="1123"></canvas></div>
+            <p style="font-size:11px;color:var(--tx2);text-align:center;margin-top:6px">A4 format · QR links to verification page</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- GENERATE ID -->
       <div class="at" id="tab-genid">
-        <div class="sh"><div><h2>Generate Certificate ID</h2><p>Unique UMID format</p></div></div>
+        <div class="sh"><div><h2>Generate Document ID</h2><p>UMID for certificates, UMOL for offer letters</p></div></div>
         <div class="fcard">
-          <button class="btn bb" style="width:auto;padding:13px 30px;margin-bottom:22px" onclick="genId()">⚡ Generate New ID</button>
-          <div id="genRes" style="display:none">
-            <div style="background:rgba(255,255,255,.04);border-radius:12px;padding:26px;border:1px solid var(--gb1);text-align:center">
-              <div style="font-size:11px;color:var(--tx2);font-weight:700;text-transform:uppercase;letter-spacing:.8px;margin-bottom:12px">Generated ID</div>
-              <div id="genIdTxt" style="font-family:'JetBrains Mono',monospace;font-size:28px;font-weight:700;color:#fff;margin-bottom:18px;letter-spacing:2px"></div>
-              <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
-                <button class="btn bna" style="width:auto;padding:9px 22px;margin:0" onclick="copyId()">📋 Copy</button>
-                <button class="btn bb" style="width:auto;padding:9px 22px;margin:0" onclick="useId('add')">➕ Add Form</button>
-                <button class="btn bpu" style="width:auto;padding:9px 22px;margin:0" onclick="useId('gen')">🎨 Gen Form</button>
+          <div class="fr">
+            <button class="btn bb" style="margin:0" onclick="genIdFn('cert')">⚡ Generate Certificate ID (UMID)</button>
+            <button class="btn bgo" style="margin:0" onclick="genIdFn('offer')">✨ Generate Offer Letter ID (UMOL)</button>
+          </div>
+          <div id="genRes" style="display:none;margin-top:14px">
+            <div style="background:rgba(255,255,255,.04);border-radius:12px;padding:24px;border:1px solid var(--gb1);text-align:center">
+              <div style="font-size:11px;color:var(--tx2);font-weight:700;text-transform:uppercase;letter-spacing:.8px;margin-bottom:12px" id="genIdLabel">Generated ID</div>
+              <div id="genIdTxt" style="font-family:'JetBrains Mono',monospace;font-size:24px;font-weight:700;color:#fff;margin-bottom:16px;letter-spacing:2px;word-break:break-all"></div>
+              <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap">
+                <button class="btn bna" style="width:auto;padding:8px 18px;margin:0" onclick="copyId()">📋 Copy</button>
+                <button class="btn bb" style="width:auto;padding:8px 18px;margin:0" onclick="useId('addcert')">📄 Add Cert Form</button>
+                <button class="btn bgo" style="width:auto;padding:8px 18px;margin:0" onclick="useId('addoffer')">📋 Add Offer Form</button>
+                <button class="btn bpu" style="width:auto;padding:8px 18px;margin:0" onclick="useId('gencert')">🎨 Gen Cert Form</button>
+                <button class="btn bte" style="width:auto;padding:8px 18px;margin:0" onclick="useId('genoffer')">✨ Gen Offer Form</button>
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- VERIFY LOOKUP TAB -->
+      <!-- VERIFY LOOKUP -->
       <div class="at" id="tab-verify">
-        <div class="sh"><div><h2>Certificate Lookup</h2><p>Admin quick search from online storage</p></div></div>
+        <div class="sh"><div><h2>Document Lookup</h2><p>Admin search — certificates & offer letters</p></div></div>
         <div class="fcard">
-          <div style="display:flex;gap:12px;margin-bottom:22px">
-            <input type="text" class="fc" style="flex:1;font-family:'JetBrains Mono',monospace;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:12px 14px;color:#fff;outline:none" id="alSi" placeholder="Enter Certificate ID…" onkeydown="if(event.key==='Enter')alookup()">
-            <button class="btn bb" style="width:auto;padding:11px 24px;margin:0" onclick="alookup()">🔍 Lookup</button>
+          <div style="display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap">
+            <input type="text" class="fc" style="flex:1;min-width:180px;font-family:'JetBrains Mono',monospace;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:11px 13px;color:#fff;outline:none" id="alSi" placeholder="Enter Document ID…" onkeydown="if(event.key==='Enter')alookup()">
+            <button class="btn bb" style="width:auto;padding:11px 22px;margin:0" onclick="alookup()">🔍 Lookup</button>
           </div>
           <div id="alRes"></div>
         </div>
       </div>
 
-      <!-- SITE CUSTOMIZER TAB -->
+      <!-- SITE CUSTOMIZER -->
       <div class="at" id="tab-sitecust">
-        <div class="sh"><div><h2>🌐 Site Customizer</h2><p>Edit every text, link, name & color on the public portal — saved online</p></div></div>
-        <div class="fcard" style="margin-bottom:20px">
-          <div style="font-size:13.5px;font-weight:700;color:#fff;margin-bottom:16px">🏷 Website Identity</div>
-          <div class="fr">
-            <div class="fg2"><label>Browser Tab Title</label><input type="text" class="fc" id="sTitle" placeholder="Unified Mentor — Certificate Portal"></div>
-            <div class="fg2"><label>Brand / Short Name (Topbar)</label><input type="text" class="fc" id="sShrt" placeholder="Unified Mentor"></div>
-          </div>
-          <div class="fr">
-            <div class="fg2"><label>Company Full Name</label><input type="text" class="fc" id="sComp" placeholder="Unified Mentor Pvt Ltd"></div>
-            <div class="fg2"><label>CIN Number (footer)</label><input type="text" class="fc" id="sCIN" placeholder="U85500HR2023PTC115118"></div>
-          </div>
-          <div class="fr">
-            <div class="fg2"><label>Site Accent Color</label>
-              <div class="cpr"><input type="color" class="fc" id="sAcc" value="#1e4db7" oninput="document.getElementById('sAccT').value=this.value"><input type="text" class="fc" id="sAccT" value="#1e4db7" oninput="if(/^#[0-9A-Fa-f]{6}$/.test(this.value))document.getElementById('sAcc').value=this.value"></div>
-            </div>
-            <div class="fg2"><label>Verified Badge Chip Text</label><input type="text" class="fc" id="sChip" placeholder="Blockchain Verified"></div>
-          </div>
+        <div class="sh"><div><h2>🌐 Site Customizer</h2><p>Edit every text, link, name & color — saved online</p></div></div>
+        <div class="fcard">
+          <div style="font-size:13px;font-weight:700;color:#fff;margin-bottom:14px">🏷 Website Identity</div>
+          <div class="fr"><div class="fg2"><label>Browser Tab Title</label><input type="text" class="fc" id="sTitle" placeholder="Unified Mentor — Verification Portal"></div><div class="fg2"><label>Brand / Short Name (Topbar)</label><input type="text" class="fc" id="sShrt" placeholder="Unified Mentor"></div></div>
+          <div class="fr"><div class="fg2"><label>Company Full Name</label><input type="text" class="fc" id="sComp" placeholder="Unified Mentor Pvt Ltd"></div><div class="fg2"><label>CIN Number</label><input type="text" class="fc" id="sCIN" placeholder="U85500HR2023PTC115118"></div></div>
+          <div class="fr"><div class="fg2"><label>Site Accent Color</label><div class="cpr"><input type="color" class="fc" id="sAcc" value="#1e4db7" oninput="document.getElementById('sAccT').value=this.value"><input type="text" class="fc" id="sAccT" value="#1e4db7" oninput="if(/^#[0-9A-Fa-f]{6}$/.test(this.value))sv('sAcc',this.value)"></div></div><div class="fg2"><label>Chip / Badge Text</label><input type="text" class="fc" id="sChip" placeholder="Blockchain Verified"></div></div>
         </div>
-        <div class="fcard" style="margin-bottom:20px">
-          <div style="font-size:13.5px;font-weight:700;color:#fff;margin-bottom:16px">📝 Banner / Hero</div>
-          <div class="fr s"><div class="fg2"><label>Banner Headline Line 1</label><input type="text" class="fc" id="sBH1" placeholder="Certificate"></div></div>
+        <div class="fcard">
+          <div style="font-size:13px;font-weight:700;color:#fff;margin-bottom:14px">📝 Banner / Hero Section</div>
+          <div class="fr s"><div class="fg2"><label>Banner Headline Line 1</label><input type="text" class="fc" id="sBH1" placeholder="Certificate & Offer Letter"></div></div>
           <div class="fr s"><div class="fg2"><label>Banner Headline Line 2 (gradient styled)</label><input type="text" class="fc" id="sBH2" placeholder="Verification Portal"></div></div>
-          <div class="fr s"><div class="fg2"><label>Banner Subtitle</label><input type="text" class="fc" id="sBDesc" placeholder="Instantly verify any certificate issued by…"></div></div>
+          <div class="fr s"><div class="fg2"><label>Banner Subtitle Text</label><input type="text" class="fc" id="sBDesc" placeholder="Instantly verify any document issued by…"></div></div>
         </div>
-        <div class="fcard" style="margin-bottom:20px">
-          <div style="font-size:13.5px;font-weight:700;color:#fff;margin-bottom:16px">🔗 Navigation Links</div>
+        <div class="fcard">
+          <div style="font-size:13px;font-weight:700;color:#fff;margin-bottom:14px">🔗 Navigation Links (Topbar)</div>
           <div class="lr"><span class="ll">Home Label</span><input type="text" class="fc" id="sNHL" placeholder="Home" style="flex:1"></div>
           <div class="lr"><span class="ll">Home URL</span><input type="text" class="fc" id="sNHU" placeholder="https://unifiedmentor.com/" style="flex:1"></div>
-          <div class="lr" style="margin-top:8px"><span class="ll">About Label</span><input type="text" class="fc" id="sNAL" placeholder="About" style="flex:1"></div>
+          <div class="lr" style="margin-top:6px"><span class="ll">About Label</span><input type="text" class="fc" id="sNAL" placeholder="About" style="flex:1"></div>
           <div class="lr"><span class="ll">About URL</span><input type="text" class="fc" id="sNAU" placeholder="https://unifiedmentor.com/about" style="flex:1"></div>
-          <div class="lr" style="margin-top:8px"><span class="ll">Contact Label</span><input type="text" class="fc" id="sNCL" placeholder="Contact" style="flex:1"></div>
+          <div class="lr" style="margin-top:6px"><span class="ll">Contact Label</span><input type="text" class="fc" id="sNCL" placeholder="Contact" style="flex:1"></div>
           <div class="lr"><span class="ll">Contact URL</span><input type="text" class="fc" id="sNCU" placeholder="https://unifiedmentor.com/contact-us" style="flex:1"></div>
         </div>
-        <div class="fcard" style="margin-bottom:20px">
-          <div style="font-size:13.5px;font-weight:700;color:#fff;margin-bottom:16px">🌍 Website & Contact Links (shown on verified cert card)</div>
+        <div class="fcard">
+          <div style="font-size:13px;font-weight:700;color:#fff;margin-bottom:14px">🌍 Links on Verified Document Card</div>
           <div class="lr"><span class="ll">Website URL</span><input type="text" class="fc" id="sWebU" placeholder="https://www.unifiedmentor.com" style="flex:1"></div>
-          <div class="lr" style="margin-top:8px"><span class="ll">Contact Label</span><input type="text" class="fc" id="sCL" placeholder="Contact Us" style="flex:1"></div>
+          <div class="lr" style="margin-top:6px"><span class="ll">Contact Label</span><input type="text" class="fc" id="sCL" placeholder="Contact Us" style="flex:1"></div>
           <div class="lr"><span class="ll">Contact URL</span><input type="text" class="fc" id="sCU" placeholder="https://unifiedmentor.com/contact-us" style="flex:1"></div>
-          <div class="lr" style="margin-top:8px"><span class="ll">About Label</span><input type="text" class="fc" id="sAL" placeholder="About Us" style="flex:1"></div>
+          <div class="lr" style="margin-top:6px"><span class="ll">About Label</span><input type="text" class="fc" id="sAL" placeholder="About Us" style="flex:1"></div>
           <div class="lr"><span class="ll">About URL</span><input type="text" class="fc" id="sAU" placeholder="https://unifiedmentor.com/about" style="flex:1"></div>
         </div>
-        <div class="fcard" style="margin-bottom:20px">
-          <div style="font-size:13.5px;font-weight:700;color:#fff;margin-bottom:16px">📄 Footer</div>
-          <div class="fr s"><div class="fg2"><label>Footer Line 1</label><input type="text" class="fc" id="sFt1" placeholder="System-generated certificate verification · www.unifiedmentor.com"></div></div>
+        <div class="fcard">
+          <div style="font-size:13px;font-weight:700;color:#fff;margin-bottom:14px">📄 Footer</div>
+          <div class="fr s"><div class="fg2"><label>Footer Line 1</label><input type="text" class="fc" id="sFt1" placeholder="System-generated certificate verification"></div></div>
           <div class="fr s"><div class="fg2"><label>Footer Copyright Line</label><input type="text" class="fc" id="sFt2" placeholder="© 2026 Unified Mentor Pvt Ltd · ISO 9001:2015 Certified"></div></div>
         </div>
-        <div style="display:flex;gap:12px">
-          <button class="btn bgr" style="flex:1;max-width:300px" onclick="saveSite()">💾 Save & Apply All Site Changes</button>
-          <button class="btn bgh" style="width:auto;padding:13px 22px;margin:0" onclick="resetSite()">🔄 Reset to Default</button>
+        <div style="display:flex;gap:10px">
+          <button class="btn bgr" style="flex:1;max-width:280px" onclick="saveSite()">💾 Save & Apply All Changes</button>
+          <button class="btn bgh" style="width:auto;padding:12px 20px;margin:0" onclick="resetSite()">🔄 Reset Default</button>
         </div>
       </div>
 
-      <!-- CERT BRANDING TAB -->
+      <!-- DOC BRANDING -->
       <div class="at" id="tab-branding">
-        <div class="sh"><div><h2>🎨 Certificate Branding</h2><p>Customize how auto-generated certificates look</p></div></div>
-        <div class="fcard" style="margin-bottom:20px">
-          <div style="font-size:13.5px;font-weight:700;color:#fff;margin-bottom:16px">🏢 Company on Certificate</div>
-          <div class="fr">
-            <div class="fg2"><label>Company Name</label><input type="text" class="fc" id="bComp" placeholder="Unified Mentor Pvt Ltd" oninput="lp()"></div>
-            <div class="fg2"><label>CIN Number</label><input type="text" class="fc" id="bCIN" placeholder="U85500HR2023PTC115118" oninput="lp()"></div>
-          </div>
-          <div class="fr">
-            <div class="fg2"><label>Default Signer 1</label><input type="text" class="fc" id="bDir" placeholder="Paras Grover" oninput="lp()"></div>
-            <div class="fg2"><label>Default Signer 2</label><input type="text" class="fc" id="bAwd" placeholder="Sanket Patil" oninput="lp()"></div>
-          </div>
-          <div class="fr s"><div class="fg2"><label>Tagline on Certificate</label><input type="text" class="fc" id="bTag" placeholder="YOUR SKILL.  SUCCESS & JOURNEY." oninput="lp()"></div></div>
-          <div class="fr s"><div class="fg2"><label>ISO / Footer Text on Certificate</label><input type="text" class="fc" id="bISO" placeholder="AN ISO 9001:2015 Certified Company" oninput="lp()"></div></div>
+        <div class="sh"><div><h2>🎨 Document Branding</h2><p>Customize certificate & offer letter appearance</p></div></div>
+        <div class="itabs">
+          <div class="itab on" id="bTabC" onclick="switchBTab('c')">📄 Certificate Colors</div>
+          <div class="itab" id="bTabO" onclick="switchBTab('o')">📋 Offer Letter Colors</div>
         </div>
-        <div class="fcard" style="margin-bottom:20px">
-          <div style="font-size:13.5px;font-weight:700;color:#fff;margin-bottom:16px">🎨 Certificate Color Theme</div>
-          <div class="fr t">
-            <div class="fg2"><label>Header Color</label><div class="cpr"><input type="color" class="fc" id="bC1" value="#0d2248" oninput="sv('bC1t',this.value);lp()"><input type="text" class="fc" id="bC1t" value="#0d2248" oninput="if(/^#[0-9A-Fa-f]{6}$/.test(this.value)){sv('bC1',this.value);lp()}"></div></div>
-            <div class="fg2"><label>Secondary Color</label><div class="cpr"><input type="color" class="fc" id="bC2" value="#1e4db7" oninput="sv('bC2t',this.value);lp()"><input type="text" class="fc" id="bC2t" value="#1e4db7" oninput="if(/^#[0-9A-Fa-f]{6}$/.test(this.value)){sv('bC2',this.value);lp()}"></div></div>
-            <div class="fg2"><label>Highlight Color</label><div class="cpr"><input type="color" class="fc" id="bC3" value="#4f8ef7" oninput="sv('bC3t',this.value);lp()"><input type="text" class="fc" id="bC3t" value="#4f8ef7" oninput="if(/^#[0-9A-Fa-f]{6}$/.test(this.value)){sv('bC3',this.value);lp()}"></div></div>
+        <!-- CERT BRANDING -->
+        <div id="bCertSec">
+          <div class="fcard">
+            <div style="font-size:13px;font-weight:700;color:#fff;margin-bottom:14px">🏢 Company on Certificate</div>
+            <div class="fr"><div class="fg2"><label>Company Name</label><input type="text" class="fc" id="bComp" placeholder="Unified Mentor Pvt Ltd" oninput="lpC()"></div><div class="fg2"><label>CIN Number</label><input type="text" class="fc" id="bCIN" placeholder="U85500HR2023PTC115118" oninput="lpC()"></div></div>
+            <div class="fr"><div class="fg2"><label>Default Signer 1</label><input type="text" class="fc" id="bDir" placeholder="Paras Grover" oninput="lpC()"></div><div class="fg2"><label>Default Signer 2</label><input type="text" class="fc" id="bAwd" placeholder="Sanket Patil" oninput="lpC()"></div></div>
+            <div class="fr s"><div class="fg2"><label>Tagline on Certificate</label><input type="text" class="fc" id="bTag" placeholder="YOUR SKILL.  SUCCESS & JOURNEY." oninput="lpC()"></div></div>
+            <div class="fr s"><div class="fg2"><label>ISO / Footer text on Certificate</label><input type="text" class="fc" id="bISO" placeholder="AN ISO 9001:2015 Certified Company" oninput="lpC()"></div></div>
           </div>
-          <div style="margin-top:8px">
-            <div style="font-size:11px;font-weight:700;color:var(--tx2);text-transform:uppercase;letter-spacing:.7px;margin-bottom:10px">Quick Presets</div>
-            <div style="display:flex;flex-wrap:wrap;gap:8px">
-              <button onclick="applyP('#0d2248','#1e4db7','#4f8ef7')" style="padding:7px 14px;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;border:1px solid rgba(255,255,255,.14);background:linear-gradient(135deg,#0d2248,#1e4db7);color:#fff">Navy Blue</button>
-              <button onclick="applyP('#1a0533','#7c3aed','#c4b5fd')" style="padding:7px 14px;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;border:1px solid rgba(255,255,255,.14);background:linear-gradient(135deg,#1a0533,#7c3aed);color:#fff">Royal Purple</button>
-              <button onclick="applyP('#052e16','#16a34a','#4ade80')" style="padding:7px 14px;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;border:1px solid rgba(255,255,255,.14);background:linear-gradient(135deg,#052e16,#16a34a);color:#fff">Emerald</button>
-              <button onclick="applyP('#1c0707','#dc2626','#f87171')" style="padding:7px 14px;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;border:1px solid rgba(255,255,255,.14);background:linear-gradient(135deg,#1c0707,#dc2626);color:#fff">Crimson</button>
-              <button onclick="applyP('#1c1400','#d97706','#fbbf24')" style="padding:7px 14px;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;border:1px solid rgba(255,255,255,.14);background:linear-gradient(135deg,#1c1400,#d97706);color:#fff">Gold</button>
-              <button onclick="applyP('#001a1a','#0891b2','#67e8f9')" style="padding:7px 14px;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;border:1px solid rgba(255,255,255,.14);background:linear-gradient(135deg,#001a1a,#0891b2);color:#fff">Teal</button>
-              <button onclick="applyP('#0f172a','#6366f1','#a5b4fc')" style="padding:7px 14px;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;border:1px solid rgba(255,255,255,.14);background:linear-gradient(135deg,#0f172a,#6366f1);color:#fff">Indigo</button>
+          <div class="fcard">
+            <div style="font-size:13px;font-weight:700;color:#fff;margin-bottom:14px">🎨 Certificate Colors</div>
+            <div class="fr t">
+              <div class="fg2"><label>Header Color</label><div class="cpr"><input type="color" class="fc" id="bC1" value="#0d2248" oninput="sv('bC1t',this.value);lpC()"><input type="text" class="fc" id="bC1t" value="#0d2248" oninput="if(/^#[0-9A-Fa-f]{6}$/.test(this.value)){sv('bC1',this.value);lpC()}"></div></div>
+              <div class="fg2"><label>Secondary Color</label><div class="cpr"><input type="color" class="fc" id="bC2" value="#1e4db7" oninput="sv('bC2t',this.value);lpC()"><input type="text" class="fc" id="bC2t" value="#1e4db7" oninput="if(/^#[0-9A-Fa-f]{6}$/.test(this.value)){sv('bC2',this.value);lpC()}"></div></div>
+              <div class="fg2"><label>Highlight Color</label><div class="cpr"><input type="color" class="fc" id="bC3" value="#4f8ef7" oninput="sv('bC3t',this.value);lpC()"><input type="text" class="fc" id="bC3t" value="#4f8ef7" oninput="if(/^#[0-9A-Fa-f]{6}$/.test(this.value)){sv('bC3',this.value);lpC()}"></div></div>
+            </div>
+            <div style="margin-top:8px">
+              <div style="font-size:11px;font-weight:700;color:var(--tx2);text-transform:uppercase;letter-spacing:.7px;margin-bottom:10px">Quick Presets</div>
+              <div style="display:flex;flex-wrap:wrap;gap:7px">
+                <button onclick="applyP('#0d2248','#1e4db7','#4f8ef7')" style="padding:6px 13px;border-radius:8px;font-size:11.5px;font-weight:700;cursor:pointer;border:1px solid rgba(255,255,255,.14);background:linear-gradient(135deg,#0d2248,#1e4db7);color:#fff">Navy</button>
+                <button onclick="applyP('#1a0533','#7c3aed','#c4b5fd')" style="padding:6px 13px;border-radius:8px;font-size:11.5px;font-weight:700;cursor:pointer;border:1px solid rgba(255,255,255,.14);background:linear-gradient(135deg,#1a0533,#7c3aed);color:#fff">Purple</button>
+                <button onclick="applyP('#052e16','#16a34a','#4ade80')" style="padding:6px 13px;border-radius:8px;font-size:11.5px;font-weight:700;cursor:pointer;border:1px solid rgba(255,255,255,.14);background:linear-gradient(135deg,#052e16,#16a34a);color:#fff">Emerald</button>
+                <button onclick="applyP('#1c0707','#dc2626','#f87171')" style="padding:6px 13px;border-radius:8px;font-size:11.5px;font-weight:700;cursor:pointer;border:1px solid rgba(255,255,255,.14);background:linear-gradient(135deg,#1c0707,#dc2626);color:#fff">Crimson</button>
+                <button onclick="applyP('#1c1400','#d97706','#fbbf24')" style="padding:6px 13px;border-radius:8px;font-size:11.5px;font-weight:700;cursor:pointer;border:1px solid rgba(255,255,255,.14);background:linear-gradient(135deg,#1c1400,#d97706);color:#fff">Gold</button>
+                <button onclick="applyP('#001a1a','#0891b2','#67e8f9')" style="padding:6px 13px;border-radius:8px;font-size:11.5px;font-weight:700;cursor:pointer;border:1px solid rgba(255,255,255,.14);background:linear-gradient(135deg,#001a1a,#0891b2);color:#fff">Teal</button>
+                <button onclick="applyP('#0f172a','#6366f1','#a5b4fc')" style="padding:6px 13px;border-radius:8px;font-size:11.5px;font-weight:700;cursor:pointer;border:1px solid rgba(255,255,255,.14);background:linear-gradient(135deg,#0f172a,#6366f1);color:#fff">Indigo</button>
+              </div>
             </div>
           </div>
+          <button class="btn bgr" style="width:auto;padding:11px 26px;margin:0" onclick="saveBrand()">💾 Save Certificate Branding</button>
         </div>
-        <button class="btn bgr" style="width:auto;padding:12px 28px;margin:0" onclick="saveBrand()">💾 Save Certificate Branding</button>
+        <!-- OFFER BRANDING -->
+        <div id="bOfferSec" style="display:none">
+          <div class="fcard">
+            <div style="font-size:13px;font-weight:700;color:#fff;margin-bottom:14px">🏢 Company on Offer Letter</div>
+            <div class="fr"><div class="fg2"><label>Company Name</label><input type="text" class="fc" id="obComp" placeholder="Unified Mentor Pvt Ltd" oninput="lpO()"></div><div class="fg2"><label>Company Address</label><input type="text" class="fc" id="obAddr" placeholder="Gurugram, Haryana, India" oninput="lpO()"></div></div>
+            <div class="fr"><div class="fg2"><label>Company Email</label><input type="text" class="fc" id="obEmail" placeholder="info@unifiedmentor.com" oninput="lpO()"></div><div class="fg2"><label>Company Website</label><input type="text" class="fc" id="obWeb" placeholder="www.unifiedmentor.com" oninput="lpO()"></div></div>
+            <div class="fr"><div class="fg2"><label>Authorizing Person</label><input type="text" class="fc" id="obAuth" placeholder="Paras Grover" oninput="lpO()"></div><div class="fg2"><label>Designation</label><input type="text" class="fc" id="obDesg" placeholder="Director" oninput="lpO()"></div></div>
+          </div>
+          <div class="fcard">
+            <div style="font-size:13px;font-weight:700;color:#fff;margin-bottom:14px">🎨 Offer Letter Colors</div>
+            <div class="fr t">
+              <div class="fg2"><label>Primary Color</label><div class="cpr"><input type="color" class="fc" id="oC1" value="#0d2248" oninput="sv('oC1t',this.value);lpO()"><input type="text" class="fc" id="oC1t" value="#0d2248" oninput="if(/^#[0-9A-Fa-f]{6}$/.test(this.value)){sv('oC1',this.value);lpO()}"></div></div>
+              <div class="fg2"><label>Accent Color</label><div class="cpr"><input type="color" class="fc" id="oC2" value="#d97706" oninput="sv('oC2t',this.value);lpO()"><input type="text" class="fc" id="oC2t" value="#d97706" oninput="if(/^#[0-9A-Fa-f]{6}$/.test(this.value)){sv('oC2',this.value);lpO()}"></div></div>
+              <div class="fg2"><label>Border Color</label><div class="cpr"><input type="color" class="fc" id="oC3" value="#4f8ef7" oninput="sv('oC3t',this.value);lpO()"><input type="text" class="fc" id="oC3t" value="#4f8ef7" oninput="if(/^#[0-9A-Fa-f]{6}$/.test(this.value)){sv('oC3',this.value);lpO()}"></div></div>
+            </div>
+          </div>
+          <button class="btn bgo" style="width:auto;padding:11px 26px;margin:0" onclick="saveOfferBrand()">💾 Save Offer Letter Branding</button>
+        </div>
       </div>
 
-      <!-- SETTINGS TAB -->
+      <!-- SETTINGS -->
       <div class="at" id="tab-settings">
         <div class="sh"><div><h2>⚙️ Settings & Security</h2><p>Admin credentials — stored online</p></div></div>
         <div class="ss">
           <h3>👤 Change Admin Username</h3><p>Update login username.</p>
           <div class="fr"><div class="fg2"><label>Current Username</label><input type="text" class="fc" id="cUsr" placeholder="Current username"></div><div class="fg2"><label>New Username</label><input type="text" class="fc" id="nUsr" placeholder="New username"></div></div>
-          <div class="fr s"><div class="fg2"><label>Confirm with Current Password</label><input type="password" class="fc" id="uPas" placeholder="Current password"></div></div>
-          <button class="btn bb" style="width:auto;padding:11px 24px;margin:0" onclick="chgUsr()">💾 Update Username</button>
+          <div class="fr s"><div class="fg2"><label>Confirm with Password</label><input type="password" class="fc" id="uPas" placeholder="Current password"></div></div>
+          <button class="btn bb" style="width:auto;padding:10px 22px;margin:0" onclick="chgUsr()">💾 Update Username</button>
         </div>
         <div class="ss">
           <h3>🔐 Change Admin Password</h3><p>Minimum 8 characters recommended.</p>
           <div class="fr s"><div class="fg2"><label>Current Password</label><input type="password" class="fc" id="cPas" placeholder="Current password"></div></div>
-          <div class="fr"><div class="fg2"><label>New Password</label><input type="password" class="fc" id="nPas" placeholder="Min 8 chars" oninput="chkStr(this.value)"><div class="pb2" id="psBar"></div><div id="psLbl" style="font-size:11px;color:var(--tx2);margin-top:4px"></div></div><div class="fg2"><label>Confirm New Password</label><input type="password" class="fc" id="cfPas" placeholder="Repeat password"></div></div>
-          <button class="btn bgr" style="width:auto;padding:11px 24px;margin:0" onclick="chgPas()">🔐 Update Password</button>
+          <div class="fr"><div class="fg2"><label>New Password</label><input type="password" class="fc" id="nPas" placeholder="Min 8 characters" oninput="chkStr(this.value)"><div class="pb2" id="psBar"></div><div id="psLbl" style="font-size:11px;color:var(--tx2);margin-top:4px"></div></div><div class="fg2"><label>Confirm New Password</label><input type="password" class="fc" id="cfPas" placeholder="Repeat password"></div></div>
+          <button class="btn bgr" style="width:auto;padding:10px 22px;margin:0" onclick="chgPas()">🔐 Update Password</button>
         </div>
         <div class="ss" style="border-color:rgba(220,38,38,.28)">
-          <h3 style="color:#f87171">⚠️ Danger Zone</h3><p>Irreversible actions.</p>
-          <div style="display:flex;gap:12px;flex-wrap:wrap">
-            <button class="btn bre" style="width:auto;padding:11px 22px;margin:0" onclick="resetAllCerts()">🗑 Clear All Certificates</button>
-            <button class="btn bgh" style="width:auto;padding:11px 22px;margin:0;border-color:rgba(220,38,38,.35);color:#f87171" onclick="resetCreds()">🔄 Reset Credentials</button>
-            <button class="btn bgh" style="width:auto;padding:11px 22px;margin:0;border-color:rgba(245,158,11,.35);color:#fbbf24" onclick="resetSite()">🔄 Reset Site Settings</button>
+          <h3 style="color:#f87171">⚠️ Danger Zone</h3><p>Irreversible actions — use with caution.</p>
+          <div style="display:flex;gap:10px;flex-wrap:wrap">
+            <button class="btn bre" style="width:auto;padding:10px 18px;margin:0" onclick="clearCerts()">🗑 Clear All Certificates</button>
+            <button class="btn bre" style="width:auto;padding:10px 18px;margin:0" onclick="clearOffers()">🗑 Clear All Offer Letters</button>
+            <button class="btn bgh" style="width:auto;padding:10px 18px;margin:0;border-color:rgba(220,38,38,.35);color:#f87171" onclick="resetCreds()">🔄 Reset Credentials</button>
+            <button class="btn bgh" style="width:auto;padding:10px 18px;margin:0;border-color:rgba(245,158,11,.35);color:#fbbf24" onclick="resetSite()">🔄 Reset Site</button>
           </div>
         </div>
       </div>
@@ -722,22 +778,15 @@ tr:hover td{background:rgba(255,255,255,.028)}
 <!-- VIEW MODAL -->
 <div class="mo" id="viewModal">
   <div class="md">
-    <div class="mdh"><h3>📄 Certificate Details</h3><button class="mdc" onclick="cModal()">✕</button></div>
+    <div class="mdh"><h3 id="modalTitle">📄 Document Details</h3><button class="mdc" onclick="cModal()">✕</button></div>
     <div class="mdb">
-      <div style="margin-bottom:18px;border-radius:11px;overflow:hidden;border:1px solid var(--gb1)"><img id="mImg" src="" alt="Certificate" style="width:100%;display:block"></div>
-      <div class="gc" style="overflow:hidden">
-        <div class="ir"><div class="ir-ic">🪪</div><div><div class="lbl">Certificate ID</div><div class="val" id="mId">—</div></div></div>
-        <div class="ir"><div class="ir-ic">👤</div><div><div class="lbl">Name</div><div class="val" id="mNm">—</div></div></div>
-        <div class="ir"><div class="ir-ic">💻</div><div><div class="lbl">Domain</div><div class="val" id="mDom">—</div></div></div>
-        <div class="ir"><div class="ir-ic">📅</div><div><div class="lbl">Period</div><div class="val" id="mPer">—</div></div></div>
-        <div class="ir"><div class="ir-ic">⏱</div><div><div class="lbl">Duration</div><div class="val" id="mDur">—</div></div></div>
-        <div class="ir"><div class="ir-ic">✅</div><div><div class="lbl">Status</div><div class="val g" id="mSts">—</div></div></div>
-      </div>
+      <div style="margin-bottom:16px;border-radius:11px;overflow:hidden;border:1px solid var(--gb1)"><img id="mImg" src="" alt="Document" style="width:100%;display:block;min-height:40px;background:rgba(255,255,255,.04)"></div>
+      <div class="gc" style="overflow:hidden" id="mDetails"></div>
     </div>
     <div class="mdf">
-      <button class="btn bb" style="width:auto;padding:10px 22px;margin:0" onclick="dlModal()">⬇ Download</button>
-      <button class="btn bte" style="width:auto;padding:10px 22px;margin:0" onclick="cpLink()">🔗 Copy Link</button>
-      <button class="btn bgh" style="width:auto;padding:10px 22px;margin:0" onclick="cModal()">Close</button>
+      <button class="btn bb" style="width:auto;padding:10px 18px;margin:0" onclick="dlModal()">⬇ Download</button>
+      <button class="btn bte" style="width:auto;padding:10px 18px;margin:0" onclick="cpLink()">🔗 Copy Link</button>
+      <button class="btn bgh" style="width:auto;padding:10px 18px;margin:0" onclick="cModal()">Close</button>
     </div>
   </div>
 </div>
@@ -746,148 +795,90 @@ tr:hover td{background:rgba(255,255,255,.028)}
 <div class="toast" id="tst"></div>
 
 <script>
-/* ═══ PERSISTENT STORAGE (window.storage API) ═══ */
-const KEYS={
-  certs:'certs-data',
-  creds:'creds-data',
-  brand:'brand-data',
-  site:'site-data'
-};
+/* ══ STORAGE ══ */
+const SK={certs:'um-certs-v7',offers:'um-offers-v7',creds:'um-creds-v7',brand:'um-brand-v7',obrand:'um-obrand-v7',site:'um-site-v7'};
+async function sGet(k){try{const r=await window.storage.get(k,true);return r?JSON.parse(r.value):null;}catch(e){return null;}}
+async function sSet(k,v){try{return await window.storage.set(k,JSON.stringify(v),true);}catch(e){return false;}}
+async function sDel(k){try{await window.storage.delete(k,true);}catch(e){}}
 
-async function storeGet(key,shared=true){
-  try{const r=await window.storage.get(key,shared);return r?JSON.parse(r.value):null;}
-  catch(e){return null;}
-}
-async function storeSet(key,val,shared=true){
-  try{await window.storage.set(key,JSON.stringify(val),shared);return true;}
-  catch(e){console.error('storage set error',e);return false;}
-}
-async function storeDel(key,shared=true){
-  try{await window.storage.delete(key,shared);return true;}catch(e){return false;}
-}
-
-/* ═══ PARTICLES ═══ */
+/* ══ PARTICLES ══ */
 (()=>{
-  const p=document.getElementById('ptcl');
-  const g=document.getElementById('scanGrid');
+  const p=document.getElementById('ptcl'),g=document.getElementById('scanGrid');
   const cs=['rgba(79,142,247,','rgba(124,58,237,','rgba(22,163,74,','rgba(255,255,255,'];
-  for(let i=0;i<28;i++){
-    const d=document.createElement('div'),sz=Math.random()*4+1.5,c=cs[Math.floor(Math.random()*cs.length)];
-    d.className='p';
-    d.style.cssText=`left:${Math.random()*100}%;width:${sz}px;height:${sz}px;background:${c}${(Math.random()*.5+.15).toFixed(2)});animation-duration:${Math.random()*18+14}s;animation-delay:${Math.random()*22}s`;
-    p.appendChild(d);
-  }
+  for(let i=0;i<28;i++){const d=document.createElement('div'),sz=Math.random()*4+1.5,c=cs[Math.floor(Math.random()*cs.length)];d.className='p';d.style.cssText=`left:${Math.random()*100}%;width:${sz}px;height:${sz}px;background:${c}${(Math.random()*.5+.15).toFixed(2)});animation-duration:${Math.random()*18+14}s;animation-delay:${Math.random()*22}s`;p.appendChild(d);}
   for(let i=0;i<30;i++){const c=document.createElement('div');c.className='sgc';g.appendChild(c);}
 })();
 
-/* ═══ DEFAULTS ═══ */
-const DEF_CREDS={u:'admin',p:'um@2026'};
-const DEF_BRAND={comp:'Unified Mentor Pvt Ltd',cin:'U85500HR2023PTC115118',dir:'Paras Grover',awd:'Sanket Patil',c1:'#0d2248',c2:'#1e4db7',c3:'#4f8ef7',iso:'AN ISO 9001:2015 Certified Company',tag:'YOUR SKILL.  SUCCESS & JOURNEY.'};
-const DEF_SITE={title:'Unified Mentor — Certificate Portal',shrt:'Unified Mentor',comp:'Unified Mentor Pvt Ltd',cin:'U85500HR2023PTC115118',acc:'#1e4db7',chip:'Blockchain Verified',bh1:'Certificate',bh2:'Verification Portal',bdesc:'Instantly verify any certificate issued by our organization.',nhl:'Home',nhu:'https://unifiedmentor.com/',nal:'About',nau:'https://unifiedmentor.com/about',ncl:'Contact',ncu:'https://unifiedmentor.com/contact-us',webu:'https://www.unifiedmentor.com',cl:'Contact Us',cu:'https://unifiedmentor.com/contact-us',al:'About Us',au:'https://unifiedmentor.com/about',ft1:'System-generated certificate verification',ft2:'ISO 9001:2015 Certified'};
-const SEED_CERTS=[
+/* ══ DEFAULTS ══ */
+const DC={u:'admin',p:'um@2026'};
+const DB={comp:'Unified Mentor Pvt Ltd',cin:'U85500HR2023PTC115118',dir:'Paras Grover',awd:'Sanket Patil',c1:'#0d2248',c2:'#1e4db7',c3:'#4f8ef7',iso:'AN ISO 9001:2015 Certified Company',tag:'YOUR SKILL.  SUCCESS & JOURNEY.'};
+const DOB={comp:'Unified Mentor Pvt Ltd',addr:'Gurugram, Haryana, India',email:'info@unifiedmentor.com',web:'www.unifiedmentor.com',auth:'Paras Grover',desg:'Director',c1:'#0d2248',c2:'#d97706',c3:'#4f8ef7'};
+const DS={title:'Unified Mentor — Verification Portal',shrt:'Unified Mentor',comp:'Unified Mentor Pvt Ltd',cin:'U85500HR2023PTC115118',acc:'#1e4db7',chip:'Blockchain Verified',bh1:'Certificate & Offer Letter',bh2:'Verification Portal',bdesc:'Instantly verify any document issued by our organization.',nhl:'Home',nhu:'https://unifiedmentor.com/',nal:'About',nau:'https://unifiedmentor.com/about',ncl:'Contact',ncu:'https://unifiedmentor.com/contact-us',webu:'https://www.unifiedmentor.com',cl:'Contact Us',cu:'https://unifiedmentor.com/contact-us',al:'About Us',au:'https://unifiedmentor.com/about',ft1:'System-generated verification',ft2:'ISO 9001:2015 Certified'};
+const SEED_C=[
   {id:'UMID0201267746',name:'Tamana Dagar',domain:'Web Development Intern',start:'2026-01-01',end:'2026-01-31',duration:'1 Month',status:'Completed',issued:'2026-01-31',img:'',generated:false},
   {id:'UMID0305189234',name:'Ravi Sharma',domain:'Data Analysis Intern',start:'2025-10-01',end:'2025-12-31',duration:'3 Months',status:'Completed',issued:'2025-12-31',img:'',generated:false},
   {id:'UMID0418763021',name:'Priya Singh',domain:'Machine Learning Intern',start:'2025-11-01',end:'2026-01-31',duration:'3 Months',status:'Completed',issued:'2026-01-31',img:'',generated:false},
   {id:'UMID0512904856',name:'Arjun Mehta',domain:'Python Development Intern',start:'2025-12-01',end:'2026-01-31',duration:'2 Months',status:'Completed',issued:'2026-01-31',img:'',generated:false},
   {id:'UMID0609345178',name:'Sneha Patel',domain:'Digital Marketing Intern',start:'2026-01-01',end:'2026-03-31',duration:'3 Months',status:'In Progress',issued:'2026-03-31',img:'',generated:false},
-  {id:'UMID0721056893',name:'Karan Verma',domain:'UI/UX Design Intern',start:'2025-09-01',end:'2025-12-31',duration:'3 Months',status:'Completed',issued:'2025-12-31',img:'',generated:false},
-  {id:'UMID0834719265',name:'Anjali Gupta',domain:'Cybersecurity Intern',start:'2025-10-15',end:'2025-12-15',duration:'2 Months',status:'Completed',issued:'2025-12-15',img:'',generated:false},
-  {id:'UMID0947823610',name:'Vikram Nair',domain:'Cloud Computing Intern',start:'2026-02-01',end:'2026-04-30',duration:'3 Months',status:'In Progress',issued:'2026-04-30',img:'',generated:false},
-  {id:'UMID1056234987',name:'Divya Rao',domain:'Java Development Intern',start:'2025-08-01',end:'2025-10-31',duration:'3 Months',status:'Completed',issued:'2025-10-31',img:'',generated:false},
-  {id:'UMID1163847529',name:'Rohit Joshi',domain:'Android Development Intern',start:'2025-11-15',end:'2026-02-15',duration:'3 Months',status:'Completed',issued:'2026-02-15',img:'',generated:false}
+  {id:'UMID0721056893',name:'Karan Verma',domain:'UI/UX Design Intern',start:'2025-09-01',end:'2025-12-31',duration:'3 Months',status:'Completed',issued:'2025-12-31',img:'',generated:false}
+];
+const SEED_O=[
+  {id:'UMOL0101234567',name:'Divya Rao',role:'Java Development Intern',dept:'Technology',join:'2025-08-01',issued:'2025-07-25',stipend:'₹8,000/month',duration:'3 Months',status:'Completed',img:'',generated:false},
+  {id:'UMOL0209876543',name:'Vikram Nair',role:'Cloud Computing Intern',dept:'Infrastructure',join:'2026-02-01',issued:'2026-01-25',stipend:'₹10,000/month',duration:'3 Months',status:'Active',img:'',generated:false}
 ];
 
-/* ═══ GLOBAL STATE ═══ */
-let G={certs:[],creds:DEF_CREDS,brand:{...DEF_BRAND},site:{...DEF_SITE}};
+/* ══ STATE ══ */
+let G={certs:[],offers:[],creds:{...DC},brand:{...DB},obrand:{...DOB},site:{...DS}};
+let _cImg='',_oImg='',_pubTab='cert';
 
-/* ═══ INIT ═══ */
+/* ══ INIT ══ */
 async function init(){
   showLoad('Loading portal data…');
   try{
-    // Load all from persistent storage
-    const [certsData,credsData,brandData,siteData]=await Promise.all([
-      storeGet(KEYS.certs),storeGet(KEYS.creds),storeGet(KEYS.brand),storeGet(KEYS.site)
-    ]);
-    G.certs=certsData||[];
-    G.creds=credsData||DEF_CREDS;
-    G.brand=brandData||{...DEF_BRAND};
-    G.site=siteData||{...DEF_SITE};
-    // Seed certs if empty
-    if(!G.certs.length){
-      G.certs=[...SEED_CERTS];
-      await storeSet(KEYS.certs,G.certs);
-    }
+    const [c,o,cr,b,ob,s]=await Promise.all([sGet(SK.certs),sGet(SK.offers),sGet(SK.creds),sGet(SK.brand),sGet(SK.obrand),sGet(SK.site)]);
+    G.certs=c||[];G.offers=o||[];G.creds=cr||{...DC};G.brand=b||{...DB};G.obrand=ob||{...DOB};G.site=s||{...DS};
+    if(!G.certs.length){G.certs=[...SEED_C];await sSet(SK.certs,G.certs);}
+    if(!G.offers.length){G.offers=[...SEED_O];await sSet(SK.offers,G.offers);}
     applyBrand();
-    // Check URL param
-    const params=new URLSearchParams(window.location.search);
-    const vid=params.get('verify');
+    const vid=new URLSearchParams(window.location.search).get('verify');
     if(vid){sv('si',vid);doVerify();}
-    lp();
-  }catch(e){
-    console.error('Init error',e);
-    G={certs:[...SEED_CERTS],creds:DEF_CREDS,brand:{...DEF_BRAND},site:{...DEF_SITE}};
-    applyBrand();lp();
-  }
+    lpC();
+  }catch(e){G={certs:[...SEED_C],offers:[...SEED_O],creds:{...DC},brand:{...DB},obrand:{...DOB},site:{...DS}};applyBrand();lpC();}
   hideLoad();
 }
 
-/* ═══ SAVE HELPERS ═══ */
-async function saveCerts(){await storeSet(KEYS.certs,G.certs);}
-async function saveCreds(){await storeSet(KEYS.creds,G.creds);}
-async function saveBrandData(){await storeSet(KEYS.brand,G.brand);}
-async function saveSiteData(){await storeSet(KEYS.site,G.site);}
-
-/* ═══ APPLY BRAND / SITE ═══ */
+/* ══ APPLY BRAND ══ */
 function applyBrand(){
   const s=G.site,b=G.brand;
   const comp=s.comp||b.comp||'Unified Mentor Pvt Ltd';
-  // Title
-  document.title=s.title||'Unified Mentor — Certificate Portal';
-  // Topbar brand
-  const sh=s.shrt||'Unified Mentor';
-  const pts=sh.trim().split(' ');const last=pts.pop();const rest=pts.join(' ');
-  const tb=document.getElementById('topBrand');
-  if(tb)tb.innerHTML=(rest?rest+' ':'')+'<b>'+last+'</b>';
-  // Accent color
+  document.title=s.title||'Unified Mentor — Verification Portal';
+  const sh=s.shrt||'Unified Mentor',pts=sh.trim().split(' '),last=pts.pop(),rest=pts.join(' ');
+  const tb=document.getElementById('topBrand');if(tb)tb.innerHTML=(rest?rest+' ':'')+'<b>'+last+'</b>';
   const acc=s.acc||'#1e4db7';
   const bi=document.getElementById('brandIcon');if(bi)bi.style.background=`linear-gradient(135deg,${acc},#3b82f6)`;
   const li=document.getElementById('loginIcon');if(li)li.style.background=`linear-gradient(135deg,${acc},#6366f1)`;
-  // Banner
-  const h1=document.getElementById('banH1'),h2=document.getElementById('banH2');
-  if(h1)h1.childNodes[0].nodeValue=(s.bh1||'Certificate')+'\n';
-  if(h2)h2.textContent=s.bh2||'Verification Portal';
-  const bd=document.getElementById('banDesc');
-  if(bd)bd.innerHTML=(s.bdesc||'Instantly verify any certificate issued by')+' <strong id="banComp" style="color:#7eb3ff">'+comp+'</strong>.';
+  const h1=document.getElementById('banH1');if(h1)h1.innerHTML=(s.bh1||'Certificate & Offer Letter')+'<br><em id="banH2">'+(s.bh2||'Verification Portal')+'</em>';
+  const bd=document.getElementById('banDesc');if(bd)bd.innerHTML=(s.bdesc||'Instantly verify any document issued by')+' <strong style="color:#7eb3ff">'+comp+'</strong>.';
   const ct=document.getElementById('chipTxt');if(ct)ct.textContent=s.chip||'Blockchain Verified';
-  // Nav links
-  setLink('navHome',s.nhl||'Home',s.nhu||'https://unifiedmentor.com/');
-  setLink('navAbout',s.nal||'About',s.nau||'https://unifiedmentor.com/about');
-  setLink('navContact',s.ncl||'Contact',s.ncu||'https://unifiedmentor.com/contact-us');
-  // Cert card links
-  const webUrl=s.webu||'https://www.unifiedmentor.com';
-  const wld=webUrl.replace(/https?:\/\//,'');
-  setLink('webLink',null,webUrl);const wlt=document.getElementById('webLinkTxt');if(wlt)wlt.textContent=wld;
-  setLink('contactLink',null,s.cu||'https://unifiedmentor.com/contact-us');
-  const clt=document.getElementById('contactLinkTxt');if(clt)clt.textContent=s.cl||'Contact Us';
-  setLink('aboutLink',null,s.au||'https://unifiedmentor.com/about');
-  const alt=document.getElementById('aboutLinkTxt');if(alt)alt.textContent=s.al||'About Us';
-  const vb=document.getElementById('visitBtn');if(vb){vb.href=webUrl;vb.textContent='🌐 Visit '+wld;}
-  // Verified card text
-  const vby=document.getElementById('vByTxt');if(vby)vby.textContent='Authentic certificate from '+comp;
+  sLink('navHome',s.nhl||'Home',s.nhu);sLink('navAbout',s.nal||'About',s.nau);sLink('navContact',s.ncl||'Contact',s.ncu);
+  const webUrl=s.webu||'https://www.unifiedmentor.com',wd=webUrl.replace(/https?:\/\//,'');
+  sLink('webLink',null,webUrl);const wlt=document.getElementById('webLinkTxt');if(wlt)wlt.textContent=wd;
+  sLink('contactLink',null,s.cu);const clt=document.getElementById('contactLinkTxt');if(clt)clt.textContent=s.cl||'Contact Us';
+  sLink('aboutLink',null,s.au);const alt=document.getElementById('aboutLinkTxt');if(alt)alt.textContent=s.al||'About Us';
+  const vb=document.getElementById('visitBtn');if(vb){vb.href=webUrl;vb.textContent='🌐 Visit '+wd;}
+  const vby=document.getElementById('vByTxt');if(vby)vby.textContent='Authentic document from '+comp;
   const vcc=document.getElementById('vCardComp');if(vcc)vcc.textContent=comp;
-  const cf=document.getElementById('certFoot');if(cf)cf.textContent='🔒 Officially issued by '+comp;
-  // Footer
-  const ftl=document.getElementById('ftLink');if(ftl){ftl.textContent=wld;ftl.href=webUrl;}
+  const cf=document.getElementById('certFoot');if(cf)cf.textContent='🔒 Issued by '+comp;
+  const ftl=document.getElementById('ftLink');if(ftl){ftl.textContent=wd;ftl.href=webUrl;}
   const ftc=document.getElementById('ftComp');if(ftc)ftc.textContent=comp;
   const ftci=document.getElementById('ftCIN');if(ftci)ftci.textContent=s.cin||b.cin||'U85500HR2023PTC115118';
-  const fl1=document.getElementById('ftLine1');
-  if(fl1)fl1.innerHTML=(s.ft1||'System-generated certificate verification')+' · <a id="ftLink" href="'+webUrl+'">'+wld+'</a>';
-  const fl2=document.getElementById('ftLine2');if(fl2)fl2.innerHTML=s.ft2||('© 2026 '+comp+' · ISO 9001:2015 Certified');
-  // Login subtitle
-  const ls=document.getElementById('loginSub');if(ls)ls.textContent=comp+' Certificate Management';
+  const fl1=document.getElementById('ftLine1');if(fl1)fl1.innerHTML=(s.ft1||'System-generated verification')+' · <a href="'+webUrl+'">'+wd+'</a>';
+  const fl2=document.getElementById('ftLine2');if(fl2)fl2.textContent=s.ft2||(comp+' · ISO 9001:2015 Certified');
+  const ls=document.getElementById('loginSub');if(ls)ls.textContent=comp+' Management';
 }
-function setLink(id,label,url){const el=document.getElementById(id);if(el){if(label)el.textContent=label;if(url)el.href=url;}}
+function sLink(id,label,url){const el=document.getElementById(id);if(el){if(label)el.textContent=label;if(url)el.href=url;}}
 
+/* ══ SITE FORM ══ */
 function loadSiteForm(){
   const s=G.site;
   const m={sTitle:'title',sShrt:'shrt',sComp:'comp',sCIN:'cin',sChip:'chip',sBH1:'bh1',sBH2:'bh2',sBDesc:'bdesc',sNHL:'nhl',sNHU:'nhu',sNAL:'nal',sNAU:'nau',sNCL:'ncl',sNCU:'ncu',sWebU:'webu',sCL:'cl',sCU:'cu',sAL:'al',sAU:'au',sFt1:'ft1',sFt2:'ft2'};
@@ -895,499 +886,447 @@ function loadSiteForm(){
   sv('sAcc',s.acc||'#1e4db7');sv('sAccT',s.acc||'#1e4db7');
 }
 async function saveSite(){
-  G.site={
-    title:gv('sTitle')||G.site.title,shrt:gv('sShrt')||G.site.shrt,comp:gv('sComp')||G.site.comp,cin:gv('sCIN')||G.site.cin,
-    acc:document.getElementById('sAcc').value||G.site.acc,chip:gv('sChip')||G.site.chip,
-    bh1:gv('sBH1')||G.site.bh1,bh2:gv('sBH2')||G.site.bh2,bdesc:gv('sBDesc')||G.site.bdesc,
-    nhl:gv('sNHL')||G.site.nhl,nhu:gv('sNHU')||G.site.nhu,nal:gv('sNAL')||G.site.nal,nau:gv('sNAU')||G.site.nau,
-    ncl:gv('sNCL')||G.site.ncl,ncu:gv('sNCU')||G.site.ncu,
-    webu:gv('sWebU')||G.site.webu,cl:gv('sCL')||G.site.cl,cu:gv('sCU')||G.site.cu,al:gv('sAL')||G.site.al,au:gv('sAU')||G.site.au,
-    ft1:gv('sFt1')||G.site.ft1,ft2:gv('sFt2')||G.site.ft2
-  };
-  await saveSiteData();applyBrand();toast('🌐 Site changes saved & applied everywhere!','ok');
+  const old=G.site;
+  G.site={title:gv('sTitle')||old.title,shrt:gv('sShrt')||old.shrt,comp:gv('sComp')||old.comp,cin:gv('sCIN')||old.cin,acc:document.getElementById('sAcc').value||old.acc,chip:gv('sChip')||old.chip,bh1:gv('sBH1')||old.bh1,bh2:gv('sBH2')||old.bh2,bdesc:gv('sBDesc')||old.bdesc,nhl:gv('sNHL')||old.nhl,nhu:gv('sNHU')||old.nhu,nal:gv('sNAL')||old.nal,nau:gv('sNAU')||old.nau,ncl:gv('sNCL')||old.ncl,ncu:gv('sNCU')||old.ncu,webu:gv('sWebU')||old.webu,cl:gv('sCL')||old.cl,cu:gv('sCU')||old.cu,al:gv('sAL')||old.al,au:gv('sAU')||old.au,ft1:gv('sFt1')||old.ft1,ft2:gv('sFt2')||old.ft2};
+  await sSet(SK.site,G.site);applyBrand();toast('🌐 Site changes saved & applied everywhere!','ok');
 }
-async function resetSite(){
-  if(!confirm('Reset all site settings to default?'))return;
-  G.site={...DEF_SITE};await saveSiteData();applyBrand();loadSiteForm();toast('Site reset to defaults','inf');
-}
+async function resetSite(){if(!confirm('Reset all site settings to default?'))return;G.site={...DS};await sSet(SK.site,G.site);applyBrand();loadSiteForm();toast('Site reset to defaults','inf');}
 
-function loadBrandForm(){
+/* ══ BRAND FORMS ══ */
+function loadBrandForms(){
   const b=G.brand;
   const m={bComp:'comp',bCIN:'cin',bDir:'dir',bAwd:'awd',bISO:'iso',bTag:'tag'};
   Object.entries(m).forEach(([eid,k])=>{const el=document.getElementById(eid);if(el&&b[k])el.value=b[k];});
-  sv('bC1',b.c1||'#0d2248');sv('bC1t',b.c1||'#0d2248');
-  sv('bC2',b.c2||'#1e4db7');sv('bC2t',b.c2||'#1e4db7');
-  sv('bC3',b.c3||'#4f8ef7');sv('bC3t',b.c3||'#4f8ef7');
+  sv('bC1',b.c1);sv('bC1t',b.c1);sv('bC2',b.c2);sv('bC2t',b.c2);sv('bC3',b.c3);sv('bC3t',b.c3);
   sv('gcDir',b.dir||'Paras Grover');sv('gcAw',b.awd||'Sanket Patil');
+  const ob=G.obrand;
+  const om={obComp:'comp',obAddr:'addr',obEmail:'email',obWeb:'web',obAuth:'auth',obDesg:'desg'};
+  Object.entries(om).forEach(([eid,k])=>{const el=document.getElementById(eid);if(el&&ob[k])el.value=ob[k];});
+  sv('oC1',ob.c1);sv('oC1t',ob.c1);sv('oC2',ob.c2);sv('oC2t',ob.c2);sv('oC3',ob.c3);sv('oC3t',ob.c3);
+  sv('goAuth',ob.auth||'Paras Grover');sv('goHR',G.brand.awd||'Sanket Patil');
 }
 async function saveBrand(){
   G.brand={comp:gv('bComp')||G.brand.comp,cin:gv('bCIN')||G.brand.cin,dir:gv('bDir')||G.brand.dir,awd:gv('bAwd')||G.brand.awd,c1:document.getElementById('bC1').value,c2:document.getElementById('bC2').value,c3:document.getElementById('bC3').value,iso:gv('bISO')||G.brand.iso,tag:gv('bTag')||G.brand.tag};
-  await saveBrandData();sv('gcDir',G.brand.dir);sv('gcAw',G.brand.awd);lp();toast('🎨 Certificate branding saved!','ok');
+  await sSet(SK.brand,G.brand);sv('gcDir',G.brand.dir);sv('gcAw',G.brand.awd);lpC();toast('🎨 Certificate branding saved!','ok');
 }
-function applyP(c1,c2,c3){sv('bC1',c1);sv('bC1t',c1);sv('bC2',c2);sv('bC2t',c2);sv('bC3',c3);sv('bC3t',c3);lp();}
+async function saveOfferBrand(){
+  G.obrand={comp:gv('obComp')||G.obrand.comp,addr:gv('obAddr')||G.obrand.addr,email:gv('obEmail')||G.obrand.email,web:gv('obWeb')||G.obrand.web,auth:gv('obAuth')||G.obrand.auth,desg:gv('obDesg')||G.obrand.desg,c1:document.getElementById('oC1').value,c2:document.getElementById('oC2').value,c3:document.getElementById('oC3').value};
+  await sSet(SK.obrand,G.obrand);sv('goAuth',G.obrand.auth);lpO();toast('✨ Offer letter branding saved!','ok');
+}
+function applyP(c1,c2,c3){sv('bC1',c1);sv('bC1t',c1);sv('bC2',c2);sv('bC2t',c2);sv('bC3',c3);sv('bC3t',c3);lpC();}
+function switchBTab(t){
+  ['c','o'].forEach(n=>{
+    const tEl=document.getElementById('bTab'+n.toUpperCase());if(tEl)tEl.classList.toggle('on',n===t);
+    const sEl=document.getElementById('b'+(n==='c'?'Cert':'Offer')+'Sec');if(sEl)sEl.style.display=n===t?'block':'none';
+  });
+}
 
-/* ═══ ROUTING ═══ */
+/* ══ PUBLIC TAB ══ */
+function switchPubTab(t){
+  _pubTab=t;
+  document.getElementById('pubTabC').classList.toggle('on',t==='cert');
+  document.getElementById('pubTabO').classList.toggle('on',t==='offer');
+  const ph=document.querySelector('.sb input');
+  if(ph)ph.placeholder=t==='cert'?'Enter Certificate ID  e.g. UMID0201267746':'Enter Offer Letter ID  e.g. UMOL0201267746';
+  document.getElementById('pubRes').style.display='none';
+  document.getElementById('pubNF').style.display='none';
+  document.getElementById('scanAnim').classList.remove('on');
+}
+
+/* ══ ROUTING ══ */
 function showPage(id){document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));document.getElementById(id).classList.add('active');}
 function goPublic(){showPage('publicPage');applyBrand();}
 function showAdminLogin(){showPage('adminLogin');sv('lusr','');sv('lpas','');document.getElementById('lerr').style.display='none';}
 
-/* ═══ AUTH ═══ */
+/* ══ AUTH ══ */
 async function doLogin(){
   const u=gv('lusr'),p=gv('lpas');
   if(u===G.creds.u&&p===G.creds.p){
-    document.getElementById('lerr').style.display='none';
-    showPage('adminDash');
+    document.getElementById('lerr').style.display='none';showPage('adminDash');
     document.getElementById('awelcome').textContent='Welcome, '+u;
-    loadBrandForm();loadSiteForm();refreshDash();
+    loadBrandForms();loadSiteForm();refreshDash();
   } else document.getElementById('lerr').style.display='block';
 }
 function doLogout(){showPage('publicPage');}
-async function chgUsr(){
-  const cu=gv('cUsr'),nu=gv('nUsr'),cp=gv('uPas');
-  if(cu!==G.creds.u)return toast('Current username incorrect','err');
-  if(cp!==G.creds.p)return toast('Password confirmation failed','err');
-  if(!nu)return toast('New username cannot be empty','err');
-  G.creds.u=nu;await saveCreds();document.getElementById('awelcome').textContent='Welcome, '+nu;
-  ['cUsr','nUsr','uPas'].forEach(id=>sv(id,''));toast('✅ Username updated to: '+nu,'ok');
-}
-function chkStr(v){
-  const bar=document.getElementById('psBar'),lbl=document.getElementById('psLbl');
-  if(!v){bar.className='pb2';lbl.textContent='';return;}
-  let s=0;if(v.length>=8)s++;if(/[A-Z]/.test(v))s++;if(/[0-9]/.test(v))s++;if(/[^A-Za-z0-9]/.test(v))s++;
-  const map=[[1,'wk','Weak','#f87171'],[2,'md','Medium','#fbbf24'],[4,'st','Strong ✓','#4ade80']];
-  const [,cls,txt,col]=map.find(([n])=>s<=n)||map[2];
-  bar.className='pb2 '+cls;lbl.textContent=txt;lbl.style.color=col;
-}
-async function chgPas(){
-  const cp=gv('cPas'),np=gv('nPas'),cf=gv('cfPas');
-  if(cp!==G.creds.p)return toast('Current password incorrect','err');
-  if(np.length<8)return toast('Min 8 characters required','err');
-  if(np!==cf)return toast('Passwords do not match','err');
-  G.creds.p=np;await saveCreds();['cPas','nPas','cfPas'].forEach(id=>sv(id,''));
-  document.getElementById('psBar').className='pb2';document.getElementById('psLbl').textContent='';
-  toast('🔐 Password updated!','ok');
-}
-async function resetCreds(){
-  if(!confirm('Reset to admin / um@2026?'))return;
-  G.creds={...DEF_CREDS};await saveCreds();toast('Credentials reset','inf');
-}
-async function resetAllCerts(){
-  if(!confirm('Delete ALL certificates? Cannot be undone.'))return;
-  G.certs=[];await saveCerts();refreshDash();renderAll();toast('All certificates cleared','inf');
-}
+async function chgUsr(){const cu=gv('cUsr'),nu=gv('nUsr'),cp=gv('uPas');if(cu!==G.creds.u)return toast('Current username incorrect','err');if(cp!==G.creds.p)return toast('Password confirmation failed','err');if(!nu)return toast('Empty username','err');G.creds.u=nu;await sSet(SK.creds,G.creds);document.getElementById('awelcome').textContent='Welcome, '+nu;['cUsr','nUsr','uPas'].forEach(id=>sv(id,''));toast('✅ Username updated to: '+nu,'ok');}
+function chkStr(v){const bar=document.getElementById('psBar'),lbl=document.getElementById('psLbl');if(!v){bar.className='pb2';lbl.textContent='';return;}let s=0;if(v.length>=8)s++;if(/[A-Z]/.test(v))s++;if(/[0-9]/.test(v))s++;if(/[^A-Za-z0-9]/.test(v))s++;const m=[[1,'wk','Weak','#f87171'],[2,'md','Medium','#fbbf24'],[4,'st','Strong ✓','#4ade80']];const[,cls,txt,col]=m.find(([n])=>s<=n)||m[2];bar.className='pb2 '+cls;lbl.textContent=txt;lbl.style.color=col;}
+async function chgPas(){const cp=gv('cPas'),np=gv('nPas'),cf=gv('cfPas');if(cp!==G.creds.p)return toast('Current password incorrect','err');if(np.length<8)return toast('Min 8 characters required','err');if(np!==cf)return toast('Passwords do not match','err');G.creds.p=np;await sSet(SK.creds,G.creds);['cPas','nPas','cfPas'].forEach(id=>sv(id,''));document.getElementById('psBar').className='pb2';document.getElementById('psLbl').textContent='';toast('🔐 Password updated!','ok');}
+async function resetCreds(){if(!confirm('Reset to admin / um@2026?'))return;G.creds={...DC};await sSet(SK.creds,G.creds);toast('Credentials reset','inf');}
+async function clearCerts(){if(!confirm('Delete ALL certificates?'))return;G.certs=[];await sSet(SK.certs,[]);refreshDash();renderDocs();toast('Certificates cleared','inf');}
+async function clearOffers(){if(!confirm('Delete ALL offer letters?'))return;G.offers=[];await sSet(SK.offers,[]);refreshDash();renderDocs();toast('Offer letters cleared','inf');}
 
-/* ═══ PUBLIC VERIFY ═══ */
+/* ══ PUBLIC VERIFY ══ */
 async function doVerify(){
   const q=gv('si').trim().toUpperCase();
-  document.getElementById('pubRes').style.display='none';
-  document.getElementById('pubNF').style.display='none';
-  document.getElementById('scanAnim').classList.remove('on');
+  document.getElementById('pubRes').style.display='none';document.getElementById('pubNF').style.display='none';document.getElementById('scanAnim').classList.remove('on');
   if(!q)return;
   document.getElementById('scanAnim').classList.add('on');
-  // Also fetch fresh from online storage
-  const fresh=await storeGet(KEYS.certs);
-  if(fresh)G.certs=fresh;
+  const [fc,fo]=await Promise.all([sGet(SK.certs),sGet(SK.offers)]);
+  if(fc)G.certs=fc;if(fo)G.offers=fo;
   setTimeout(()=>{
     document.getElementById('scanAnim').classList.remove('on');
     const cert=G.certs.find(c=>c.id.toUpperCase()===q);
-    if(cert){
+    const offer=G.offers.find(o=>o.id.toUpperCase()===q);
+    const doc=cert||offer,isOffer=!cert&&!!offer;
+    if(doc){
       document.getElementById('pubRes').style.display='block';
-      st('dispId',cert.id);
-      document.getElementById('certImg').src=cert.img||'';
-      st('dId',cert.id);st('dName',cert.name);st('dDomain',cert.domain);
-      st('dPeriod',fmt(cert.start)+' – '+fmt(cert.end));
-      st('dDur',cert.duration);st('dIssued',fmt(cert.issued));st('dStatus',cert.status);
-      window._pc=cert;applyBrand();
+      st('dispId',doc.id);
+      document.getElementById('certImg').src=doc.img||'';
+      const lbl=document.getElementById('docTypeLabel');
+      lbl.textContent=isOffer?'📋 Verified Offer Letter':'✅ Verified Certificate';
+      const vt=document.getElementById('verifyTitle');vt.style.color=isOffer?'#fbbf24':'#4ade80';vt.textContent=isOffer?'Offer Letter Verified!':'Certificate Verified!';
+      st('vByTxt','Authentic '+(isOffer?'offer letter':'certificate')+' from '+(G.site.comp||G.brand.comp||'Unified Mentor Pvt Ltd'));
+      const vi=document.getElementById('verifiedIcon');vi.className='vi '+(isOffer?'o':'c');vi.textContent=isOffer?'📋':'✓';
+      const vh=document.getElementById('verifiedH');vh.className=isOffer?'o':'c';vh.textContent=isOffer?'📋 Offer Letter Verified':'✅ Certificate Verified';
+      st('detailsH',isOffer?'Offer Letter Details':'Certificate Details');
+      const rows=isOffer?[
+        {ic:'🪪',lbl:'Offer Letter ID',val:doc.id},{ic:'👤',lbl:'Candidate Name',val:doc.name},{ic:'💼',lbl:'Position',val:doc.role},{ic:'🏢',lbl:'Department',val:doc.dept||'—'},{ic:'📅',lbl:'Joining Date',val:fmt(doc.join)},{ic:'💰',lbl:'Stipend',val:doc.stipend||'—'},{ic:'⏱',lbl:'Duration',val:doc.duration||'—'},{ic:'📆',lbl:'Issue Date',val:fmt(doc.issued)},{ic:'✅',lbl:'Status',val:doc.status,y:true}
+      ]:[
+        {ic:'🪪',lbl:'Certificate ID',val:doc.id},{ic:'👤',lbl:'Candidate Name',val:doc.name},{ic:'💻',lbl:'Domain',val:doc.domain},{ic:'📅',lbl:'Period',val:fmt(doc.start)+' – '+fmt(doc.end)},{ic:'⏱',lbl:'Duration',val:doc.duration},{ic:'📆',lbl:'Issue Date',val:fmt(doc.issued)},{ic:'✅',lbl:'Status',val:doc.status,g:true}
+      ];
+      document.getElementById('docDetails').innerHTML=rows.map(r=>`<div class="ir"><div class="ir-ic">${r.ic}</div><div><div class="lbl">${r.lbl}</div><div class="val ${r.g?'g':r.y?'y':''}">${r.val||'—'}</div></div></div>`).join('');
+      window._pd=doc;applyBrand();
       const ca=document.getElementById('ca');ca.style.animation='none';void ca.offsetWidth;ca.style.animation='rise .6s ease both';
     } else document.getElementById('pubNF').style.display='block';
   },2200);
 }
-function dlPubCert(){
-  const c=window._pc;if(!c||!c.img)return toast('No downloadable image for this certificate','err');
-  const a=document.createElement('a');a.href=c.img;a.download=(c.name||'Certificate').replace(/ /g,'_')+'_Certificate.png';a.click();toast('Download started!','ok');
-}
+function dlPubDoc(){const d=window._pd;if(!d||!d.img)return toast('No downloadable image for this document','err');const a=document.createElement('a');a.href=d.img;a.download=(d.name||'Document').replace(/ /g,'_')+'.png';a.click();toast('Download started!','ok');}
 
-/* ═══ ADMIN TABS ═══ */
+/* ══ ADMIN TABS ══ */
 function sTab(n,el){
   document.querySelectorAll('.at').forEach(t=>t.classList.remove('on'));
   document.querySelectorAll('.asi').forEach(s=>s.classList.remove('on'));
-  document.getElementById('tab-'+n).classList.add('on');
-  if(el)el.classList.add('on');
+  document.getElementById('tab-'+n).classList.add('on');if(el)el.classList.add('on');
   if(n==='dashboard')refreshDash();
-  if(n==='certificates')renderAll();
-  if(n==='branding'){loadBrandForm();lp();}
+  if(n==='alldocs')renderDocs();
+  if(n==='branding'){loadBrandForms();lpC();}
   if(n==='sitecust')loadSiteForm();
-  if(n==='autocert'){
-    if(!gv('gcI'))sv('gcI','UMID'+Math.floor(10000000000+Math.random()*90000000000));
-    sv('gcDir',G.brand.dir||'Paras Grover');sv('gcAw',G.brand.awd||'Sanket Patil');
-    lp();
-  }
+  if(n==='gencert'){if(!gv('gcI'))sv('gcI','UMID'+rId());sv('gcDir',G.brand.dir);sv('gcAw',G.brand.awd);lpC();}
+  if(n==='genoffer'){if(!gv('goI'))sv('goI','UMOL'+rId());sv('goAuth',G.obrand.auth||'Paras Grover');sv('goHR',G.brand.awd||'Sanket Patil');lpO();}
 }
+function rId(){return Math.floor(10000000000+Math.random()*90000000000);}
 
-/* ═══ DASHBOARD ═══ */
-async function syncAll(){
-  showLoad('Syncing from online storage…');
-  const fresh=await storeGet(KEYS.certs);
-  if(fresh){G.certs=fresh;toast('Synced! '+G.certs.length+' certificates loaded','ok');}
-  refreshDash();renderAll();hideLoad();
-}
+/* ══ DASHBOARD ══ */
+async function syncAll(){showLoad('Syncing from online storage…');const[c,o]=await Promise.all([sGet(SK.certs),sGet(SK.offers)]);if(c)G.certs=c;if(o)G.offers=o;refreshDash();renderDocs();hideLoad();toast('Synced! '+G.certs.length+' certs, '+G.offers.length+' offers','ok');}
 function refreshDash(){
-  st('stT',G.certs.length);
-  st('stC',G.certs.filter(c=>c.status==='Completed').length);
-  st('stG',G.certs.filter(c=>c.generated).length);
-  st('stD',new Set(G.certs.map(c=>c.domain)).size);
-  const rc=[...G.certs].reverse().slice(0,6);
-  document.getElementById('recentTbl').innerHTML=rc.length?rc.map(c=>`<tr>
-    <td><span style="font-family:'JetBrains Mono',monospace;font-size:11.5px">${c.id}</span></td>
-    <td style="font-weight:600">${c.name}</td><td style="font-size:12px">${c.domain}</td>
-    <td><span class="bdg ${c.generated?'bpm':'bbl'}">${c.generated?'Auto-Gen':'Manual'}</span></td>
-    <td><span class="bdg bgn">${c.status}</span></td>
-    <td style="color:var(--tx2);font-size:12px">${fmt(c.issued)}</td></tr>`).join('')
-    :'<tr><td colspan="6"><div class="es"><div class="es-ic">📭</div><p>No certificates yet</p></div></td></tr>';
+  st('stT',G.certs.length);st('stO',G.offers.length);
+  st('stG',[...G.certs,...G.offers].filter(d=>d.generated).length);
+  st('stC',[...G.certs,...G.offers].filter(d=>d.status==='Completed'||d.status==='Active').length);
+  const all=[...G.certs.map(c=>({...c,type:'cert'})),...G.offers.map(o=>({...o,type:'offer'}))].sort((a,b)=>((b.issued||b.join)>=(a.issued||a.join)?1:-1)).slice(0,8);
+  document.getElementById('recentTbl').innerHTML=all.length?all.map(d=>`<tr><td><span style="font-family:'JetBrains Mono',monospace;font-size:11px">${d.id}</span></td><td style="font-weight:600;font-size:12.5px">${d.name}</td><td><span class="bdg ${d.type==='cert'?'bbl':'bam'}">${d.type==='cert'?'📄 Cert':'📋 Offer'}</span></td><td style="font-size:12px">${d.domain||d.role||'—'}</td><td><span class="bdg bgn">${d.status}</span></td><td style="font-size:11.5px;color:var(--tx2)">${fmt(d.issued||d.join)}</td></tr>`).join(''):'<tr><td colspan="6"><div class="es"><div class="es-ic">📭</div><p>No documents yet</p></div></td></tr>';
 }
-
 let _fq='';
-function renderAll(q=''){
-  const cs=G.certs.filter(c=>{if(!q)return true;const l=q.toLowerCase();return c.id.toLowerCase().includes(l)||c.name.toLowerCase().includes(l)||(c.domain||'').toLowerCase().includes(l);});
-  document.getElementById('allTbl').innerHTML=cs.length?cs.map(c=>`<tr>
-    <td><span style="font-family:'JetBrains Mono',monospace;font-size:11.5px">${c.id}</span></td>
-    <td style="font-weight:600">${c.name}</td><td style="font-size:12px">${c.domain}</td>
-    <td style="font-size:12px;color:var(--tx2)">${c.duration}</td>
-    <td><span class="bdg ${c.generated?'bpm':'bbl'}">${c.generated?'Auto-Gen':'Manual'}</span></td>
-    <td><span class="bdg ${c.status==='Completed'?'bgn':c.status==='In Progress'?'bbl':'bam'}">${c.status}</span></td>
-    <td style="font-size:12px;color:var(--tx2)">${fmt(c.issued)}</td>
-    <td><div class="ta">
-      <button class="tb2 tbb2" onclick="viewC('${c.id}')">👁</button>
-      <button class="tb2 tbp" onclick="regenC('${c.id}')">🎨</button>
-      <button class="tb2 tbg" onclick="cpCertLink('${c.id}')">🔗</button>
-      <button class="tb2 tbr2" onclick="delC('${c.id}')">🗑</button>
-    </div></td></tr>`).join('')
-    :'<tr><td colspan="8"><div class="es"><div class="es-ic">📭</div><p>No certificates found</p></div></td></tr>';
+function renderDocs(q='',tp=''){
+  const certs=(tp==='offer'?[]:G.certs.filter(d=>{if(!q)return true;const l=q.toLowerCase();return d.id.toLowerCase().includes(l)||d.name.toLowerCase().includes(l)||(d.domain||'').toLowerCase().includes(l);})).map(d=>({...d,type:'cert'}));
+  const offers=(tp==='cert'?[]:G.offers.filter(d=>{if(!q)return true;const l=q.toLowerCase();return d.id.toLowerCase().includes(l)||d.name.toLowerCase().includes(l)||(d.role||'').toLowerCase().includes(l);})).map(d=>({...d,type:'offer'}));
+  const all=[...certs,...offers];
+  document.getElementById('allTbl').innerHTML=all.length?all.map(d=>`<tr><td><span style="font-family:'JetBrains Mono',monospace;font-size:11px">${d.id}</span></td><td style="font-weight:600;font-size:12.5px">${d.name}</td><td><span class="bdg ${d.type==='cert'?'bbl':'bam'}">${d.type==='cert'?'📄 Cert':'📋 Offer'}</span></td><td style="font-size:12px">${d.domain||d.role||'—'}</td><td style="font-size:11.5px;color:var(--tx2)">${d.duration||'—'}</td><td><span class="bdg ${d.status==='Completed'||d.status==='Active'||d.status==='Accepted'?'bgn':'bam'}">${d.status}</span></td><td style="font-size:11.5px;color:var(--tx2)">${fmt(d.issued||d.join)}</td><td><div class="ta"><button class="tb2 tbb2" onclick="viewDoc('${d.id}','${d.type}')">👁</button><button class="tb2 tbp" onclick="regenDoc('${d.id}','${d.type}')">🎨</button><button class="tb2 tbg" onclick="cpDocLink('${d.id}')">🔗</button><button class="tb2 tbr2" onclick="delDoc('${d.id}','${d.type}')">🗑</button></div></td></tr>`).join(''):'<tr><td colspan="8"><div class="es"><div class="es-ic">📭</div><p>No documents found</p></div></td></tr>';
 }
-function filterTbl(v){_fq=v;renderAll(v);}
+function filterDocs(q){const tp=document.getElementById('filterType').value;renderDocs(q,tp);}
 
-/* ═══ ADD CERT ═══ */
-let _uImg='';
+/* ══ FILE UPLOAD ══ */
 function togC(sel,wid){document.getElementById(wid).style.display=sel.value==='__c__'?'block':'none';}
-function hFile(inp,pid,iid,zid){
+function hFile(inp,pid,iid,zid,t){
   const f=inp.files[0];if(!f)return;
   const r=new FileReader();
-  r.onload=e=>{_uImg=e.target.result;document.getElementById(iid).src=_uImg;document.getElementById(pid).style.display='block';document.getElementById(zid).style.display='none';};
+  r.onload=e=>{if(t==='c')_cImg=e.target.result;else _oImg=e.target.result;document.getElementById(iid).src=e.target.result;document.getElementById(pid).style.display='block';document.getElementById(zid).style.display='none';};
   r.readAsDataURL(f);
 }
 function dO(e,id){e.preventDefault();document.getElementById(id).classList.add('do');}
 function dL(id){document.getElementById(id).classList.remove('do');}
-function dF(e,inp,z,p,i){e.preventDefault();dL(z);const f=e.dataTransfer.files[0];if(!f)return;const dt=new DataTransfer();dt.items.add(f);const el=document.getElementById(inp);el.files=dt.files;hFile(el,p,i,z);}
+function dF(e,inp,z,p,i,t){e.preventDefault();dL(z);const f=e.dataTransfer.files[0];if(!f)return;const dt=new DataTransfer();dt.items.add(f);const el=document.getElementById(inp);el.files=dt.files;hFile(el,p,i,z,t);}
 
+/* ══ ADD CERT ══ */
 async function addCert(){
-  const id=gv('aId'),name=gv('aNm');
-  let dom=document.getElementById('aDom').value;if(dom==='__c__')dom=gv('aDomC');
-  const st2=gv('aSt'),en=gv('aEn'),dur=document.getElementById('aDur').value,sts=document.getElementById('aSts').value,is=gv('aIs');
-  if(!id||!name||!dom||!st2||!en||!is)return toast('Fill all required (*) fields','err');
-  if(G.certs.find(c=>c.id===id))return toast('Certificate ID already exists!','err');
+  const id=gv('acId'),name=gv('acNm');let dom=document.getElementById('acDom').value;if(dom==='__c__')dom=gv('acDomC');
+  const st2=gv('acSt'),en=gv('acEn'),dur=document.getElementById('acDur').value,sts=document.getElementById('acSts').value,is=gv('acIs');
+  if(!id||!name||!dom||!st2||!en||!is)return toast('Fill all required fields','err');
+  if(G.certs.find(c=>c.id===id)||G.offers.find(o=>o.id===id))return toast('ID already exists!','err');
   showLoad('Saving certificate online…');
-  G.certs.push({id,name,domain:dom,start:st2,end:en,duration:dur,status:sts,issued:is,img:_uImg||'',generated:false});
-  const ok=await saveCerts();hideLoad();
-  if(ok){toast('✅ Certificate saved online! Publicly verifiable now.','ok');clrAdd();}
-  else toast('Saved locally (storage issue)','inf');
+  G.certs.push({id,name,domain:dom,start:st2,end:en,duration:dur,status:sts,issued:is,img:_cImg||'',generated:false});
+  const ok=await sSet(SK.certs,G.certs);hideLoad();
+  ok?toast('✅ Certificate saved & publicly verifiable!','ok'):toast('Saved locally','inf');
+  clrCert();
 }
-function clrAdd(){
-  ['aId','aNm','aSt','aEn','aIs','aDomC'].forEach(id=>{const e=document.getElementById(id);if(e)e.value='';});
-  document.getElementById('aDom').value='';document.getElementById('aCW').style.display='none';
-  document.getElementById('up1').style.display='none';document.getElementById('uz1').style.display='block';
-  document.getElementById('cf1').value='';_uImg='';
-}
+function clrCert(){['acId','acNm','acSt','acEn','acIs','acDomC'].forEach(id=>{const e=document.getElementById(id);if(e)e.value='';});document.getElementById('acDom').value='';document.getElementById('acCW').style.display='none';document.getElementById('up1').style.display='none';document.getElementById('uz1').style.display='block';document.getElementById('cf1').value='';_cImg='';}
 
-/* ═══ DOMAIN LINES ═══ */
+/* ══ ADD OFFER ══ */
+async function addOffer(){
+  const id=gv('aoId'),name=gv('aoNm'),role=gv('aoRole'),join=gv('aoJoin'),is=gv('aoIs');
+  if(!id||!name||!role||!join||!is)return toast('Fill all required fields','err');
+  if(G.certs.find(c=>c.id===id)||G.offers.find(o=>o.id===id))return toast('ID already exists!','err');
+  showLoad('Saving offer letter online…');
+  G.offers.push({id,name,role,dept:gv('aoDept'),join,issued:is,stipend:gv('aoStip'),duration:gv('aoDur'),status:document.getElementById('aoSts').value,img:_oImg||'',generated:false});
+  const ok=await sSet(SK.offers,G.offers);hideLoad();
+  ok?toast('✅ Offer Letter saved & publicly verifiable!','ok'):toast('Saved locally','inf');
+  clrOffer();
+}
+function clrOffer(){['aoId','aoNm','aoRole','aoDept','aoJoin','aoIs','aoStip','aoDur'].forEach(id=>{const e=document.getElementById(id);if(e)e.value='';});document.getElementById('up2').style.display='none';document.getElementById('uz2').style.display='block';document.getElementById('cf2').value='';_oImg='';}
+
+/* ══ DOMAIN LINES ══ */
 function domLines(d,n){
   const dl=(d||'').toLowerCase(),nm=n||'the candidate';
   if(dl.includes('web')||dl.includes('frontend'))return[`${nm} demonstrated strong skills in HTML5, CSS3, JavaScript,`,`and responsive design principles throughout the internship.`];
-  if(dl.includes('data analy'))return[`${nm} showed excellence in data analysis, visualization using Python,`,`SQL queries, and deriving insights from complex datasets.`];
-  if(dl.includes('machine learning')||dl.includes('ml'))return[`${nm} explored ML algorithms, model training and evaluation,`,`and practical AI application in real-world scenarios.`];
-  if(dl.includes('digital market'))return[`${nm} developed skills in SEO, social media, content marketing,`,`and analytics, contributing to impactful digital campaigns.`];
-  if(dl.includes('ui')||dl.includes('ux')||dl.includes('design'))return[`${nm} demonstrated excellence in UI/UX design, prototyping,`,`wireframing and user-centered design using Figma and related tools.`];
-  if(dl.includes('python'))return[`${nm} showcased strong Python programming including OOP, NumPy, Pandas,`,`and built effective automation scripts and solutions.`];
+  if(dl.includes('data'))return[`${nm} showed excellence in data analysis and visualization,`,`deriving meaningful insights from complex datasets.`];
+  if(dl.includes('machine')||dl.includes('ml'))return[`${nm} explored ML algorithms, model training and evaluation,`,`and practical AI application in real-world scenarios.`];
+  if(dl.includes('digital'))return[`${nm} developed skills in SEO, social media marketing,`,`and analytics, contributing to impactful campaigns.`];
+  if(dl.includes('ui')||dl.includes('ux'))return[`${nm} demonstrated excellence in UI/UX design, prototyping,`,`wireframing and user-centered design using Figma.`];
+  if(dl.includes('python'))return[`${nm} showcased strong Python programming including OOP,`,`NumPy, Pandas and built effective automation solutions.`];
   if(dl.includes('java')&&!dl.includes('javascript'))return[`${nm} applied core Java programming, OOP and Spring Boot,`,`delivering well-structured and maintainable code.`];
   if(dl.includes('android'))return[`${nm} developed Android apps using Kotlin/Java, implementing`,`UI, API integrations and Material Design guidelines.`];
-  if(dl.includes('cyber'))return[`${nm} demonstrated knowledge in network security, threat analysis,`,`and ethical hacking, identifying potential vulnerabilities.`];
-  if(dl.includes('cloud'))return[`${nm} gained hands-on cloud platform experience, infrastructure,`,`deployment pipelines and cloud architecture best practices.`];
+  if(dl.includes('cyber'))return[`${nm} demonstrated knowledge in network security,`,`threat analysis and ethical hacking fundamentals.`];
+  if(dl.includes('cloud'))return[`${nm} gained hands-on experience with cloud platforms,`,`deployment pipelines and cloud architecture best practices.`];
   return[`${nm} demonstrated exceptional dedication, technical aptitude,`,`and professional conduct throughout the internship.`];
 }
 
-/* ═══ QR ═══ */
+/* ══ QR CODE ══ */
 function makeQR(text,size){
   return new Promise(res=>{
     const w=document.getElementById('qrH');w.innerHTML='';w.style.width=size+'px';w.style.height=size+'px';
-    try{
-      new QRCode(w,{text,width:size,height:size,colorDark:'#0d2248',colorLight:'#ffffff',correctLevel:QRCode.CorrectLevel.M});
-      setTimeout(()=>{const img=w.querySelector('img');const cv=w.querySelector('canvas');if(img&&img.src.startsWith('data:'))res(img.src);else if(cv)res(cv.toDataURL('image/png'));else res(null);},160);
-    }catch(e){res(null);}
+    try{new QRCode(w,{text,width:size,height:size,colorDark:'#0d2248',colorLight:'#ffffff',correctLevel:QRCode.CorrectLevel.M});setTimeout(()=>{const img=w.querySelector('img');const cv=w.querySelector('canvas');if(img&&img.src.startsWith('data:'))res(img.src);else if(cv)res(cv.toDataURL('image/png'));else res(null);},160);}catch(e){res(null);}
   });
 }
 
-/* ═══ ISO LOGO ═══ */
+/* ══ ISO LOGO ══ */
 function isoLogo(ctx,cx,cy,r){
-  const b=G.brand;ctx.save();
-  ctx.beginPath();ctx.arc(cx,cy,r,0,Math.PI*2);
-  const g=ctx.createRadialGradient(cx-r*.2,cy-r*.2,0,cx,cy,r);
-  g.addColorStop(0,b.c2||'#1e4db7');g.addColorStop(1,b.c1||'#0d2248');
-  ctx.fillStyle=g;ctx.fill();ctx.strokeStyle='rgba(255,255,255,.28)';ctx.lineWidth=1.5;ctx.stroke();
-  ctx.fillStyle='#fff';ctx.font=`bold ${r*.42}px Sora,Arial`;ctx.textAlign='center';
-  ctx.fillText('ISO',cx,cy-r*.05);ctx.font=`bold ${r*.26}px Sora,Arial`;ctx.fillText('9001:2015',cx,cy+r*.32);
-  const tr=r*.72;
-  ['CERTIFIED','COMPANY'].forEach((txt,ri)=>{
-    const base=ri===0?-Math.PI*.5-Math.PI*.45:Math.PI*.05;ctx.font=`bold ${r*.2}px Sora,Arial`;
-    for(let i=0;i<txt.length;i++){const a=base+(i/(txt.length-1))*Math.PI*.9;ctx.save();ctx.translate(cx+Math.cos(a)*tr,cy+Math.sin(a)*tr);ctx.rotate(a+Math.PI/2);ctx.fillText(txt[i],0,0);ctx.restore();}
-  });
-  ctx.fillStyle='rgba(255,255,255,.45)';
-  [-r*.45,0,r*.45].forEach(ox=>{ctx.beginPath();ctx.arc(cx+ox,cy+r*.55,r*.06,0,Math.PI*2);ctx.fill();});
-  ctx.restore();
+  const b=G.brand;ctx.save();ctx.beginPath();ctx.arc(cx,cy,r,0,Math.PI*2);
+  const g=ctx.createRadialGradient(cx-r*.2,cy-r*.2,0,cx,cy,r);g.addColorStop(0,b.c2);g.addColorStop(1,b.c1);ctx.fillStyle=g;ctx.fill();ctx.strokeStyle='rgba(255,255,255,.28)';ctx.lineWidth=1.5;ctx.stroke();
+  ctx.fillStyle='#fff';ctx.font=`bold ${r*.42}px Sora,Arial`;ctx.textAlign='center';ctx.fillText('ISO',cx,cy-r*.05);ctx.font=`bold ${r*.26}px Sora,Arial`;ctx.fillText('9001:2015',cx,cy+r*.32);
+  const tr=r*.72;['CERTIFIED','COMPANY'].forEach((txt,ri)=>{const base=ri===0?-Math.PI*.5-Math.PI*.45:Math.PI*.05;ctx.font=`bold ${r*.2}px Sora,Arial`;for(let i=0;i<txt.length;i++){const a=base+(i/(txt.length-1))*Math.PI*.9;ctx.save();ctx.translate(cx+Math.cos(a)*tr,cy+Math.sin(a)*tr);ctx.rotate(a+Math.PI/2);ctx.fillText(txt[i],0,0);ctx.restore();}});
+  ctx.fillStyle='rgba(255,255,255,.45)';[-r*.45,0,r*.45].forEach(ox=>{ctx.beginPath();ctx.arc(cx+ox,cy+r*.55,r*.06,0,Math.PI*2);ctx.fill();});ctx.restore();
 }
 
-/* ═══ SIGNATURE ═══ */
+/* ══ SIGNATURE ══ */
 function drawSig(ctx,name,x,y,col){
-  ctx.save();ctx.fillStyle=col||'#0d2248';
-  const pts=(name||'').trim().split(' ');let xo=x;
+  ctx.save();ctx.fillStyle=col||'#0d2248';const pts=(name||'').trim().split(' ');let xo=x;
   pts.forEach((pt,i)=>{ctx.font=`italic 700 ${i===0?30:26}px 'Dancing Script',Georgia,cursive`;ctx.textAlign='left';ctx.fillText(pt,xo,y);xo+=ctx.measureText(pt).width+(i<pts.length-1?6:0);});
   ctx.font=`italic 700 30px 'Dancing Script',Georgia,cursive`;const tw=ctx.measureText(name||'').width+18;
-  ctx.strokeStyle=col+'55';ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(x,y+6);ctx.bezierCurveTo(x+tw*.3,y+12,x+tw*.7,y+8,x+tw,y+5);ctx.stroke();
-  ctx.restore();
+  ctx.strokeStyle=col+'55';ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(x,y+6);ctx.bezierCurveTo(x+tw*.3,y+12,x+tw*.7,y+8,x+tw,y+5);ctx.stroke();ctx.restore();
 }
 
-/* ═══ DRAW CERTIFICATE ═══ */
-let _last='';
+/* ══ DRAW CERTIFICATE ══ */
+let _lastC='',_lastO='';
 function fmtD(d){if(!d)return'—';const p=d.split('-');return p.length===3?p[2]+'/'+p[1]+'/'+p[0]:d;}
-function rr(ctx,x,y,w,h,r,f){
-  ctx.beginPath();ctx.moveTo(x+r,y);ctx.lineTo(x+w-r,y);ctx.quadraticCurveTo(x+w,y,x+w,y+r);ctx.lineTo(x+w,y+h-r);ctx.quadraticCurveTo(x+w,y+h,x+w-r,y+h);ctx.lineTo(x+r,y+h);ctx.quadraticCurveTo(x,y+h,x,y+h-r);ctx.lineTo(x,y+r);ctx.quadraticCurveTo(x,y,x+r,y);ctx.closePath();ctx.fillStyle=f;ctx.fill();
-}
-function hx(hex,amt){
-  let r=parseInt(hex.slice(1,3),16),g=parseInt(hex.slice(3,5),16),b=parseInt(hex.slice(5,7),16);
-  return '#'+[Math.min(255,r+amt),Math.min(255,g+amt),Math.min(255,b+amt)].map(v=>v.toString(16).padStart(2,'0')).join('');
-}
+function rr(ctx,x,y,w,h,r,f){ctx.beginPath();ctx.moveTo(x+r,y);ctx.lineTo(x+w-r,y);ctx.quadraticCurveTo(x+w,y,x+w,y+r);ctx.lineTo(x+w,y+h-r);ctx.quadraticCurveTo(x+w,y+h,x+w-r,y+h);ctx.lineTo(x+r,y+h);ctx.quadraticCurveTo(x,y+h,x,y+h-r);ctx.lineTo(x,y+r);ctx.quadraticCurveTo(x,y,x+r,y);ctx.closePath();ctx.fillStyle=f;ctx.fill();}
+function hx(hex,amt){let r=parseInt(hex.slice(1,3),16),g=parseInt(hex.slice(3,5),16),b=parseInt(hex.slice(5,7),16);return '#'+[Math.min(255,r+amt),Math.min(255,g+amt),Math.min(255,b+amt)].map(v=>v.toString(16).padStart(2,'0')).join('');}
 
 async function drawCert(canvas,qrURL,ov){
-  const br=G.brand;
-  const c1=br.c1||'#0d2248',c2=br.c2||'#1e4db7',c3=br.c3||'#4f8ef7';
+  const br=G.brand;const c1=br.c1,c2=br.c2,c3=br.c3;
   const comp=(ov&&ov.comp)||br.comp||G.site.comp||'Unified Mentor Pvt Ltd';
-  const iso=br.iso||'AN ISO 9001:2015 Certified Company';
-  const tag=br.tag||'YOUR SKILL.  SUCCESS & JOURNEY.';
-  const cin=br.cin||G.site.cin||'U85500HR2023PTC115118';
-  const ctx=canvas.getContext('2d');const W=canvas.width,H=canvas.height;
-  ctx.clearRect(0,0,W,H);
-  // BG
+  const iso=br.iso||'AN ISO 9001:2015 Certified Company',tag=br.tag||'YOUR SKILL.  SUCCESS & JOURNEY.',cin=br.cin||G.site.cin||'U85500HR2023PTC115118';
+  const ctx=canvas.getContext('2d');const W=canvas.width,H=canvas.height;ctx.clearRect(0,0,W,H);
   const bg=ctx.createLinearGradient(0,0,W,H);bg.addColorStop(0,'#f4f7fc');bg.addColorStop(1,'#edf1f9');ctx.fillStyle=bg;ctx.fillRect(0,0,W,H);
-  ctx.fillStyle='rgba(180,195,230,.3)';
-  for(let px=24;px<W;px+=28)for(let py=24;py<H;py+=28){ctx.beginPath();ctx.arc(px,py,1.2,0,Math.PI*2);ctx.fill();}
-  // White card
+  ctx.fillStyle='rgba(180,195,230,.3)';for(let px=24;px<W;px+=28)for(let py=24;py<H;py+=28){ctx.beginPath();ctx.arc(px,py,1.2,0,Math.PI*2);ctx.fill();}
   rr(ctx,28,28,W-56,H-56,16,'#fff');
-  // Right accent
-  const aw=74;
-  ctx.save();ctx.fillStyle=c1;
-  ctx.beginPath();ctx.moveTo(W-28-aw,28+14);ctx.lineTo(W-28,28+14);ctx.arcTo(W-28,28,W-28-aw,28,14);ctx.closePath();ctx.fill();
-  ctx.fillRect(W-28-aw,28+14,aw,H-56-28);
-  ctx.beginPath();ctx.moveTo(W-28-aw,H-28-14);ctx.lineTo(W-28,H-28-14);ctx.arcTo(W-28,H-28,W-28-aw,H-28,14);ctx.closePath();ctx.fill();
-  ctx.restore();
-  // Header
+  const aw=74;ctx.save();ctx.fillStyle=c1;ctx.beginPath();ctx.moveTo(W-28-aw,28+14);ctx.lineTo(W-28,28+14);ctx.arcTo(W-28,28,W-28-aw,28,14);ctx.closePath();ctx.fill();ctx.fillRect(W-28-aw,28+14,aw,H-56-28);ctx.beginPath();ctx.moveTo(W-28-aw,H-28-14);ctx.lineTo(W-28,H-28-14);ctx.arcTo(W-28,H-28,W-28-aw,H-28,14);ctx.closePath();ctx.fill();ctx.restore();
   ctx.save();ctx.beginPath();ctx.moveTo(28+14,28);ctx.lineTo(W-28-aw,28);ctx.lineTo(W-28-aw,28+80);ctx.lineTo(28,28+80);ctx.lineTo(28,28+14);ctx.arcTo(28,28,28+14,28,14);ctx.closePath();
   const hg=ctx.createLinearGradient(28,28,W-28-aw,28);hg.addColorStop(0,c1);hg.addColorStop(1,hx(c1,22));ctx.fillStyle=hg;ctx.fill();
-  ctx.save();ctx.rect(28,28,W-56-aw,80);ctx.clip();ctx.strokeStyle='rgba(255,255,255,.04)';ctx.lineWidth=12;
-  for(let i=-60;i<W;i+=28){ctx.beginPath();ctx.moveTo(i,28);ctx.lineTo(i+50,28+80);ctx.stroke();}
-  ctx.restore();ctx.restore();
-  // Header texts
-  const certId=(ov&&ov.id)||gv('gcI')||'UMID————';
-  const isDate=(ov&&ov.issued)||gv('gcIs')||'';
-  ctx.fillStyle='rgba(255,255,255,.65)';ctx.font='500 11.5px Sora,Arial';ctx.textAlign='left';ctx.fillText('Issued: '+fmtD(isDate),44,44);
-  ctx.textAlign='right';ctx.fillText('CIN: '+cin,W-28-aw-13,44);
-  // CERTIFICATE text
-  ctx.fillStyle=c1;ctx.font='bold 40px Sora,Arial';ctx.textAlign='left';ctx.fillText('CERTIFICATE',44,28+140);
-  ctx.fillStyle=hx(c1,65);ctx.font='500 20px Sora,Arial';ctx.fillText('OF INTERNSHIP',46,28+168);
-  ctx.fillStyle=c1;ctx.font='bold 17px Sora,Arial';ctx.fillText('⬡  '+comp,W-28-aw-274,28+115);
-  ctx.fillStyle='#6b7a99';ctx.font='400 10px Sora,Arial';ctx.fillText(tag,W-28-aw-274,28+133);
-  // Divider
-  const dg=ctx.createLinearGradient(44,0,W-28-aw-14,0);dg.addColorStop(0,c2+'cc');dg.addColorStop(.5,c3+'88');dg.addColorStop(1,c2+'22');
-  ctx.strokeStyle=dg;ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(44,28+185);ctx.lineTo(W-28-aw-14,28+185);ctx.stroke();
-  // Name
+  ctx.save();ctx.rect(28,28,W-56-aw,80);ctx.clip();ctx.strokeStyle='rgba(255,255,255,.04)';ctx.lineWidth=12;for(let i=-60;i<W;i+=28){ctx.beginPath();ctx.moveTo(i,28);ctx.lineTo(i+50,28+80);ctx.stroke();}ctx.restore();ctx.restore();
+  const certId=(ov&&ov.id)||gv('gcI')||'UMID————';const isDate=(ov&&ov.issued)||gv('gcIs')||'';
+  ctx.fillStyle='rgba(255,255,255,.65)';ctx.font='500 11.5px Sora,Arial';ctx.textAlign='left';ctx.fillText('Issued: '+fmtD(isDate),44,44);ctx.textAlign='right';ctx.fillText('CIN: '+cin,W-28-aw-13,44);
+  ctx.fillStyle=c1;ctx.font='bold 40px Sora,Arial';ctx.textAlign='left';ctx.fillText('CERTIFICATE',44,28+140);ctx.fillStyle=hx(c1,65);ctx.font='500 20px Sora,Arial';ctx.fillText('OF INTERNSHIP',46,28+168);
+  ctx.fillStyle=c1;ctx.font='bold 17px Sora,Arial';ctx.fillText('⬡  '+comp,W-28-aw-274,28+115);ctx.fillStyle='#6b7a99';ctx.font='400 10px Sora,Arial';ctx.fillText(tag,W-28-aw-274,28+133);
+  const dg=ctx.createLinearGradient(44,0,W-28-aw-14,0);dg.addColorStop(0,c2+'cc');dg.addColorStop(.5,c3+'88');dg.addColorStop(1,c2+'22');ctx.strokeStyle=dg;ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(44,28+185);ctx.lineTo(W-28-aw-14,28+185);ctx.stroke();
   const name=(ov&&ov.name)||gv('gcN')||'Candidate Name';
-  ctx.font=`italic bold 40px 'Dancing Script',Georgia,cursive`;ctx.textAlign='left';ctx.fillStyle=c1;ctx.fillText(name,44,28+250);
-  const nw=ctx.measureText(name).width;
-  ctx.strokeStyle=c3+'55';ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(44,28+258);ctx.bezierCurveTo(44+nw*.3,28+265,44+nw*.7,28+260,44+nw+20,28+258);ctx.stroke();
-  // Body
-  const rawD=(ov&&ov.domain)||document.getElementById('gcD').value;
-  const dom=(rawD==='__c__'?gv('gcDC'):rawD)||(ov&&ov.domain)||'[Domain]';
+  ctx.font=`italic bold 40px 'Dancing Script',Georgia,cursive`;ctx.textAlign='left';ctx.fillStyle=c1;ctx.fillText(name,44,28+250);const nw=ctx.measureText(name).width;ctx.strokeStyle=c3+'55';ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(44,28+258);ctx.bezierCurveTo(44+nw*.3,28+265,44+nw*.7,28+260,44+nw+20,28+258);ctx.stroke();
+  const rawD=(ov&&ov.domain)||document.getElementById('gcD').value;const dom=(rawD==='__c__'?gv('gcDC'):rawD)||(ov&&ov.domain)||'[Domain]';
   const sf=fmtD((ov&&ov.start)||gv('gcSt'));const ef=fmtD((ov&&ov.end)||gv('gcEn'));
   ctx.fillStyle='#1a2340';ctx.font='500 13.5px Sora,Arial';ctx.textAlign='left';
-  const l1=`For  successfully completing  internship as `;
-  ctx.fillText(l1,44,28+300);const w1=ctx.measureText(l1).width;
-  ctx.font='italic 13.5px Georgia,serif';ctx.fillStyle=c2;ctx.fillText(dom,44+w1,28+300);
-  ctx.fillStyle='#1a2340';ctx.font='500 13.5px Sora,Arial';
-  ctx.fillText(`at ${comp}.  Dated from  ${sf}  to  ${ef}`,44,28+322);
-  ctx.fillText('During the internship we found him/her consistent & hard-working.',44,28+344);
-  ctx.fillText('We wish them all the best for their future endeavors.',44,28+362);
+  const l1=`For  successfully completing  internship as `;ctx.fillText(l1,44,28+300);const w1=ctx.measureText(l1).width;ctx.font='italic 13.5px Georgia,serif';ctx.fillStyle=c2;ctx.fillText(dom,44+w1,28+300);
+  ctx.fillStyle='#1a2340';ctx.font='500 13.5px Sora,Arial';ctx.fillText(`at ${comp}.  Dated from  ${sf}  to  ${ef}`,44,28+322);ctx.fillText('During the internship we found him/her consistent & hard-working.',44,28+344);ctx.fillText('We wish them all the best for their future endeavors.',44,28+362);
   const dl=domLines(dom,name);ctx.fillStyle='#3a5080';ctx.font='400 12.5px Sora,Arial';dl.forEach((l,i)=>ctx.fillText(l,44,28+394+i*18));
-  ctx.strokeStyle='rgba(180,200,230,.5)';ctx.lineWidth=1;ctx.setLineDash([4,4]);
-  ctx.beginPath();ctx.moveTo(44,28+444);ctx.lineTo(W-28-aw-14,28+444);ctx.stroke();ctx.setLineDash([]);
-  // Signatures
-  const sigY=28+518;
-  const dir=(ov&&ov.dir)||gv('gcDir')||br.dir||'Paras Grover';
-  const awd=(ov&&ov.awd)||gv('gcAw')||br.awd||'Sanket Patil';
-  drawSig(ctx,dir,44,sigY-20,c1);
-  ctx.strokeStyle=c3+'44';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(44,sigY+2);ctx.lineTo(240,sigY+2);ctx.stroke();
-  ctx.fillStyle=c1;ctx.font='bold 13px Sora,Arial';ctx.textAlign='left';ctx.fillText(dir,44,sigY+18);
-  ctx.fillStyle='#6b7a99';ctx.font='400 11px Sora,Arial';ctx.fillText('Director',44,sigY+34);
+  ctx.strokeStyle='rgba(180,200,230,.5)';ctx.lineWidth=1;ctx.setLineDash([4,4]);ctx.beginPath();ctx.moveTo(44,28+444);ctx.lineTo(W-28-aw-14,28+444);ctx.stroke();ctx.setLineDash([]);
+  const sigY=28+518;const dir=(ov&&ov.dir)||gv('gcDir')||br.dir||'Paras Grover';const awd=(ov&&ov.awd)||gv('gcAw')||br.awd||'Sanket Patil';
+  drawSig(ctx,dir,44,sigY-20,c1);ctx.strokeStyle=c3+'44';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(44,sigY+2);ctx.lineTo(240,sigY+2);ctx.stroke();ctx.fillStyle=c1;ctx.font='bold 13px Sora,Arial';ctx.textAlign='left';ctx.fillText(dir,44,sigY+18);ctx.fillStyle='#6b7a99';ctx.font='400 11px Sora,Arial';ctx.fillText('Director',44,sigY+34);
   isoLogo(ctx,W/2-aw/2-8,sigY-2,40);
-  drawSig(ctx,awd,W-28-aw-220,sigY-20,c1);
-  ctx.strokeStyle=c3+'44';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(W-28-aw-220,sigY+2);ctx.lineTo(W-28-aw-40,sigY+2);ctx.stroke();
-  ctx.fillStyle=c1;ctx.font='bold 13px Sora,Arial';ctx.textAlign='left';ctx.fillText(awd,W-28-aw-220,sigY+18);
-  ctx.fillStyle='#6b7a99';ctx.font='400 11px Sora,Arial';ctx.fillText('Awarded By',W-28-aw-220,sigY+34);
-  // QR
-  const qrX=W-28-aw-98,qrY=sigY-50,qrS=80;
-  ctx.save();rr(ctx,qrX-6,qrY-6,qrS+12,qrS+12,6,'#fff');
-  ctx.strokeStyle=c3+'33';ctx.lineWidth=1;ctx.strokeRect(qrX-6,qrY-6,qrS+12,qrS+12);
-  if(qrURL){const qi=new Image();qi.src=qrURL;await new Promise(r=>{qi.onload=r;qi.onerror=r;});ctx.drawImage(qi,qrX,qrY,qrS,qrS);}
-  ctx.restore();
+  drawSig(ctx,awd,W-28-aw-220,sigY-20,c1);ctx.strokeStyle=c3+'44';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(W-28-aw-220,sigY+2);ctx.lineTo(W-28-aw-40,sigY+2);ctx.stroke();ctx.fillStyle=c1;ctx.font='bold 13px Sora,Arial';ctx.textAlign='left';ctx.fillText(awd,W-28-aw-220,sigY+18);ctx.fillStyle='#6b7a99';ctx.font='400 11px Sora,Arial';ctx.fillText('Awarded By',W-28-aw-220,sigY+34);
+  const qrX=W-28-aw-98,qrY=sigY-50,qrS=80;ctx.save();rr(ctx,qrX-6,qrY-6,qrS+12,qrS+12,6,'#fff');ctx.strokeStyle=c3+'33';ctx.lineWidth=1;ctx.strokeRect(qrX-6,qrY-6,qrS+12,qrS+12);
+  if(qrURL){const qi=new Image();qi.src=qrURL;await new Promise(r=>{qi.onload=r;qi.onerror=r;});ctx.drawImage(qi,qrX,qrY,qrS,qrS);}ctx.restore();
   ctx.fillStyle='#8a9ab8';ctx.font='400 10px Sora,Arial';ctx.textAlign='center';ctx.fillText('Scan to Verify',qrX+qrS/2,qrY-10);
-  ctx.fillStyle='#9aabb8';ctx.font='400 11px Sora,Arial';ctx.textAlign='center';ctx.fillText(iso,W/2-aw/2,H-28-16);
-  ctx.fillStyle='#b0bdc8';ctx.font='400 10px JetBrains Mono,monospace';ctx.textAlign='left';ctx.fillText(certId,44,H-28-16);
-  _last=canvas.toDataURL('image/png');
+  ctx.fillStyle='#9aabb8';ctx.font='400 11px Sora,Arial';ctx.textAlign='center';ctx.fillText(iso,W/2-aw/2,H-28-16);ctx.fillStyle='#b0bdc8';ctx.font='400 10px JetBrains Mono,monospace';ctx.textAlign='left';ctx.fillText(certId,44,H-28-16);
+  _lastC=canvas.toDataURL('image/png');
 }
 
-let _lpT=null;
-async function lp(){
-  clearTimeout(_lpT);
-  _lpT=setTimeout(async()=>{
-    const id=gv('gcI')||'UMID_PREVIEW';
-    const qr=await makeQR(location.href.split('?')[0]+'?verify='+id,120);
-    await drawCert(document.getElementById('certCanvas'),qr);
-  },320);
+/* ══ DRAW OFFER LETTER (A4) ══ */
+async function drawOffer(canvas,qrURL,ov){
+  const ob=G.obrand;const c1=ob.c1||'#0d2248',c2=ob.c2||'#d97706',c3=ob.c3||'#4f8ef7';
+  const comp=(ov&&ov.comp)||ob.comp||'Unified Mentor Pvt Ltd';
+  const addr=ob.addr||'Gurugram, Haryana, India',email=ob.email||'info@unifiedmentor.com',web=ob.web||'www.unifiedmentor.com';
+  const auth=(ov&&ov.auth)||ob.auth||gv('goAuth')||'Paras Grover';
+  const desg=ob.desg||'Director';const hr=(ov&&ov.hr)||gv('goHR')||'Sanket Patil';
+  const ctx=canvas.getContext('2d');const W=canvas.width,H=canvas.height;ctx.clearRect(0,0,W,H);
+  ctx.fillStyle='#fefefe';ctx.fillRect(0,0,W,H);
+  ctx.strokeStyle=c2;ctx.lineWidth=6;ctx.strokeRect(12,12,W-24,H-24);
+  ctx.strokeStyle=c3+'44';ctx.lineWidth=1.5;ctx.strokeRect(20,20,W-40,H-40);
+  ctx.fillStyle=c1;ctx.fillRect(0,0,W,90);
+  ctx.save();ctx.rect(0,0,W,90);ctx.clip();ctx.strokeStyle='rgba(255,255,255,.05)';ctx.lineWidth=14;for(let i=-80;i<W;i+=30){ctx.beginPath();ctx.moveTo(i,0);ctx.lineTo(i+60,90);ctx.stroke();}ctx.restore();
+  ctx.fillStyle='#fff';ctx.font='bold 22px Sora,Arial';ctx.textAlign='center';ctx.fillText(comp,W/2,36);
+  ctx.fillStyle='rgba(255,255,255,.6)';ctx.font='400 11px Sora,Arial';ctx.fillText(addr+' | '+email+' | '+web,W/2,58);
+  ctx.fillStyle=c1;ctx.font='bold 26px Sora,Arial';ctx.textAlign='center';ctx.fillText('OFFER LETTER',W/2,126);
+  ctx.strokeStyle=c2;ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(W/2-100,134);ctx.lineTo(W/2+100,134);ctx.stroke();
+  const offerId=(ov&&ov.id)||gv('goI')||'UMOL————';const issDate=(ov&&ov.issued)||gv('goIs')||'';
+  ctx.fillStyle='#888';ctx.font='400 11px JetBrains Mono,monospace';ctx.textAlign='left';ctx.fillText('Offer ID: '+offerId,44,152);ctx.textAlign='right';ctx.fillText('Date: '+fmtD(issDate),W-44,152);
+  ctx.strokeStyle=c1+'22';ctx.lineWidth=1;ctx.setLineDash([5,5]);ctx.beginPath();ctx.moveTo(44,162);ctx.lineTo(W-44,162);ctx.stroke();ctx.setLineDash([]);
+  const name=(ov&&ov.name)||gv('goN')||'Candidate Name';const role=(ov&&ov.role)||gv('goRole')||'[Role]';
+  const dept=(ov&&ov.dept)||gv('goDept')||'';const joinDate=(ov&&ov.join)||gv('goJoin')||'';
+  const stipend=(ov&&ov.stipend)||gv('goStip')||'';const dur=(ov&&ov.dur)||gv('goDur')||'';
+  ctx.fillStyle='#1a2340';ctx.font='500 13px Sora,Arial';ctx.textAlign='left';ctx.fillText('Dear '+name+',',44,190);
+  ctx.fillStyle='#334155';ctx.font='400 12.5px Sora,Arial';
+  ctx.fillText('We are delighted to extend this offer for the position of',44,215);
+  ctx.fillStyle=c2;ctx.font='600 12.5px Sora,Arial';ctx.fillText(role+(dept?' in our '+dept+' department':'')+' at '+comp+'.',44,234);
+  ctx.fillStyle='#1a2340';ctx.font='500 12.5px Sora,Arial';ctx.fillText('Please find below the details of your offer:',44,255);
+  const details=[['Position / Role',role],['Department',dept||'—'],['Joining Date',fmtD(joinDate)],['Stipend / CTC',stipend||'As per discussion'],['Duration',dur||'—'],['Reporting To',auth]];
+  let dy=270;ctx.fillStyle=c1+'08';ctx.fillRect(44,dy,W-88,details.length*32+16);ctx.strokeStyle=c1+'22';ctx.lineWidth=1;ctx.strokeRect(44,dy,W-88,details.length*32+16);
+  details.forEach(([k,v],i)=>{const ry=dy+24+i*32;if(i%2===0){ctx.fillStyle=c2+'12';ctx.fillRect(44,ry-18,W-88,32);}ctx.fillStyle='#64748b';ctx.font='700 11.5px Sora,Arial';ctx.textAlign='left';ctx.fillText(k+':',58,ry);ctx.fillStyle='#1a2340';ctx.font='600 12px Sora,Arial';ctx.textAlign='right';ctx.fillText(v,W-58,ry);});
+  dy+=details.length*32+32;
+  const note=(ov&&ov.note)||gv('goNote')||'We are pleased to offer you this internship position and look forward to your contributions to our team.';
+  ctx.fillStyle='#475569';ctx.font='400 12px Sora,Arial';ctx.textAlign='left';
+  const words=('Note: '+note).split(' ');let line='';dy+=4;
+  words.forEach(w=>{const t=line+w+' ';if(ctx.measureText(t).width>W-88&&line!==''){ctx.fillText(line.trim(),44,dy);line=w+' ';dy+=18;}else line=t;});if(line.trim())ctx.fillText(line.trim(),44,dy);dy+=26;
+  ctx.strokeStyle=c1+'22';ctx.setLineDash([5,5]);ctx.beginPath();ctx.moveTo(44,dy);ctx.lineTo(W-44,dy);ctx.stroke();ctx.setLineDash([]);dy+=20;
+  ctx.fillStyle='#475569';ctx.font='400 12px Sora,Arial';ctx.fillText('This offer is valid for 7 days from the date of issue. Please confirm your acceptance.',44,dy);dy+=18;
+  ctx.fillStyle='#1a2340';ctx.font='500 12px Sora,Arial';ctx.fillText('We look forward to welcoming you to the '+comp+' family!',44,dy);dy+=18;
+  ctx.fillStyle='#475569';ctx.font='400 12px Sora,Arial';ctx.fillText('Warm regards,',44,dy);dy+=28;
+  drawSig(ctx,auth,44,dy+8,c1);ctx.strokeStyle=c1+'44';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(44,dy+18);ctx.lineTo(230,dy+18);ctx.stroke();
+  ctx.fillStyle='#1a2340';ctx.font='bold 12px Sora,Arial';ctx.textAlign='left';ctx.fillText(auth,44,dy+32);ctx.fillStyle='#64748b';ctx.font='400 11px Sora,Arial';ctx.fillText(desg+' — '+comp,44,dy+46);
+  drawSig(ctx,hr,W-234,dy+8,c1);ctx.strokeStyle=c1+'44';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(W-234,dy+18);ctx.lineTo(W-44,dy+18);ctx.stroke();
+  ctx.fillStyle='#1a2340';ctx.font='bold 12px Sora,Arial';ctx.textAlign='right';ctx.fillText(hr,W-44,dy+32);ctx.fillStyle='#64748b';ctx.font='400 11px Sora,Arial';ctx.fillText('HR Manager',W-44,dy+46);
+  const qrX=W-44-70,qrY=108,qrS=66;ctx.save();rr(ctx,qrX-5,qrY-5,qrS+10,qrS+10,6,'#fff');ctx.strokeStyle=c2+'44';ctx.lineWidth=1;ctx.strokeRect(qrX-5,qrY-5,qrS+10,qrS+10);
+  if(qrURL){const qi=new Image();qi.src=qrURL;await new Promise(r=>{qi.onload=r;qi.onerror=r;});ctx.drawImage(qi,qrX,qrY,qrS,qrS);}ctx.restore();
+  ctx.fillStyle='rgba(255,255,255,.5)';ctx.font='400 9px Sora,Arial';ctx.textAlign='center';ctx.fillText('Scan to Verify',qrX+qrS/2,qrY-8);
+  ctx.fillStyle=c1;ctx.fillRect(0,H-34,W,34);ctx.fillStyle='rgba(255,255,255,.5)';ctx.font='400 10px Sora,Arial';ctx.textAlign='center';ctx.fillText(comp+' | '+addr+' | '+offerId,W/2,H-14);
+  _lastO=canvas.toDataURL('image/png');
 }
 
+/* ══ LIVE PREVIEW ══ */
+let _lpTC=null,_lpTO=null;
+async function lpC(){clearTimeout(_lpTC);_lpTC=setTimeout(async()=>{const id=gv('gcI')||'UMID_PREVIEW';const qr=await makeQR(location.href.split('?')[0]+'?verify='+id,120);await drawCert(document.getElementById('certCanvas'),qr);},320);}
+async function lpO(){clearTimeout(_lpTO);_lpTO=setTimeout(async()=>{const id=gv('goI')||'UMOL_PREVIEW';const qr=await makeQR(location.href.split('?')[0]+'?verify='+id,110);await drawOffer(document.getElementById('offerCanvas'),qr);},320);}
+
+/* ══ GENERATE CERT ══ */
 async function genCert(){
-  const name=gv('gcN').trim();
-  const rawD=document.getElementById('gcD').value;const dom=rawD==='__c__'?gv('gcDC'):rawD;
-  const st2=gv('gcSt'),en=gv('gcEn'),is=gv('gcIs');
-  let id=gv('gcI').trim();if(!id)id='UMID'+Math.floor(10000000000+Math.random()*90000000000);
+  const name=gv('gcN').trim();const rawD=document.getElementById('gcD').value;const dom=rawD==='__c__'?gv('gcDC'):rawD;const st2=gv('gcSt'),en=gv('gcEn'),is=gv('gcIs');
+  let id=gv('gcI').trim();if(!id)id='UMID'+rId();
   if(!name||!dom||!st2||!en||!is)return toast('Fill all required fields','err');
-  const dur=document.getElementById('gcDr').value;
-  const dirV=gv('gcDir')||G.brand.dir;const awdV=gv('gcAw')||G.brand.awd;
+  const dur=document.getElementById('gcDr').value,dirV=gv('gcDir')||G.brand.dir,awdV=gv('gcAw')||G.brand.awd;
   showLoad('Generating certificate…');
   const qr=await makeQR(location.href.split('?')[0]+'?verify='+id,160);
   await drawCert(document.getElementById('certCanvas'),qr,{id,name,domain:dom,start:st2,end:en,issued:is,dir:dirV,awd:awdV});
-  if(G.certs.find(c=>c.id===id)){id='UMID'+Math.floor(10000000000+Math.random()*90000000000);sv('gcI',id);}
-  // Save with image (cert PNG embedded as base64)
-  const entry={id,name,domain:dom,start:st2,end:en,duration:dur,status:'Completed',issued:is,img:_last,generated:true,dir:dirV,awd:awdV};
-  G.certs.push(entry);
-  // Store cert data without image in main list (to avoid hitting 5MB limit)
-  // Store cert image separately
-  try{
-    await window.storage.set('cert-img:'+id,_last,true);
-  }catch(e){console.log('img store failed',e);}
-  // Save cert record (without img to save space)
-  const lean=[...G.certs.map(c=>({...c,img:c.id===id?'__stored__':c.img}))];
-  const ok=await storeSet(KEYS.certs,lean);
-  hideLoad();
-  if(ok){toast('🎨 Generated & saved online! ID: '+id,'ok');}
-  else{toast('Generated locally! ID: '+id,'inf');}
+  if(G.certs.find(c=>c.id===id)||G.offers.find(o=>o.id===id)){id='UMID'+rId();sv('gcI',id);}
+  // Store image separately to avoid size limits
+  const imgData=_lastC;
+  G.certs.push({id,name,domain:dom,start:st2,end:en,duration:dur,status:'Completed',issued:is,img:'',generated:true,dir:dirV,awd:awdV});
+  await sSet(SK.certs,G.certs);
+  try{await window.storage.set('img:'+id,imgData,true);G.certs[G.certs.length-1].img=imgData;}catch(e){}
+  hideLoad();toast('🎨 Certificate generated & saved online! ID: '+id,'ok');
 }
-
 async function dlGenCert(){
-  const name=gv('gcN')||'Certificate';const id=gv('gcI')||'UMID';
-  const rawD=document.getElementById('gcD').value;const dom=rawD==='__c__'?gv('gcDC'):rawD;
+  const name=gv('gcN')||'Certificate',id=gv('gcI')||'UMID';const rawD=document.getElementById('gcD').value;const dom=rawD==='__c__'?gv('gcDC'):rawD;
   const qr=await makeQR(location.href.split('?')[0]+'?verify='+id,160);
   await drawCert(document.getElementById('certCanvas'),qr,{id,name,domain:dom,start:gv('gcSt'),end:gv('gcEn'),issued:gv('gcIs'),dir:gv('gcDir'),awd:gv('gcAw')});
-  const a=document.createElement('a');a.href=_last;a.download=name.replace(/ /g,'_')+'_Certificate.png';a.click();toast('Download started!','ok');
+  const a=document.createElement('a');a.href=_lastC;a.download=name.replace(/ /g,'_')+'_Certificate.png';a.click();toast('Download started!','ok');
 }
 
-/* ═══ VIEW / DELETE / REGEN ═══ */
-let _mc=null;
-async function viewC(id){
-  let c=G.certs.find(x=>x.id===id);if(!c)return;
-  // Try to load stored image
-  if(c.img==='__stored__'||!c.img){
-    try{const r=await window.storage.get('cert-img:'+id,true);if(r)c={...c,img:r.value};}catch(e){}
-  }
-  _mc=c;
-  document.getElementById('mImg').src=c.img||'';
-  st('mId',c.id);st('mNm',c.name);st('mDom',c.domain);
-  st('mPer',fmt(c.start)+' – '+fmt(c.end));st('mDur',c.duration);st('mSts',c.status);
+/* ══ GENERATE OFFER ══ */
+async function genOffer(){
+  const name=gv('goN').trim(),role=gv('goRole').trim();let id=gv('goI').trim();if(!id)id='UMOL'+rId();
+  const join=gv('goJoin'),is=gv('goIs');
+  if(!name||!role||!join||!is)return toast('Fill all required fields','err');
+  const dirV=gv('goAuth')||G.obrand.auth,hrV=gv('goHR')||G.brand.awd;
+  showLoad('Generating offer letter…');
+  const qr=await makeQR(location.href.split('?')[0]+'?verify='+id,110);
+  await drawOffer(document.getElementById('offerCanvas'),qr,{id,name,role,dept:gv('goDept'),join,issued:is,stipend:gv('goStip'),dur:gv('goDur'),auth:dirV,hr:hrV,note:gv('goNote')});
+  if(G.certs.find(c=>c.id===id)||G.offers.find(o=>o.id===id)){id='UMOL'+rId();sv('goI',id);}
+  const imgData=_lastO;
+  G.offers.push({id,name,role,dept:gv('goDept'),join,issued:is,stipend:gv('goStip'),duration:gv('goDur'),status:'Active',img:'',generated:true,auth:dirV,hr:hrV,note:gv('goNote')});
+  await sSet(SK.offers,G.offers);
+  try{await window.storage.set('img:'+id,imgData,true);G.offers[G.offers.length-1].img=imgData;}catch(e){}
+  hideLoad();toast('✨ Offer Letter generated & saved online! ID: '+id,'ok');
+}
+async function dlGenOffer(){
+  const name=gv('goN')||'OfferLetter',id=gv('goI')||'UMOL';
+  const qr=await makeQR(location.href.split('?')[0]+'?verify='+id,110);
+  await drawOffer(document.getElementById('offerCanvas'),qr,{id,name,role:gv('goRole'),dept:gv('goDept'),join:gv('goJoin'),issued:gv('goIs'),stipend:gv('goStip'),dur:gv('goDur'),auth:gv('goAuth'),hr:gv('goHR'),note:gv('goNote')});
+  const a=document.createElement('a');a.href=_lastO;a.download=name.replace(/ /g,'_')+'_OfferLetter.png';a.click();toast('Download started!','ok');
+}
+
+/* ══ VIEW / DELETE / REGEN ══ */
+let _md=null;
+async function viewDoc(id,type){
+  let d=(type==='cert'?G.certs:G.offers).find(x=>x.id===id);if(!d)return;
+  if(!d.img){try{const r=await window.storage.get('img:'+id,true);if(r)d={...d,img:r.value};}catch(e){}}
+  _md={...d,type};
+  document.getElementById('mImg').src=d.img||'';
+  st('modalTitle',type==='cert'?'📄 Certificate Details':'📋 Offer Letter Details');
+  const rows=type==='cert'?[
+    {ic:'🪪',lbl:'Certificate ID',val:d.id},{ic:'👤',lbl:'Name',val:d.name},{ic:'💻',lbl:'Domain',val:d.domain},{ic:'📅',lbl:'Period',val:fmt(d.start)+' – '+fmt(d.end)},{ic:'⏱',lbl:'Duration',val:d.duration},{ic:'📆',lbl:'Issued',val:fmt(d.issued)},{ic:'🎨',lbl:'Type',val:d.generated?'Auto-Generated':'Manual'},{ic:'✅',lbl:'Status',val:d.status,g:true}
+  ]:[
+    {ic:'🪪',lbl:'Offer Letter ID',val:d.id},{ic:'👤',lbl:'Name',val:d.name},{ic:'💼',lbl:'Role',val:d.role},{ic:'🏢',lbl:'Department',val:d.dept||'—'},{ic:'📅',lbl:'Joining',val:fmt(d.join)},{ic:'💰',lbl:'Stipend',val:d.stipend||'—'},{ic:'⏱',lbl:'Duration',val:d.duration||'—'},{ic:'📆',lbl:'Issued',val:fmt(d.issued)},{ic:'🎨',lbl:'Type',val:d.generated?'Auto-Generated':'Manual'},{ic:'✅',lbl:'Status',val:d.status,y:true}
+  ];
+  document.getElementById('mDetails').innerHTML=rows.map(r=>`<div class="ir"><div class="ir-ic">${r.ic}</div><div><div class="lbl">${r.lbl}</div><div class="val ${r.g?'g':r.y?'y':''}">${r.val||'—'}</div></div></div>`).join('');
   document.getElementById('viewModal').classList.add('op');
 }
-function dlModal(){if(!_mc||(!_mc.img||_mc.img==='__stored__'))return toast('No image available — download from Generate tab','err');const a=document.createElement('a');a.href=_mc.img;a.download=_mc.name.replace(/ /g,'_')+'_Certificate.png';a.click();toast('Download started!','ok');}
+function dlModal(){if(!_md||!_md.img)return toast('No image available — download from generate tab','err');const a=document.createElement('a');a.href=_md.img;a.download=(_md.name||'Document').replace(/ /g,'_')+'.png';a.click();toast('Download started!','ok');}
 function cModal(){document.getElementById('viewModal').classList.remove('op');}
-async function delC(id){
-  if(!confirm('Delete certificate '+id+'?'))return;
-  G.certs=G.certs.filter(c=>c.id!==id);
-  await saveCerts();
-  try{await window.storage.delete('cert-img:'+id,true);}catch(e){}
-  renderAll(_fq);refreshDash();toast('Deleted','inf');
+function cpLink(){if(_md)cpDocLink(_md.id);}
+function cpDocLink(id){const url=location.href.split('?')[0]+'?verify='+id;navigator.clipboard.writeText(url).then(()=>toast('Verify link copied! 🔗','ok')).catch(()=>toast('Link: '+url,'inf'));}
+async function delDoc(id,type){
+  if(!confirm('Delete '+id+'?'))return;
+  if(type==='cert')G.certs=G.certs.filter(c=>c.id!==id);else G.offers=G.offers.filter(o=>o.id!==id);
+  await sSet(type==='cert'?SK.certs:SK.offers,type==='cert'?G.certs:G.offers);
+  try{await window.storage.delete('img:'+id,true);}catch(e){}
+  renderDocs();refreshDash();toast('Deleted','inf');
 }
-function cpCertLink(id){
-  const url=location.href.split('?')[0]+'?verify='+id;
-  navigator.clipboard.writeText(url).then(()=>toast('Verify link copied! Share with candidate 🔗','ok')).catch(()=>toast('Link: '+url,'inf'));
+function regenDoc(id,type){
+  const d=(type==='cert'?G.certs:G.offers).find(x=>x.id===id);if(!d)return;
+  if(type==='cert'){
+    sTab('gencert',document.querySelectorAll('.asi')[4]);
+    sv('gcN',d.name);sv('gcI',d.id);sv('gcSt',d.start);sv('gcEn',d.end);sv('gcIs',d.issued);if(d.dir)sv('gcDir',d.dir);if(d.awd)sv('gcAw',d.awd);
+    const sel=document.getElementById('gcD');let f=false;for(let i=0;i<sel.options.length;i++){if(sel.options[i].value===d.domain){sel.value=d.domain;f=true;break;}}
+    if(!f){sel.value='__c__';document.getElementById('gcCW').style.display='block';sv('gcDC',d.domain);}
+    const dsel=document.getElementById('gcDr');for(let i=0;i<dsel.options.length;i++){if(dsel.options[i].value===d.duration){dsel.value=d.duration;break;}}
+    lpC();
+  } else {
+    sTab('genoffer',document.querySelectorAll('.asi')[6]);
+    sv('goN',d.name);sv('goI',d.id);sv('goRole',d.role);sv('goDept',d.dept||'');sv('goJoin',d.join);sv('goIs',d.issued);sv('goStip',d.stipend||'');sv('goDur',d.duration||'');if(d.auth)sv('goAuth',d.auth);if(d.hr)sv('goHR',d.hr);if(d.note)sv('goNote',d.note);
+    lpO();
+  }
+  toast('Loaded for regeneration','inf');
 }
-function cpLink(){if(_mc)cpCertLink(_mc.id);}
 
-function regenC(id){
-  const c=G.certs.find(x=>x.id===id);if(!c)return;
-  sTab('autocert',document.querySelectorAll('.asi')[3]);
-  sv('gcN',c.name);sv('gcI',c.id);
-  const sel=document.getElementById('gcD');let found=false;
-  for(let i=0;i<sel.options.length;i++){if(sel.options[i].value===c.domain){sel.value=c.domain;found=true;break;}}
-  if(!found){sel.value='__c__';document.getElementById('gcCW').style.display='block';sv('gcDC',c.domain);}
-  sv('gcSt',c.start);sv('gcEn',c.end);sv('gcIs',c.issued);
-  if(c.dir)sv('gcDir',c.dir);if(c.awd)sv('gcAw',c.awd);
-  const dsel=document.getElementById('gcDr');
-  for(let i=0;i<dsel.options.length;i++){if(dsel.options[i].value===c.duration){dsel.value=c.duration;break;}}
-  lp();toast('Loaded for regeneration','inf');
-}
-
-/* ═══ ADMIN LOOKUP ═══ */
+/* ══ ADMIN LOOKUP ══ */
 async function alookup(){
   const q=gv('alSi').trim().toUpperCase();const el=document.getElementById('alRes');
-  let c=G.certs.find(x=>x.id.toUpperCase()===q);
-  if(c&&(c.img==='__stored__'||!c.img)){
-    try{const r=await window.storage.get('cert-img:'+c.id,true);if(r)c={...c,img:r.value};}catch(e){}
-  }
-  if(!c){el.innerHTML=`<div class="nf"><h3>Not Found</h3><p>No certificate with ID <strong style="color:#fff">${q}</strong></p></div>`;return;}
-  el.innerHTML=`<div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:start">
-    <img src="${c.img&&c.img!=='__stored__'?c.img:''}" style="width:100%;border-radius:10px;border:1px solid rgba(255,255,255,.1)">
-    <div class="gc" style="overflow:hidden">
-      <div class="ir"><div class="ir-ic">🪪</div><div><div class="lbl">ID</div><div class="val">${c.id}</div></div></div>
-      <div class="ir"><div class="ir-ic">👤</div><div><div class="lbl">Name</div><div class="val">${c.name}</div></div></div>
-      <div class="ir"><div class="ir-ic">💻</div><div><div class="lbl">Domain</div><div class="val">${c.domain}</div></div></div>
-      <div class="ir"><div class="ir-ic">📅</div><div><div class="lbl">Period</div><div class="val">${fmt(c.start)} – ${fmt(c.end)}</div></div></div>
-      <div class="ir"><div class="ir-ic">✅</div><div><div class="lbl">Status</div><div class="val g">${c.status}</div></div></div>
-      <div class="ir"><div class="ir-ic">${c.generated?'🎨':'📋'}</div><div><div class="lbl">Type</div><div class="val">${c.generated?'Auto-Generated':'Manual'}</div></div></div>
-    </div></div>
-  <div style="margin-top:12px"><button class="btn bb" onclick="cpCertLink('${c.id}')">🔗 Copy Verify Link</button></div>`;
+  let d=G.certs.find(x=>x.id.toUpperCase()===q);let type='cert';
+  if(!d){d=G.offers.find(x=>x.id.toUpperCase()===q);type='offer';}
+  if(!d){el.innerHTML=`<div class="nf"><h3>Not Found</h3><p>No document with ID <strong style="color:#fff">${q}</strong></p></div>`;return;}
+  if(!d.img){try{const r=await window.storage.get('img:'+d.id,true);if(r)d={...d,img:r.value};}catch(e){}}
+  const rows=type==='cert'?[['🪪','ID',d.id],['👤','Name',d.name],['💻','Domain',d.domain],['📅','Period',fmt(d.start)+' – '+fmt(d.end)],['✅','Status',d.status]]:[['🪪','ID',d.id],['👤','Name',d.name],['💼','Role',d.role],['📅','Joining',fmt(d.join)],['✅','Status',d.status]];
+  el.innerHTML=`<div style="display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:start"><img src="${d.img||''}" style="width:100%;border-radius:10px;border:1px solid rgba(255,255,255,.1);min-height:40px;background:rgba(255,255,255,.04)"><div class="gc" style="overflow:hidden">${rows.map(([ic,lbl,val])=>`<div class="ir"><div class="ir-ic">${ic}</div><div><div class="lbl">${lbl}</div><div class="val">${val||'—'}</div></div></div>`).join('')}</div></div><div style="margin-top:12px"><button class="btn bb" onclick="cpDocLink('${d.id}')">🔗 Copy Verify Link</button></div>`;
 }
 
-/* ═══ GENERATE ID ═══ */
-function genId(){const id='UMID'+Math.floor(10000000000+Math.random()*90000000000);st('genIdTxt',id);document.getElementById('genRes').style.display='block';}
+/* ══ GENERATE ID ══ */
+function genIdFn(t){const id=(t==='cert'?'UMID':'UMOL')+rId();st('genIdTxt',id);st('genIdLabel','Generated '+(t==='cert'?'Certificate (UMID)':'Offer Letter (UMOL)')+' ID');document.getElementById('genRes').style.display='block';}
 function copyId(){const t=document.getElementById('genIdTxt').textContent;navigator.clipboard.writeText(t).then(()=>toast('Copied: '+t,'ok')).catch(()=>toast('Copied!','inf'));}
-function useId(where){
+function useId(tab){
   const t=document.getElementById('genIdTxt').textContent;
-  if(where==='add'){sTab('add',document.querySelectorAll('.asi')[2]);sv('aId',t);}
-  else{sTab('autocert',document.querySelectorAll('.asi')[3]);sv('gcI',t);lp();}
+  sTab(tab,null);
+  if(tab==='addcert')sv('acId',t);else if(tab==='addoffer')sv('aoId',t);
+  else if(tab==='gencert'){sv('gcI',t);lpC();}else if(tab==='genoffer'){sv('goI',t);lpO();}
   toast('ID pasted!','ok');
 }
 
-/* ═══ LOAD OVERLAY ═══ */
-function showLoad(msg='Loading…'){document.getElementById('loadMsg').textContent=msg;document.getElementById('loadOverlay').classList.remove('hide');}
-function hideLoad(){document.getElementById('loadOverlay').classList.add('hide');}
+/* ══ LOADING ══ */
+function showLoad(msg){document.getElementById('lMsg').textContent=msg||'Loading…';document.getElementById('lo').classList.remove('hide');}
+function hideLoad(){document.getElementById('lo').classList.add('hide');}
 
-/* ═══ HELPERS ═══ */
+/* ══ HELPERS ══ */
 function gv(id){const e=document.getElementById(id);return e?e.value.trim():'';}
 function sv(id,v){const e=document.getElementById(id);if(e)e.value=v;}
 function st(id,v){const e=document.getElementById(id);if(e)e.textContent=v;}
 function fmt(d){if(!d)return'—';const p=d.split('-');return p.length===3?p[2]+'/'+p[1]+'/'+p[0]:d;}
 let _tT=null;
-function toast(msg,t='ok'){
-  const el=document.getElementById('tst');
-  el.textContent=(t==='err'?'❌ ':t==='inf'?'ℹ️ ':'✅ ')+msg;
-  el.className='toast on '+t;
-  clearTimeout(_tT);
-  _tT=setTimeout(()=>el.classList.remove('on'),3500);
-}
+function toast(msg,t='ok'){const el=document.getElementById('tst');el.textContent=(t==='err'?'❌ ':t==='inf'?'ℹ️ ':'✅ ')+msg;el.className='toast on '+t;clearTimeout(_tT);_tT=setTimeout(()=>el.classList.remove('on'),3500);}
 
 document.getElementById('viewModal').addEventListener('click',function(e){if(e.target===this)cModal();});
 window.addEventListener('load',init);
