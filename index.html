@@ -1770,6 +1770,60 @@ async function qrlShare(){
 }
 
 document.getElementById('viewModal').addEventListener('click',function(e){ if(e.target===this) closeModal('viewModal'); });
+// 1. Fixes the "Generate Certificate" option by making sidebar tabs work
+function switchTab(tabId, element) {
+    // Hide all admin tabs
+    let tabs = document.querySelectorAll('.admin-tab');
+    for (let i = 0; i < tabs.length; i++) {
+        tabs[i].classList.remove('active');
+    }
+
+    // Remove 'active' highlight from all sidebar links
+    let items = document.querySelectorAll('.sidebar-item');
+    for (let i = 0; i < items.length; i++) {
+        items[i].classList.remove('active');
+    }
+
+    // Show the target tab and highlight the clicked sidebar link
+    document.getElementById('tab-' + tabId).classList.add('active');
+    if (element) {
+        element.classList.add('active');
+    }
+}
+
+// 2. Fixes the missing "Close" option on the Modal
+function closeModal(modalId) {
+    let modal = document.getElementById(modalId);
+    if (modal) {
+        modal.classList.remove('open');
+    }
+}
+
+// 3. Fixes the Header buttons (Public Portal / Logout)
+function goPublic() {
+    // Hide Admin Dash and Admin Login
+    document.getElementById('adminDash').classList.remove('active');
+    document.getElementById('adminLogin').classList.remove('active');
+    
+    // Show Public Page
+    document.getElementById('publicPage').classList.add('active');
+}
+
+function doLogout() {
+    // Simple logout logic
+    alert("Logged out successfully.");
+    goPublic();
+}
+
+// 4. Opens the View Certificate Modal
+function viewCert(certId) {
+    let modal = document.getElementById('viewModal');
+    if (modal) {
+        // You would normally populate the modal data here based on certId
+        document.getElementById('mCertId').innerText = certId;
+        modal.classList.add('open');
+    }
+}
 </script>
 
 
