@@ -708,7 +708,7 @@ tr:hover td{background:var(--light)}
 ══════════════════════════════════════════════════ */
 
 const VERCEL_BASE = 'https://certificateunifiedmentor1617.vercel.app/';
-const JSONBIN_BASE = 'https://api.jsonbin.io/v3/b/6a68d3eada38895dfe9c2c5b';
+const JSONBIN_BASE = 'https://api.jsonbin.io/v3/b/';
 
 // Config stored in localStorage (device-specific, admin only)
 function getCfg(){ try{ return JSON.parse(localStorage.getItem('um_cloud_cfg')||'null'); }catch(e){ return null; } }
@@ -810,8 +810,8 @@ function updateCloudBar(){
    CLOUD SETUP / CONNECT
 ══════════════════════════════════════════════════ */
 async function connectCloud(){
-  const binId = document.getElementById('6a68d3eada38895dfe9c2c5b').value.trim();
-  const apiKey = document.getElementById('$2a$10$TZyY2IzvvJGtvgR7MZ752eG2OePiReCCYB8uSzzS4.PF8v2aFXIhK').value.trim();
+  const binId = document.getElementById('cfgBinId').value.trim();
+  const apiKey = document.getElementById('cfgApiKey').value.trim();
   const statusEl = document.getElementById('cloudConnectStatus');
   const btn = document.getElementById('connectBtn');
   if(!binId||!apiKey){ statusEl.textContent='❌ Please enter both Bin ID and API Key'; return; }
