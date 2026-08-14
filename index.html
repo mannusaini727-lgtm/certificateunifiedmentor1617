@@ -5,520 +5,389 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GODROG Course | Premium Learning</title>
     <style>
-        /* 25. Suggested GODROG color system */
+        /* Shared Colors & Variables */
         :root {
             --primary: #6C5CE7;
             --secondary: #00D4FF;
             --accent: #A855F7;
             --bg-color: #070B1A;
-            --glass-bg: rgba(255, 255, 255, 0.10);
-            --glass-border: rgba(255, 255, 255, 0.18);
+            --glass-bg: rgba(255, 255, 255, 0.08);
+            --glass-border: rgba(255, 255, 255, 0.15);
             --text-main: #FFFFFF;
             --text-muted: #A7B0C5;
             --success: #22C55E;
+            --warning: #F59E0B;
             --error: #FF5C7A;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
 
         body {
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
-            perspective: 1000px;
+            background-color: var(--bg-color); color: var(--text-main); min-height: 100vh;
+            display: flex; justify-content: center; align-items: center; overflow: hidden; perspective: 1000px;
         }
 
-        /* 2. Background Animation (Aurora) */
-        .aurora-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            z-index: -2;
-            overflow: hidden;
-            filter: blur(60px);
-        }
+        /* 1. Aurora Background */
+        .aurora-container { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -2; overflow: hidden; filter: blur(70px); }
+        .blob { position: absolute; border-radius: 50%; opacity: 0.5; animation: moveBlob 20s infinite alternate ease-in-out; }
+        .blob-1 { width: 500px; height: 500px; background: var(--primary); top: -100px; left: -100px; }
+        .blob-2 { width: 400px; height: 400px; background: var(--secondary); bottom: -50px; right: -50px; animation-delay: -5s; }
+        .blob-3 { width: 600px; height: 600px; background: var(--accent); top: 30%; left: 20%; animation-delay: -10s; }
+        
+        @keyframes moveBlob { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(150px, 100px) scale(1.2); } }
 
-        .blob {
-            position: absolute;
-            border-radius: 50%;
-            opacity: 0.6;
-            animation: moveBlob 20s infinite alternate ease-in-out;
-        }
+        /* 2. Particle System */
+        #particles { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1; pointer-events: none; }
+        .particle { position: absolute; color: rgba(255, 255, 255, 0.15); font-weight: bold; font-size: 14px; animation: floatUp linear infinite; }
+        @keyframes floatUp { 0% { transform: translateY(100vh) rotate(0deg); opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { transform: translateY(-100px) rotate(360deg); opacity: 0; } }
 
-        .blob-1 {
-            width: 500px; height: 500px;
-            background: var(--primary);
-            top: -100px; left: -100px;
-        }
-
-        .blob-2 {
-            width: 400px; height: 400px;
-            background: var(--secondary);
-            bottom: -50px; right: -50px;
-            animation-delay: -5s;
-        }
-
-        .blob-3 {
-            width: 600px; height: 600px;
-            background: var(--accent);
-            top: 40%; left: 30%;
-            animation-delay: -10s;
-        }
-
-        @keyframes moveBlob {
-            0% { transform: translate(0, 0) scale(1); }
-            100% { transform: translate(150px, 100px) scale(1.2); }
-        }
-
-        /* 3. Particle Animation (GODROG letters) */
-        #particles {
-            position: fixed;
-            top: 0; left: 0;
-            width: 100vw; height: 100vh;
-            z-index: -1;
-            pointer-events: none;
-        }
-
-        .particle {
-            position: absolute;
-            color: rgba(255, 255, 255, 0.2);
-            font-weight: bold;
-            font-size: 14px;
-            animation: floatUp linear infinite;
-        }
-
-        @keyframes floatUp {
-            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
-            10% { opacity: 1; }
-            90% { opacity: 1; }
-            100% { transform: translateY(-100px) rotate(360deg); opacity: 0; }
-        }
-
-        /* 5. Main Login Card (Glassmorphism) */
+        /* 3. Card Wrapper & Smooth Transitions */
+        .card-wrapper { position: relative; width: 100%; max-width: 460px; margin: 20px; transform-style: preserve-3d; transition: transform 0.1s ease-out; }
         .glass-card {
-            background: var(--glass-bg);
-            backdrop-filter: blur(24px);
-            -webkit-backdrop-filter: blur(24px);
-            border: 1px solid var(--glass-border);
-            border-radius: 30px;
-            padding: 40px;
-            width: 100%;
-            max-width: 440px;
-            box-shadow: 0 25px 45px rgba(0, 0, 0, 0.2);
-            transform-style: preserve-3d;
-            transition: transform 0.1s ease-out;
-            opacity: 0;
-            animation: pageEntrance 1s ease-out 0.6s forwards;
-            margin: 20px;
+            background: var(--glass-bg); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+            border: 1px solid var(--glass-border); border-radius: 30px; padding: 40px; width: 100%;
+            box-shadow: 0 25px 45px rgba(0, 0, 0, 0.2); transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            position: absolute; top: 0; left: 0; opacity: 0; visibility: hidden; transform: translateX(50px) scale(0.95);
         }
+        .glass-card.active { position: relative; opacity: 1; visibility: visible; transform: translateX(0) scale(1); z-index: 2; }
+        .glass-card.slide-left { transform: translateX(-50px) scale(0.95); }
 
-        @keyframes pageEntrance {
-            0% { opacity: 0; transform: translateY(40px); }
-            100% { opacity: 1; transform: translateY(0); }
-        }
+        /* Typography & Inputs */
+        .card-header { text-align: center; margin-bottom: 25px; }
+        .logo { font-size: 24px; font-weight: 800; letter-spacing: 2px; margin-bottom: 5px; background: linear-gradient(135deg, #fff, var(--secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .welcome-text { font-size: 20px; font-weight: 600; margin-bottom: 5px; }
+        .subtitle { font-size: 14px; color: var(--text-muted); }
 
-        /* 6. GODROG Logo & 7. Heading */
-        .card-header {
-            text-align: center;
-            margin-bottom: 30px;
-        }
+        .input-group { position: relative; margin-bottom: 20px; width: 100%; }
+        .input-group input { width: 100%; padding: 14px 45px 14px 15px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; color: var(--text-main); font-size: 15px; outline: none; transition: all 0.3s ease; }
+        .input-group input:focus { border-color: var(--secondary); box-shadow: 0 0 15px rgba(0, 212, 255, 0.2); background: rgba(255, 255, 255, 0.1); }
+        .input-group label { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: var(--text-muted); font-size: 14px; pointer-events: none; transition: 0.3s ease all; }
+        .input-group input:focus ~ label, .input-group input:not(:placeholder-shown) ~ label { top: -10px; left: 10px; font-size: 12px; background: var(--bg-color); padding: 0 5px; border-radius: 4px; color: var(--secondary); }
+        .input-icon { position: absolute; right: 15px; top: 50%; transform: translateY(-50%); color: var(--text-muted); cursor: pointer; transition: color 0.3s; }
+        .input-icon:hover { color: var(--text-main); }
+        .has-prefix input { padding-left: 55px; }
+        .prefix { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: var(--text-main); font-size: 15px; pointer-events: none; display: none; }
+        .has-prefix input:focus ~ .prefix, .has-prefix input:not(:placeholder-shown) ~ .prefix { display: block; }
 
-        .logo {
-            font-size: 28px;
-            font-weight: 800;
-            letter-spacing: 2px;
-            margin-bottom: 10px;
-            background: linear-gradient(135deg, #fff, var(--secondary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: float 4s ease-in-out infinite;
-            display: inline-block;
-        }
+        /* Dynamic Password Strength */
+        .password-strength { margin-top: -10px; margin-bottom: 20px; font-size: 12px; color: var(--text-muted); display: none; }
+        .strength-bars { display: flex; gap: 5px; margin-top: 8px; margin-bottom: 8px; }
+        .bar { height: 4px; flex: 1; background: rgba(255,255,255,0.1); border-radius: 2px; transition: 0.3s; }
+        .req-list { list-style: none; display: flex; flex-wrap: wrap; gap: 8px; }
+        .req-list li { display: flex; align-items: center; gap: 5px; }
+        .req-list li.valid { color: var(--success); }
+        .req-list li.valid::before { content: '✓'; }
+        .req-list li:not(.valid)::before { content: '○'; }
 
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-5px); text-shadow: 0 10px 20px rgba(0,212,255,0.3); }
-        }
+        /* Utils & Buttons */
+        .options { display: flex; justify-content: space-between; align-items: center; font-size: 13px; margin-bottom: 25px; color: var(--text-muted); }
+        .remember-me { display: flex; align-items: center; cursor: pointer; }
+        .remember-me input { margin-right: 8px; accent-color: var(--primary); }
+        .forgot-link { color: var(--secondary); text-decoration: none; }
+        .terms { display: flex; align-items: flex-start; gap: 10px; font-size: 13px; color: var(--text-muted); margin-bottom: 25px; cursor: pointer; }
+        .terms input { margin-top: 3px; accent-color: var(--primary); width: 16px; height: 16px; }
+        .terms a { color: var(--secondary); text-decoration: none; }
+        .switch-text { text-align: center; font-size: 14px; color: var(--text-muted); margin-top: 20px; }
+        .switch-text a { color: var(--text-main); font-weight: 600; text-decoration: none; cursor: pointer; }
 
-        .welcome-text {
-            font-size: 22px;
-            font-weight: 600;
-            margin-bottom: 5px;
-        }
+        .btn { width: 100%; padding: 15px; border: none; border-radius: 12px; font-size: 15px; font-weight: 600; color: #fff; cursor: pointer; transition: all 0.3s ease; position: relative; display: flex; justify-content: center; align-items: center; gap: 10px; }
+        .btn-primary { background: linear-gradient(90deg, var(--primary), var(--secondary)); background-size: 200% auto; margin-bottom: 20px; }
+        .btn-primary:not(:disabled):hover { background-position: right center; transform: translateY(-2px); box-shadow: 0 10px 20px rgba(108, 92, 231, 0.3); }
+        .btn-primary:active { transform: scale(0.97); }
+        .btn-primary:disabled { background: rgba(255,255,255,0.1); color: var(--text-muted); cursor: not-allowed; }
 
-        .subtitle {
-            font-size: 14px;
-            color: var(--text-muted);
-        }
-
-        /* 8 & 9. Input Fields with Floating Labels */
-        .input-group {
-            position: relative;
-            margin-bottom: 25px;
-        }
-
-        .input-group input {
-            width: 100%;
-            padding: 15px 45px 15px 15px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 12px;
-            color: var(--text-main);
-            font-size: 16px;
-            outline: none;
-            transition: all 0.3s ease;
-        }
-
-        .input-group input:focus {
-            border-color: var(--secondary);
-            box-shadow: 0 0 15px rgba(0, 212, 255, 0.2);
-            background: rgba(255, 255, 255, 0.1);
-        }
-
-        .input-group label {
-            position: absolute;
-            left: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--text-muted);
-            font-size: 16px;
-            pointer-events: none;
-            transition: 0.3s ease all;
-        }
-
-        .input-group input:focus ~ label,
-        .input-group input:not(:placeholder-shown) ~ label {
-            top: -10px;
-            left: 10px;
-            font-size: 12px;
-            background: var(--bg-color);
-            padding: 0 5px;
-            border-radius: 4px;
-            color: var(--secondary);
-        }
-
-        .input-icon {
-            position: absolute;
-            right: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--text-muted);
-            cursor: pointer;
-            transition: color 0.3s;
-        }
-
-        .input-icon:hover {
-            color: var(--text-main);
-        }
-
-        /* 11. Options (Remember / Forgot) */
-        .options {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 13px;
-            margin-bottom: 30px;
-            color: var(--text-muted);
-        }
-
-        .remember-me {
-            display: flex;
-            align-items: center;
-            cursor: pointer;
-        }
-
-        .remember-me input {
-            margin-right: 8px;
-            accent-color: var(--primary);
-            cursor: pointer;
-        }
-
-        .forgot-link {
-            color: var(--secondary);
-            text-decoration: none;
-            transition: text-shadow 0.3s;
-        }
-
-        .forgot-link:hover {
-            text-shadow: 0 0 8px rgba(0,212,255,0.5);
-        }
-
-        /* 12. Buttons */
-        .btn {
-            width: 100%;
-            padding: 15px;
-            border: none;
-            border-radius: 12px;
-            font-size: 16px;
-            font-weight: 600;
-            color: #fff;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .btn-primary {
-            background: linear-gradient(90deg, var(--primary), var(--secondary), var(--accent));
-            background-size: 200% auto;
-            margin-bottom: 20px;
-        }
-
-        .btn-primary:hover {
-            background-position: right center;
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(108, 92, 231, 0.3);
-        }
-
-        .btn-primary:active {
-            transform: scale(0.97);
-        }
-
-        .divider {
-            text-align: center;
-            margin: 20px 0;
-            color: var(--text-muted);
-            font-size: 12px;
-            position: relative;
-        }
-
-        .divider::before, .divider::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            width: 40%;
-            height: 1px;
-            background: var(--glass-border);
-        }
-
-        .divider::before { left: 0; }
-        .divider::after { right: 0; }
-
-        .btn-google {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid var(--glass-border);
-            color: var(--text-main);
-        }
-
-        .btn-google:hover {
-            background: rgba(255, 255, 255, 0.1);
-        }
-
-        .signup-text {
-            text-align: center;
-            margin-top: 25px;
-            font-size: 14px;
-            color: var(--text-muted);
-        }
-
-        .signup-text a {
-            color: var(--text-main);
-            font-weight: 600;
-            text-decoration: none;
-        }
-
-        /* 10. Error Animation */
-        .shake {
-            animation: horizontalShake 0.3s ease-in-out;
-        }
-
-        @keyframes horizontalShake {
-            0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-5px); }
-            50% { transform: translateX(5px); }
-            75% { transform: translateX(-5px); }
-        }
-
-        /* 13. Loading/Success States */
-        .spinner {
-            width: 20px; height: 20px;
-            border: 2px solid rgba(255,255,255,0.3);
-            border-top: 2px solid #fff;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            display: none;
-        }
-
+        /* Errors and Animations */
+        .spinner { width: 18px; height: 18px; border: 2px solid rgba(255,255,255,0.3); border-top: 2px solid #fff; border-radius: 50%; animation: spin 1s linear infinite; display: none; }
         @keyframes spin { 100% { transform: rotate(360deg); } }
+        .shake { animation: horizontalShake 0.4s ease-in-out; border: 1px solid var(--error) !important; }
+        @keyframes horizontalShake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-8px); } 50% { transform: translateX(8px); } 75% { transform: translateX(-8px); } }
+        .error-message { color: var(--error); font-size: 12px; text-align: center; margin-top: -10px; margin-bottom: 15px; display: none; }
 
-        /* Responsive Mobile UI */
-        @media (max-width: 480px) {
-            .glass-card {
-                width: 92%;
-                padding: 30px 20px;
-            }
-        }
+        /* OTP Boxes */
+        .otp-container { display: flex; justify-content: space-between; gap: 10px; margin: 30px 0; }
+        .otp-input { width: 50px; height: 55px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.2); border-radius: 12px; text-align: center; font-size: 24px; color: #fff; font-weight: 700; outline: none; transition: 0.3s; }
+        .otp-input:focus { border-color: var(--secondary); box-shadow: 0 0 15px rgba(0,212,255,0.2); background: rgba(255,255,255,0.1); }
+        .resend-text { text-align: center; font-size: 13px; color: var(--text-muted); margin-top: 15px; }
+        
+        .divider { text-align: center; margin: 20px 0; color: var(--text-muted); font-size: 12px; position: relative; }
+        .divider::before, .divider::after { content: ''; position: absolute; top: 50%; width: 40%; height: 1px; background: var(--glass-border); }
+        .divider::before { left: 0; } .divider::after { right: 0; }
+        .social-logins { display: flex; gap: 15px; margin-bottom: 20px; }
+        .btn-social { flex: 1; background: rgba(255, 255, 255, 0.05); border: 1px solid var(--glass-border); padding: 12px; border-radius: 12px; color: var(--text-main); font-weight: 500; font-size: 14px; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 8px; transition: 0.3s; }
+        .btn-social:hover { background: rgba(255, 255, 255, 0.12); }
     </style>
 </head>
 <body>
 
-    <!-- 2. Aurora Background -->
     <div class="aurora-container">
-        <div class="blob blob-1"></div>
-        <div class="blob blob-2"></div>
-        <div class="blob blob-3"></div>
+        <div class="blob blob-1"></div><div class="blob blob-2"></div><div class="blob blob-3"></div>
     </div>
-
-    <!-- 3. GODROG Particles -->
     <div id="particles"></div>
 
-    <!-- 5. Main Login Card -->
-    <div class="glass-card" id="loginCard">
+    <div class="card-wrapper" id="sceneContainer">
         
-        <div class="card-header">
-            <div class="logo">✦ GODROG ✦</div>
-            <h2 class="welcome-text">Welcome Back 👋</h2>
-            <p class="subtitle">Continue your learning journey</p>
+        <!-- LOGIN CARD -->
+        <div class="glass-card active" id="loginCard">
+            <div class="card-header">
+                <div class="logo">✦ GODROG ✦</div>
+                <h2 class="welcome-text">Welcome Back 👋</h2>
+                <p class="subtitle">Continue your learning journey</p>
+            </div>
+
+            <form id="loginForm">
+                <div class="input-group">
+                    <input type="text" id="loginEmail" placeholder=" " required>
+                    <label for="loginEmail">Email / Mobile Number</label>
+                    <span class="input-icon">👤</span>
+                </div>
+
+                <div class="input-group">
+                    <input type="password" id="loginPassword" placeholder=" " required>
+                    <label for="loginPassword">Password</label>
+                    <span class="input-icon" onclick="togglePass('loginPassword', this)">👁</span>
+                </div>
+
+                <p id="loginError" class="error-message">Invalid credentials or account does not exist.</p>
+
+                <div class="options">
+                    <label class="remember-me"><input type="checkbox"> Remember me</label>
+                    <a href="#" class="forgot-link">Forgot Password?</a>
+                </div>
+
+                <button type="submit" class="btn btn-primary" id="loginBtn">
+                    <span class="spinner" id="loginSpinner"></span>
+                    <span id="loginBtnText">SIGN IN</span>
+                </button>
+            </form>
+
+            <div class="divider">OR</div>
+            <div class="social-logins">
+                <button class="btn-social">Google</button>
+                <button class="btn-social">Apple</button>
+            </div>
+
+            <div class="switch-text">
+                Don't have an account? <a onclick="switchCard('loginCard', 'registerCard')">Create Account</a>
+            </div>
         </div>
 
-        <form id="loginForm" onsubmit="handleLogin(event)">
-            
-            <div class="input-group">
-                <input type="email" id="email" placeholder=" " required autocomplete="off">
-                <label for="email">Email / Username</label>
-                <span class="input-icon">✉</span>
+        <!-- REGISTER CARD -->
+        <div class="glass-card" id="registerCard">
+            <div class="card-header">
+                <div class="logo">✦ GODROG ✦</div>
+                <h2 class="welcome-text">Create Account</h2>
+                <p class="subtitle">Start your learning journey</p>
             </div>
 
-            <div class="input-group">
-                <input type="password" id="password" placeholder=" " required>
-                <label for="password">Password</label>
-                <span class="input-icon" id="togglePassword" onclick="togglePass()">👁</span>
+            <form id="registerForm">
+                <div class="input-group">
+                    <input type="text" id="fullname" placeholder=" " required>
+                    <label for="fullname">Full Name</label>
+                </div>
+                <div class="input-group">
+                    <input type="email" id="regEmail" placeholder=" " required>
+                    <label for="regEmail">Email Address</label>
+                </div>
+                <div class="input-group has-prefix">
+                    <input type="tel" id="mobile" placeholder=" " required maxlength="10">
+                    <span class="prefix">🇮🇳 +91</span>
+                    <label for="mobile">Mobile Number</label>
+                </div>
+                <div class="input-group">
+                    <input type="password" id="regPassword" placeholder=" " required>
+                    <label for="regPassword">Create Password</label>
+                    <span class="input-icon" onclick="togglePass('regPassword', this)">👁</span>
+                </div>
+                <!-- Password Strength -->
+                <div class="password-strength" id="pwdStrengthBox">
+                    <div class="strength-bars"><div class="bar" id="bar1"></div><div class="bar" id="bar2"></div><div class="bar" id="bar3"></div><div class="bar" id="bar4"></div></div>
+                    <ul class="req-list"><li id="req-len">8+ char</li><li id="req-up">Upper</li><li id="req-low">Lower</li><li id="req-num">Num</li><li id="req-sym">Symbol</li></ul>
+                </div>
+
+                <label class="terms"><input type="checkbox" id="termsCheck"><span>I agree to the <a href="#">Terms</a>.</span></label>
+
+                <button type="submit" class="btn btn-primary" id="regBtn" disabled>
+                    <span class="spinner" id="regSpinner"></span>
+                    <span id="regBtnText">CREATE ACCOUNT</span>
+                </button>
+            </form>
+            <div class="switch-text">
+                Already have an account? <a onclick="switchCard('registerCard', 'loginCard')">Sign In</a>
             </div>
+        </div>
 
-            <div class="options">
-                <label class="remember-me">
-                    <input type="checkbox"> Remember me
-                </label>
-                <a href="#" class="forgot-link">Forgot Password?</a>
+        <!-- OTP VERIFY CARD -->
+        <div class="glass-card" id="otpCard">
+            <div class="card-header">
+                <div class="logo">✦ GODROG ✦</div>
+                <h2 class="welcome-text">Verify Email</h2>
+                <p class="subtitle" id="verifySubtext">We sent a code to your email.</p>
             </div>
-
-            <button type="submit" class="btn btn-primary" id="loginBtn">
-                <span class="spinner" id="spinner"></span>
-                <span id="btnText">SIGN IN</span>
-            </button>
-
-        </form>
-
-        <div class="divider">OR</div>
-
-        <button class="btn btn-google">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
-                <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.16v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
-                <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.16C1.43 8.55 1 10.22 1 12s.43 3.45 1.16 4.93l3.68-2.84z" fill="#FBBC05"/>
-                <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.16 7.07l3.68 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
-            </svg>
-            Continue with Google
-        </button>
-
-        <div class="signup-text">
-            Don't have an account? <a href="#">Create Account</a>
+            <form id="otpForm">
+                <div class="otp-container">
+                    <input type="text" class="otp-input" maxlength="1" required>
+                    <input type="text" class="otp-input" maxlength="1" required disabled>
+                    <input type="text" class="otp-input" maxlength="1" required disabled>
+                    <input type="text" class="otp-input" maxlength="1" required disabled>
+                    <input type="text" class="otp-input" maxlength="1" required disabled>
+                    <input type="text" class="otp-input" maxlength="1" required disabled>
+                </div>
+                <button type="submit" class="btn btn-primary" id="verifyBtn">
+                    <span class="spinner" id="otpSpinner"></span>
+                    <span id="otpBtnText">VERIFY ACCOUNT</span>
+                </button>
+            </form>
+            <div class="resend-text">Didn't receive the code? <br><span id="timerText" style="color:var(--secondary); font-weight:600;">Resend in 00:42</span></div>
+            <div class="switch-text"><a onclick="switchCard('otpCard', 'loginCard')">Back to Login</a></div>
         </div>
 
     </div>
 
     <script>
-        // 4. Mouse Interaction (Subtle 3D Parallax)
-        const card = document.getElementById('loginCard');
-        
-        document.addEventListener('mousemove', (e) => {
-            let xAxis = (window.innerWidth / 2 - e.pageX) / 50;
-            let yAxis = (window.innerHeight / 2 - e.pageY) / 50;
-            // Kept subtle as requested (1-3 degrees)
-            card.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
-        });
-
-        // Reset transform on mouse leave
-        document.addEventListener('mouseleave', () => {
-            card.style.transform = `rotateY(0deg) rotateX(0deg)`;
-        });
-
-        // 3. GODROG Particles Generation
+        // Background Effects
         const letters = ['G', 'O', 'D', 'R', 'O', 'G', '•', '✦'];
         const particlesContainer = document.getElementById('particles');
-        
         for(let i = 0; i < 30; i++) {
-            let particle = document.createElement('div');
-            particle.classList.add('particle');
-            particle.innerText = letters[Math.floor(Math.random() * letters.length)];
-            
-            // Randomize position, animation duration, and delay
-            particle.style.left = `${Math.random() * 100}vw`;
-            particle.style.animationDuration = `${Math.random() * 10 + 10}s`;
-            particle.style.animationDelay = `${Math.random() * 10}s`;
-            
-            particlesContainer.appendChild(particle);
+            let p = document.createElement('div'); p.classList.add('particle');
+            p.innerText = letters[Math.floor(Math.random() * letters.length)];
+            p.style.left = `${Math.random() * 100}vw`; p.style.animationDuration = `${Math.random() * 10 + 10}s`;
+            p.style.animationDelay = `${Math.random() * 10}s`; particlesContainer.appendChild(p);
         }
 
-        // 9. Password Toggle
-        function togglePass() {
-            const passInput = document.getElementById('password');
-            const toggleIcon = document.getElementById('togglePassword');
-            
-            if (passInput.type === 'password') {
-                passInput.type = 'text';
-                toggleIcon.innerText = '🔒';
-            } else {
-                passInput.type = 'password';
-                toggleIcon.innerText = '👁';
-            }
+        const scene = document.getElementById('sceneContainer');
+        document.addEventListener('mousemove', (e) => {
+            scene.style.transform = `rotateY(${(window.innerWidth / 2 - e.pageX) / 60}deg) rotateX(${(window.innerHeight / 2 - e.pageY) / 60}deg)`;
+        });
+        document.addEventListener('mouseleave', () => scene.style.transform = `rotateY(0deg) rotateX(0deg)`);
+
+        function switchCard(fromId, toId) {
+            const current = document.getElementById(fromId);
+            const next = document.getElementById(toId);
+            current.classList.remove('active'); current.classList.add('slide-left');
+            document.getElementById('loginError').style.display = 'none'; // reset error msg
+            setTimeout(() => { current.classList.remove('slide-left'); next.classList.add('active'); }, 300);
         }
 
-        // 13 & 10. Login Simulation (Loading, Success, Error Shake)
-        function handleLogin(e) {
+        function togglePass(inputId, icon) {
+            const input = document.getElementById(inputId);
+            if(input.type === 'password') { input.type = 'text'; icon.innerText = '🔒'; }
+            else { input.type = 'password'; icon.innerText = '👁'; }
+        }
+
+        // Password Strength
+        document.getElementById('regPassword').addEventListener('input', (e) => {
+            const val = e.target.value;
+            document.getElementById('pwdStrengthBox').style.display = val.length > 0 ? 'block' : 'none';
+            let score = 0;
+            const reqs = { len: 'req-len', up: 'req-up', low: 'req-low', num: 'req-num', sym: 'req-sym' };
+            
+            if(val.length >= 8) { document.getElementById(reqs.len).classList.add('valid'); score++; } else document.getElementById(reqs.len).classList.remove('valid');
+            if(/[A-Z]/.test(val)) { document.getElementById(reqs.up).classList.add('valid'); score++; } else document.getElementById(reqs.up).classList.remove('valid');
+            if(/[a-z]/.test(val)) { document.getElementById(reqs.low).classList.add('valid'); score++; } else document.getElementById(reqs.low).classList.remove('valid');
+            if(/[0-9]/.test(val)) { document.getElementById(reqs.num).classList.add('valid'); score++; } else document.getElementById(reqs.num).classList.remove('valid');
+            if(/[^A-Za-z0-9]/.test(val)) { document.getElementById(reqs.sym).classList.add('valid'); score++; } else document.getElementById(reqs.sym).classList.remove('valid');
+
+            let barScore = score === 5 ? 4 : Math.floor(score * 0.8);
+            [1,2,3,4].forEach(i => {
+                let bar = document.getElementById('bar'+i);
+                bar.style.background = 'rgba(255,255,255,0.1)';
+                if(i <= barScore) {
+                    bar.style.background = barScore <= 1 ? 'var(--error)' : barScore === 2 ? 'var(--warning)' : barScore === 3 ? '#84CC16' : 'var(--success)';
+                }
+            });
+        });
+
+        document.getElementById('termsCheck').addEventListener('change', function() { document.getElementById('regBtn').disabled = !this.checked; });
+
+        // --- REGISTRATION LOGIC (Saves to Browser Memory) ---
+        document.getElementById('registerForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const email = document.getElementById('regEmail').value;
+            const mobile = document.getElementById('mobile').value;
+            const pwd = document.getElementById('regPassword').value;
+
+            // 1. SAVE USER CREDENTIALS TO LOCAL STORAGE
+            localStorage.setItem('godrog_user', JSON.stringify({ email: email, mobile: mobile, password: pwd }));
+
+            const btn = document.getElementById('regBtn');
+            btn.style.pointerEvents = 'none';
+            document.getElementById('regBtnText').innerText = 'Creating Account...';
+            document.getElementById('regSpinner').style.display = 'block';
+
+            setTimeout(() => {
+                btn.style.background = 'var(--success)';
+                document.getElementById('regBtnText').innerText = '✓ Account Created';
+                document.getElementById('regSpinner').style.display = 'none';
+                document.getElementById('verifySubtext').innerText = `Code sent to ${email}`;
+                
+                setTimeout(() => {
+                    switchCard('registerCard', 'otpCard');
+                    setTimeout(() => document.querySelectorAll('.otp-input')[0].focus(), 500);
+                }, 800);
+            }, 1000);
+        });
+
+        // --- LOGIN LOGIC (Checks Browser Memory) ---
+        document.getElementById('loginForm').addEventListener('submit', (e) => {
             e.preventDefault();
             const btn = document.getElementById('loginBtn');
-            const btnText = document.getElementById('btnText');
-            const spinner = document.getElementById('spinner');
-            const form = document.getElementById('loginForm');
+            const txt = document.getElementById('loginBtnText');
+            const spin = document.getElementById('loginSpinner');
+            const card = document.getElementById('loginCard');
+            const errorMsg = document.getElementById('loginError');
             
-            // Stage 1: Loading
-            btnText.innerText = 'Signing in...';
-            spinner.style.display = 'block';
-            btn.style.pointerEvents = 'none';
+            const loginInput = document.getElementById('loginEmail').value;
+            const loginPwd = document.getElementById('loginPassword').value;
 
-            // Simulate Network Request
+            txt.innerText = 'Signing in...';
+            spin.style.display = 'block';
+            btn.style.pointerEvents = 'none';
+            errorMsg.style.display = 'none';
+
             setTimeout(() => {
-                const emailVal = document.getElementById('email').value;
-                
-                // Simulate an error if email is "error@godrog.com"
-                if(emailVal === 'error@godrog.com') {
-                    // Stage 2: Error
-                    btnText.innerText = 'SIGN IN';
-                    spinner.style.display = 'none';
-                    btn.style.pointerEvents = 'auto';
-                    card.classList.add('shake');
-                    setTimeout(() => card.classList.remove('shake'), 300);
-                } else {
-                    // Stage 3: Success Animation
+                // 2. FETCH SAVED USER
+                const storedUser = JSON.parse(localStorage.getItem('godrog_user'));
+
+                // 3. VALIDATE USERNAME (Email OR Mobile) AND PASSWORD
+                if(storedUser && (loginInput === storedUser.email || loginInput === storedUser.mobile) && loginPwd === storedUser.password) {
+                    // SUCCESS
                     btn.style.background = 'var(--success)';
-                    btnText.innerText = '✓ Login Successful';
-                    spinner.style.display = 'none';
-                    card.style.transform = 'scale(1.03)';
-                    
-                    // Stage 4: Redirect Simulation
-                    setTimeout(() => {
-                        card.style.opacity = '0';
-                        setTimeout(() => alert('Redirecting to GODROG Student Dashboard...'), 300);
-                    }, 1000);
+                    txt.innerText = '✓ Logged In';
+                    spin.style.display = 'none';
+                    setTimeout(() => alert('Successfully Logged into GODROG Dashboard!'), 500);
+                } else {
+                    // ERROR
+                    txt.innerText = 'SIGN IN';
+                    spin.style.display = 'none';
+                    btn.style.pointerEvents = 'auto';
+                    errorMsg.style.display = 'block';
+                    card.classList.add('shake');
+                    setTimeout(() => card.classList.remove('shake'), 400);
                 }
-            }, 1500);
-        }
+            }, 1000);
+        });
+
+        // OTP Logic
+        document.querySelectorAll('.otp-input').forEach((input) => {
+            input.addEventListener('keyup', (e) => {
+                const nxt = input.nextElementSibling, prv = input.previousElementSibling;
+                if (!/^[0-9]$/.test(input.value) && e.key !== 'Backspace') return input.value = '';
+                if (input.value.length === 1 && nxt) { nxt.disabled = false; nxt.focus(); }
+                if (e.key === 'Backspace' && prv) { prv.focus(); prv.value = ''; }
+            });
+        });
+
+        document.getElementById('otpForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            document.getElementById('otpBtnText').innerText = 'Verifying...';
+            document.getElementById('otpSpinner').style.display = 'block';
+            setTimeout(() => {
+                document.getElementById('verifyBtn').style.background = 'var(--success)';
+                document.getElementById('otpBtnText').innerText = '✓ Verified';
+                document.getElementById('otpSpinner').style.display = 'none';
+                setTimeout(() => switchCard('otpCard', 'loginCard'), 800); // Redirect to Login after Verify
+            }, 1000);
+        });
     </script>
 </body>
 </html>
